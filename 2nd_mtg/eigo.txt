@@ -1,0 +1,1590 @@
+
+Two women are embracing while holding to go packages.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists e.(_embrace(e) & (Subj(e) = x) & TrueP) & exists z1.(_package(z1) & TrueP & exists e.(_go(e) & (Subj(e) = x) & (Acc(e) = z1) & TrueP)) & exists e.(_embrace(e) & (Subj(e) = x) & TrueP) & exists e.(_hold(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+The sisters are hugging goodbye while holding to go packages after just eating lunch.
+
+exists x.(_sister(x) & TrueP & exists z10.(_goodbye(z10) & TrueP & exists e.(_hug(e) & (Subj(e) = x) & (Acc(e) = z10) & TrueP)) & exists z11.(_package(z11) & TrueP & exists e.(_go(e) & (Subj(e) = x) & (Acc(e) = z11) & TrueP)) & exists z12.(_lunch(z12) & TrueP & exists e.(_eat(e) & (Subj(e) = x) & (Acc(e) = z12) & _just(e) & TrueP)) & exists z10.(_goodbye(z10) & TrueP & exists e.(_hug(e) & (Subj(e) = x) & (Acc(e) = z10) & TrueP)) & exists e.(_hold(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+Two women are embracing while holding to go packages.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists e.(_embrace(e) & (Subj(e) = x) & TrueP) & exists z25.(_package(z25) & TrueP & exists e.(_go(e) & (Subj(e) = x) & (Acc(e) = z25) & TrueP)) & exists e.(_embrace(e) & (Subj(e) = x) & TrueP) & exists e.(_hold(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+Two woman are holding packages.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists z34.(_package(z34) & TrueP & exists e.(_hold(e) & (Subj(e) = x) & (Acc(e) = z34) & TrueP)))
+
+====================================
+
+
+
+Two women are embracing while holding to go packages.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists e.(_embrace(e) & (Subj(e) = x) & TrueP) & exists z35.(_package(z35) & TrueP & exists e.(_go(e) & (Subj(e) = x) & (Acc(e) = z35) & TrueP)) & exists e.(_embrace(e) & (Subj(e) = x) & TrueP) & exists e.(_hold(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+The men are fighting outside a deli.
+
+exists x.(_man(x) & TrueP & exists e.(_fight(e) & (Subj(e) = x) & exists x.(_deli(x) & TrueP & _outside(e,x)) & TrueP))
+
+====================================
+
+
+
+Two young children in blue jerseys, one with the number 9 and one with the number 2 are standing on wooden steps in a bathroom and washing their hands in a sink.
+
+(exists x.(_two(x) & _young(x) & _child(x) & exists z44.(_blue(z44) & _jersey(z44) & TrueP & exists e.(_in(e,z44) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z51.(_wooden(z51) & _step(z51) & TrueP & _on(e,z51) & exists z51.(_bathroom(z51) & TrueP & _in(e,z51) & TrueP))) & exists z47.(_hand(z47) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z47) & exists z49.(_sink(z49) & TrueP & _in(e,z49) & TrueP)))) & exists x.((x = x) & exists z45.(_9(z45) & _number(z45) & TrueP & exists e.(_with(e,z45) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z51.(_wooden(z51) & _step(z51) & TrueP & _on(e,z51) & exists z51.(_bathroom(z51) & TrueP & _in(e,z51) & TrueP))) & exists z47.(_hand(z47) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z47) & exists z49.(_sink(z49) & TrueP & _in(e,z49) & TrueP)))) & exists x.((x = x) & exists z46.(_2(z46) & _number(z46) & TrueP & exists e.(_with(e,z46) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z51.(_wooden(z51) & _step(z51) & TrueP & _on(e,z51) & exists z51.(_bathroom(z51) & TrueP & _in(e,z51) & TrueP))) & exists z47.(_hand(z47) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z47) & exists z49.(_sink(z49) & TrueP & _in(e,z49) & TrueP)))))
+
+====================================
+
+
+
+Two kids in numbered jerseys wash their hands.
+
+exists x.(_two(x) & _kid(x) & exists z52.(exists e.(_number(e) & (Acc(e) = z52) & _jersey(z52)) & TrueP & exists e.(_in(e,z52) & (Subj(e) = x) & TrueP)) & exists z53.(_hand(z53) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z53) & TrueP)))
+
+====================================
+
+
+
+Two young children in blue jerseys, one with the number 9 and one with the number 2 are standing on wooden steps in a bathroom and washing their hands in a sink.
+
+(exists x.(_two(x) & _young(x) & _child(x) & exists z54.(_blue(z54) & _jersey(z54) & TrueP & exists e.(_in(e,z54) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z61.(_wooden(z61) & _step(z61) & TrueP & _on(e,z61) & exists z61.(_bathroom(z61) & TrueP & _in(e,z61) & TrueP))) & exists z57.(_hand(z57) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z57) & exists z59.(_sink(z59) & TrueP & _in(e,z59) & TrueP)))) & exists x.((x = x) & exists z55.(_9(z55) & _number(z55) & TrueP & exists e.(_with(e,z55) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z61.(_wooden(z61) & _step(z61) & TrueP & _on(e,z61) & exists z61.(_bathroom(z61) & TrueP & _in(e,z61) & TrueP))) & exists z57.(_hand(z57) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z57) & exists z59.(_sink(z59) & TrueP & _in(e,z59) & TrueP)))) & exists x.((x = x) & exists z56.(_2(z56) & _number(z56) & TrueP & exists e.(_with(e,z56) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z61.(_wooden(z61) & _step(z61) & TrueP & _on(e,z61) & exists z61.(_bathroom(z61) & TrueP & _in(e,z61) & TrueP))) & exists z57.(_hand(z57) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z57) & exists z59.(_sink(z59) & TrueP & _in(e,z59) & TrueP)))))
+
+====================================
+
+
+
+Two kids at a ballgame wash their hands.
+
+\F1 F2.exists x.(_two(x) & _kid(x) & exists z62.(_ballgame(z62) & _wash(z62) & _their(z62) & _hand(z62) & TrueP & exists e.(_at(e,z62) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Two young children in blue jerseys, one with the number 9 and one with the number 2 are standing on wooden steps in a bathroom and washing their hands in a sink.
+
+(exists x.(_two(x) & _young(x) & _child(x) & exists z63.(_blue(z63) & _jersey(z63) & TrueP & exists e.(_in(e,z63) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z70.(_wooden(z70) & _step(z70) & TrueP & _on(e,z70) & exists z70.(_bathroom(z70) & TrueP & _in(e,z70) & TrueP))) & exists z66.(_hand(z66) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z66) & exists z68.(_sink(z68) & TrueP & _in(e,z68) & TrueP)))) & exists x.((x = x) & exists z64.(_9(z64) & _number(z64) & TrueP & exists e.(_with(e,z64) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z70.(_wooden(z70) & _step(z70) & TrueP & _on(e,z70) & exists z70.(_bathroom(z70) & TrueP & _in(e,z70) & TrueP))) & exists z66.(_hand(z66) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z66) & exists z68.(_sink(z68) & TrueP & _in(e,z68) & TrueP)))) & exists x.((x = x) & exists z65.(_2(z65) & _number(z65) & TrueP & exists e.(_with(e,z65) & (Subj(e) = x) & TrueP)) & exists e.(_stand(e) & (Subj(e) = x) & exists z70.(_wooden(z70) & _step(z70) & TrueP & _on(e,z70) & exists z70.(_bathroom(z70) & TrueP & _in(e,z70) & TrueP))) & exists z66.(_hand(z66) & TrueP & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z66) & exists z68.(_sink(z68) & TrueP & _in(e,z68) & TrueP)))))
+
+====================================
+
+
+
+Two kids in jackets walk to school.
+
+exists x.(_two(x) & _kid(x) & exists z71.(_jacket(z71) & TrueP & exists e.(_in(e,z71) & (Subj(e) = x) & TrueP)) & exists e.(_walk(e) & (Subj(e) = x) & exists x.(_school(x) & TrueP & _to(e,x)) & TrueP))
+
+====================================
+
+
+
+A man selling donuts to a customer during a world exhibition event held in the city of Angeles
+
+\F1 F2.exists x.(_man(x) & exists z72.(_donut(z72) & TrueP & exists e.(_sell(e) & (Subj(e) = x) & (Acc(e) = z72) & exists z78.(_customer(z78) & TrueP & _to(e,z78)) & exists z78.(_world(z78) & _exhibition(z78) & _event(z78) & exists e076.(_hold(e076) & (Acc(e076) = z78) & exists z75.(_city(z75) & exists z73.(_angeles(z73) & TrueP & (z75 = z73)) & TrueP & _in(e076,z75) & TrueP)) & TrueP & _during(e,z78) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+A woman drinks her coffee in a small cafe.
+
+\F1 F2.exists x.(_woman(x) & _drink(x) & _her(x) & _coffee(x) & exists z79.(_small(z79) & _cafe(z79) & TrueP & exists e.(_in(e,z79) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A man selling donuts to a customer during a world exhibition event held in the city of Angeles
+
+\F1 F2.exists x.(_man(x) & exists z80.(_donut(z80) & TrueP & exists e.(_sell(e) & (Subj(e) = x) & (Acc(e) = z80) & exists z86.(_customer(z86) & TrueP & _to(e,z86)) & exists z86.(_world(z86) & _exhibition(z86) & _event(z86) & exists e084.(_hold(e084) & (Acc(e084) = z86) & exists z83.(_city(z83) & exists z81.(_angeles(z81) & TrueP & (z83 = z81)) & TrueP & _in(e084,z83) & TrueP)) & TrueP & _during(e,z86) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+A man selling donuts to a customer during a world exhibition event while people wait in line behind him.
+
+faild parse
+
+====================================
+
+
+
+A man selling donuts to a customer during a world exhibition event held in the city of Angeles
+
+\F1 F2.exists x.(_man(x) & exists z88.(_donut(z88) & TrueP & exists e.(_sell(e) & (Subj(e) = x) & (Acc(e) = z88) & exists z94.(_customer(z94) & TrueP & _to(e,z94)) & exists z94.(_world(z94) & _exhibition(z94) & _event(z94) & exists e092.(_hold(e092) & (Acc(e092) = z94) & exists z91.(_city(z91) & exists z89.(_angeles(z89) & TrueP & (z91 = z89)) & TrueP & _in(e092,z91) & TrueP)) & TrueP & _during(e,z94) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+A man selling donuts to a customer.
+
+\F1 F2.exists x.(_man(x) & exists z95.(_donut(z95) & TrueP & exists e.(_sell(e) & (Subj(e) = x) & (Acc(e) = z95) & exists z97.(_customer(z97) & TrueP & _to(e,z97)) & TrueP)) & F1(x) & F2(x))
+
+====================================
+
+
+
+Two young boys of opposing teams play football, while wearing full protection uniforms and helmets.
+
+exists x.(_two(x) & _young(x) & _boy(x) & exists z98.(_team(z98) & TrueP & exists e.(_oppose(e) & (Subj(e) = x) & (Acc(e) = z98) & TrueP)) & TrueP & exists z101.(_football(z101) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z101) & TrueP)) & exists z102.(_full(z102) & _protection(z102) & _uniform(z102) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z102) & TrueP)) & exists z103.(_helmet(z103) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z103) & TrueP)))
+
+====================================
+
+
+
+boys play football
+
+exists x.(_boy(x) & TrueP & exists z108.(_football(z108) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z108) & TrueP)))
+
+====================================
+
+
+
+Two young boys of opposing teams play football, while wearing full protection uniforms and helmets.
+
+exists x.(_two(x) & _young(x) & _boy(x) & exists z109.(_team(z109) & TrueP & exists e.(_oppose(e) & (Subj(e) = x) & (Acc(e) = z109) & TrueP)) & TrueP & exists z112.(_football(z112) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z112) & TrueP)) & exists z113.(_full(z113) & _protection(z113) & _uniform(z113) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z113) & TrueP)) & exists z114.(_helmet(z114) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z114) & TrueP)))
+
+====================================
+
+
+
+dog eats out of bowl
+
+exists x.(_dog(x) & TrueP & exists e.(_eat(e) & (Subj(e) = x) & _out(e) & exists x.(_bowl(x) & TrueP & _of(e,x)) & TrueP))
+
+====================================
+
+
+
+Two young boys of opposing teams play football, while wearing full protection uniforms and helmets.
+
+exists x.(_two(x) & _young(x) & _boy(x) & exists z121.(_team(z121) & TrueP & exists e.(_oppose(e) & (Subj(e) = x) & (Acc(e) = z121) & TrueP)) & TrueP & exists z124.(_football(z124) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z124) & TrueP)) & exists z125.(_full(z125) & _protection(z125) & _uniform(z125) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z125) & TrueP)) & exists z126.(_helmet(z126) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z126) & TrueP)))
+
+====================================
+
+
+
+boys scoring a touchdown
+
+\F1 F2.exists x.(_boy(x) & exists z131.(_touchdown(z131) & TrueP & exists e.(_score(e) & (Subj(e) = x) & (Acc(e) = z131) & TrueP)) & F1(x) & F2(x))
+
+====================================
+
+
+
+A man in a blue shirt standing in front of a garage-like structure painted with geometric designs.
+
+exists x.(_man(x) & exists z136.(_blue(z136) & _shirt(z136) & _standing(z136) & exists z135.(_front(z135) & exists z134.(_garage_dash_like(z134) & _structure(z134) & TrueP & (z135 = z134)) & TrueP & exists e.(_in(e,z135) & (Subj(e) = z136) & TrueP)) & exists e.(_in(e,z136) & (Subj(e) = x) & TrueP)) & exists e.(_paint(e) & (Acc(e) = x) & exists x.(_geometric(x) & _design(x) & TrueP & _with(e,x)) & TrueP))
+
+====================================
+
+
+
+A man is repainting a garage
+
+exists x.(_man(x) & TrueP & exists z137.(_garage(z137) & TrueP & exists e.(_repaint(e) & (Subj(e) = x) & (Acc(e) = z137) & TrueP)))
+
+====================================
+
+
+
+A man in a blue shirt standing in front of a garage-like structure painted with geometric designs.
+
+exists x.(_man(x) & exists z140.(_blue(z140) & _shirt(z140) & _standing(z140) & exists z139.(_front(z139) & exists z138.(_garage_dash_like(z138) & _structure(z138) & TrueP & (z139 = z138)) & TrueP & exists e.(_in(e,z139) & (Subj(e) = z140) & TrueP)) & exists e.(_in(e,z140) & (Subj(e) = x) & TrueP)) & exists e.(_paint(e) & (Acc(e) = x) & exists x.(_geometric(x) & _design(x) & TrueP & _with(e,x)) & TrueP))
+
+====================================
+
+
+
+A man is wearing a blue shirt
+
+exists x.(_man(x) & TrueP & exists z141.(_blue(z141) & _shirt(z141) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z141) & TrueP)))
+
+====================================
+
+
+
+A man in a blue shirt standing in front of a garage-like structure painted with geometric designs.
+
+exists x.(_man(x) & exists z144.(_blue(z144) & _shirt(z144) & _standing(z144) & exists z143.(_front(z143) & exists z142.(_garage_dash_like(z142) & _structure(z142) & TrueP & (z143 = z142)) & TrueP & exists e.(_in(e,z143) & (Subj(e) = z144) & TrueP)) & exists e.(_in(e,z144) & (Subj(e) = x) & TrueP)) & exists e.(_paint(e) & (Acc(e) = x) & exists x.(_geometric(x) & _design(x) & TrueP & _with(e,x)) & TrueP))
+
+====================================
+
+
+
+A man is wearing a black shirt
+
+exists x.(_man(x) & TrueP & exists z145.(_black(z145) & _shirt(z145) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z145) & TrueP)))
+
+====================================
+
+
+
+Under a blue sky with white clouds, a child reaches up to touch the propeller of a plane standing parked on a field of grass.
+
+exists x.(_child(x) & TrueP & exists e.(_reach(e) & (Subj(e) = x) & AccI(e,exists z154.(_propeller(z154) & exists z153.(_plane(z153) & exists e.(_park(e) & (Acc(e) = z153) & exists z150.(_field(z150) & exists z148.(_grass(z148) & TrueP & (z150 = z148)) & TrueP & _on(e,z150) & TrueP)) & exists e.(_stand(e) & (Subj(e) = z153) & TrueP) & TrueP & (z154 = z153)) & TrueP & exists e.(_touch(e) & (Subj(e) = x) & (Acc(e) = z154) & TrueP))) & _up(e) & TrueP))(\e.(exists x.(_blue(x) & _sky(x) & exists z146.(_white(z146) & _cloud(z146) & TrueP & exists e0147.(_with(e0147,z146) & (Subj(e0147) = x) & TrueP)) & _under(e,x)) & TrueP))
+
+====================================
+
+
+
+A child is reaching to touch the propeller of a plane.
+
+exists x.(_child(x) & TrueP & exists e.(_reach(e) & (Subj(e) = x) & AccI(e,exists z158.(_propeller(z158) & exists z157.(_plane(z157) & TrueP & (z158 = z157)) & TrueP & exists e.(_touch(e) & (Subj(e) = x) & (Acc(e) = z158) & TrueP))) & TrueP))
+
+====================================
+
+
+
+Under a blue sky with white clouds, a child reaches up to touch the propeller of a plane standing parked on a field of grass.
+
+exists x.(_child(x) & TrueP & exists e.(_reach(e) & (Subj(e) = x) & AccI(e,exists z169.(_propeller(z169) & exists z168.(_plane(z168) & exists e.(_park(e) & (Acc(e) = z168) & exists z165.(_field(z165) & exists z163.(_grass(z163) & TrueP & (z165 = z163)) & TrueP & _on(e,z165) & TrueP)) & exists e.(_stand(e) & (Subj(e) = z168) & TrueP) & TrueP & (z169 = z168)) & TrueP & exists e.(_touch(e) & (Subj(e) = x) & (Acc(e) = z169) & TrueP))) & _up(e) & TrueP))(\e.(exists x.(_blue(x) & _sky(x) & exists z161.(_white(z161) & _cloud(z161) & TrueP & exists e0162.(_with(e0162,z161) & (Subj(e0162) = x) & TrueP)) & _under(e,x)) & TrueP))
+
+====================================
+
+
+
+A child is reaching to touch the propeller out of curiosity.
+
+exists x.(_child(x) & TrueP & exists e.(_reach(e) & (Subj(e) = x) & AccI(e,exists z172.(_propeller(z172) & TrueP & exists e.(_touch(e) & (Subj(e) = x) & (Acc(e) = z172) & _out(e) & exists z176.(_curiosity(z176) & TrueP & _of(e,z176)) & TrueP))) & TrueP))
+
+====================================
+
+
+
+Under a blue sky with white clouds, a child reaches up to touch the propeller of a plane standing parked on a field of grass.
+
+exists x.(_child(x) & TrueP & exists e.(_reach(e) & (Subj(e) = x) & AccI(e,exists z185.(_propeller(z185) & exists z184.(_plane(z184) & exists e.(_park(e) & (Acc(e) = z184) & exists z181.(_field(z181) & exists z179.(_grass(z179) & TrueP & (z181 = z179)) & TrueP & _on(e,z181) & TrueP)) & exists e.(_stand(e) & (Subj(e) = z184) & TrueP) & TrueP & (z185 = z184)) & TrueP & exists e.(_touch(e) & (Subj(e) = x) & (Acc(e) = z185) & TrueP))) & _up(e) & TrueP))(\e.(exists x.(_blue(x) & _sky(x) & exists z177.(_white(z177) & _cloud(z177) & TrueP & exists e0178.(_with(e0178,z177) & (Subj(e0178) = x) & TrueP)) & _under(e,x)) & TrueP))
+
+====================================
+
+
+
+A child is playing with a ball.
+
+exists x.(_child(x) & TrueP & exists e.(_play(e) & (Subj(e) = x) & exists x.(_ball(x) & TrueP & _with(e,x) & TrueP)))
+
+====================================
+
+
+
+A woman is doing a cartwheel while wearing a bikini in the sand next to the beach.
+
+exists x.(_woman(x) & TrueP & exists z188.(_cartwheel(z188) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z188) & TrueP)) & _next(\F1 F2.exists z191.(_bikini(z191) & exists z189.(_sand(z189) & TrueP & exists e.(_in(e,z189) & (Subj(e) = z191) & F1(z191))) & F2(z191)),\e.exists z191.(_beach(z191) & TrueP & _to(e,z191)),\y.TrueP,\y.exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = y) & TrueP)))
+
+====================================
+
+
+
+A woman is doing a cartwheel.
+
+exists x.(_woman(x) & TrueP & exists z194.(_cartwheel(z194) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z194) & TrueP)))
+
+====================================
+
+
+
+A woman is doing a cartwheel while wearing a bikini in the sand next to the beach.
+
+exists x.(_woman(x) & TrueP & exists z195.(_cartwheel(z195) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z195) & TrueP)) & _next(\F1 F2.exists z198.(_bikini(z198) & exists z196.(_sand(z196) & TrueP & exists e.(_in(e,z196) & (Subj(e) = z198) & F1(z198))) & F2(z198)),\e.exists z198.(_beach(z198) & TrueP & _to(e,z198)),\y.TrueP,\y.exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = y) & TrueP)))
+
+====================================
+
+
+
+A woman is fixing her home.
+
+exists x.(_woman(x) & TrueP & exists z201.(_home(z201) & TrueP & exists e.(_fix(e) & (Subj(e) = x) & (Acc(e) = z201) & TrueP)))
+
+====================================
+
+
+
+A woman is doing a cartwheel while wearing a bikini in the sand next to the beach.
+
+exists x.(_woman(x) & TrueP & exists z202.(_cartwheel(z202) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z202) & TrueP)) & _next(\F1 F2.exists z205.(_bikini(z205) & exists z203.(_sand(z203) & TrueP & exists e.(_in(e,z203) & (Subj(e) = z205) & F1(z205))) & F2(z205)),\e.exists z205.(_beach(z205) & TrueP & _to(e,z205)),\y.TrueP,\y.exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = y) & TrueP)))
+
+====================================
+
+
+
+A woman is doing a cartwheel and falls on her head.
+
+exists x.(_woman(x) & TrueP & exists z208.(_cartwheel(z208) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z208) & exists x.(_head(x) & TrueP & _on(e,x) & TrueP))) & exists z209.(_fall(z209) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z209) & exists x.(_head(x) & TrueP & _on(e,x) & TrueP))))
+
+====================================
+
+
+
+Two men on bicycles competing in a race.
+
+\F1 F2.exists x.(_two(x) & _man(x) & exists z210.(_bicycle(z210) & TrueP & exists e.(_on(e,z210) & (Subj(e) = x) & exists e.(_compete(e) & (Subj(e) = x) & exists z212.(_race(z212) & TrueP & _in(e,z212) & TrueP)) & F1(x))) & F2(x))
+
+====================================
+
+
+
+People are riding bikes.
+
+exists x.(_people(x) & TrueP & exists z213.(_bike(z213) & TrueP & exists e.(_ride(e) & (Subj(e) = x) & (Acc(e) = z213) & TrueP)))
+
+====================================
+
+
+
+Two men on bicycles competing in a race.
+
+\F1 F2.exists x.(_two(x) & _man(x) & exists z214.(_bicycle(z214) & TrueP & exists e.(_on(e,z214) & (Subj(e) = x) & exists e.(_compete(e) & (Subj(e) = x) & exists z216.(_race(z216) & TrueP & _in(e,z216) & TrueP)) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Men are riding bicycles on the street.
+
+exists x.(_man(x) & TrueP & exists z217.(_bicycle(z217) & TrueP & exists e.(_ride(e) & (Subj(e) = x) & (Acc(e) = z217) & exists x.(_street(x) & TrueP & _on(e,x) & TrueP))))
+
+====================================
+
+
+
+Two men on bicycles competing in a race.
+
+\F1 F2.exists x.(_two(x) & _man(x) & exists z218.(_bicycle(z218) & TrueP & exists e.(_on(e,z218) & (Subj(e) = x) & exists e.(_compete(e) & (Subj(e) = x) & exists z220.(_race(z220) & TrueP & _in(e,z220) & TrueP)) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A few people are catching fish.
+
+exists x.(_people(x) & TrueP & exists z221.(_fish(z221) & TrueP & exists e.(_catch(e) & (Subj(e) = x) & (Acc(e) = z221) & TrueP)))
+
+====================================
+
+
+
+A young boy in a field of flowers carrying a ball
+
+\F1 F2.exists x.(_young(x) & _boy(x) & exists z226.(_field(z226) & exists z225.(_flower(z225) & exists z222.(_ball(z222) & TrueP & exists e.(_carry(e) & (Subj(e) = z225) & (Acc(e) = z222) & TrueP)) & TrueP & (z226 = z225)) & TrueP & exists e.(_in(e,z226) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+boy leaving baseball game
+
+\K.exists x.(_boy(x) & TrueP & exists z227.(_baseball(z227) & _game(z227) & TrueP & exists e.(_leave(e) & (Subj(e) = x) & (Acc(e) = z227) & K(e))))
+
+====================================
+
+
+
+A young boy in a field of flowers carrying a ball
+
+\F1 F2.exists x.(_young(x) & _boy(x) & exists z232.(_field(z232) & exists z231.(_flower(z231) & exists z228.(_ball(z228) & TrueP & exists e.(_carry(e) & (Subj(e) = z231) & (Acc(e) = z228) & TrueP)) & TrueP & (z232 = z231)) & TrueP & exists e.(_in(e,z232) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+boy in field
+
+\F1 F2.exists x.(_boy(x) & exists z233.(_field(z233) & TrueP & exists e.(_in(e,z233) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A young boy in a field of flowers carrying a ball
+
+\F1 F2.exists x.(_young(x) & _boy(x) & exists z238.(_field(z238) & exists z237.(_flower(z237) & exists z234.(_ball(z234) & TrueP & exists e.(_carry(e) & (Subj(e) = z237) & (Acc(e) = z234) & TrueP)) & TrueP & (z238 = z237)) & TrueP & exists e.(_in(e,z238) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+dog in pool
+
+\F1 F2.exists x.(_dog(x) & exists z239.(_pool(z239) & TrueP & exists e.(_in(e,z239) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Families waiting in line at an amusement park for their turn to ride.
+
+\F1 F2.exists x.(_family(x) & exists e.(_wait(e) & (Subj(e) = x) & exists z246.(_line(z246) & TrueP & _in(e,z246)) & exists z246.(_amusement(z246) & _park(z246) & exists z242.(_turn(z242) & exists e0243.(_ride(e0243) & (Subj(e0243) = z242) & TrueP) & TrueP & exists e0244.(_for(e0244,z242) & (Subj(e0244) = z246) & TrueP)) & _at(e,z246) & TrueP)) & F1(x) & F2(x))
+
+====================================
+
+
+
+The restaurant is very bad.
+
+exists x.(_restaurant(x) & TrueP & _bad(x))
+
+====================================
+
+
+
+Families waiting in line at an amusement park for their turn to ride.
+
+\F1 F2.exists x.(_family(x) & exists e.(_wait(e) & (Subj(e) = x) & exists z253.(_line(z253) & TrueP & _in(e,z253)) & exists z253.(_amusement(z253) & _park(z253) & exists z249.(_turn(z249) & exists e0250.(_ride(e0250) & (Subj(e0250) = z249) & TrueP) & TrueP & exists e0251.(_for(e0251,z249) & (Subj(e0251) = z253) & TrueP)) & _at(e,z253) & TrueP)) & F1(x) & F2(x))
+
+====================================
+
+
+
+People are waiting in line at a restaurant.
+
+exists x.(_people(x) & TrueP & exists e.(_wait(e) & (Subj(e) = x) & exists x.(_line(x) & TrueP & _in(e,x)) & exists x.(_restaurant(x) & TrueP & _at(e,x) & TrueP)))
+
+====================================
+
+
+
+Families waiting in line at an amusement park for their turn to ride.
+
+\F1 F2.exists x.(_family(x) & exists e.(_wait(e) & (Subj(e) = x) & exists z260.(_line(z260) & TrueP & _in(e,z260)) & exists z260.(_amusement(z260) & _park(z260) & exists z256.(_turn(z256) & exists e0257.(_ride(e0257) & (Subj(e0257) = z256) & TrueP) & TrueP & exists e0258.(_for(e0258,z256) & (Subj(e0258) = z260) & TrueP)) & _at(e,z260) & TrueP)) & F1(x) & F2(x))
+
+====================================
+
+
+
+People are waiting to see a movie.
+
+exists x.(_people(x) & TrueP & exists e.(_wait(e) & (Subj(e) = x) & AccI(e,exists z261.(_movie(z261) & TrueP & exists e.(_see(e) & (Subj(e) = x) & (Acc(e) = z261) & TrueP))) & TrueP))
+
+====================================
+
+
+
+A senior is waiting at the window of a restaurant that serves sandwiches.
+
+faild parse
+
+====================================
+
+
+
+A person waits to be served his food.
+
+exists x.(_man(x) & TrueP & exists e.(_wait(e) & (Subj(e) = x) & exists x.(_line(x) & exists z265.(_bus(z265) & TrueP & exists e0266.(_for(e0266,z265) & (Subj(e0266) = x) & TrueP)) & _in(e,x)) & TrueP))
+
+====================================
+
+
+
+A senior is waiting at the window of a restaurant that serves sandwiches.
+
+exists x.(_man(x) & TrueP & exists e.(_look(e) & (Subj(e) = x) & AccI(e,exists z267.(_grilled(z267) & _cheese(z267) & _sandwich(z267) & TrueP & exists e.(_order(e) & (Subj(e) = x) & (Acc(e) = z267) & TrueP))) & TrueP))
+
+====================================
+
+
+
+A man is waiting in line for the bus.
+
+\F1 F2.exists x.(_man(x) & exists z278.(_black(z278) & _suit(z278) & TrueP & exists e.(_in(e,z278) & (Subj(e) = x) & F1(x))) & exists z279.(_white(z279) & _shirt(z279) & TrueP & exists e.(_in(e,z279) & (Subj(e) = x) & F1(x))) & exists z280.(_black(z280) & _bowtie(z280) & exists z275.(_instrument(z275) & exists z274.(_rest(z274) & exists z273.(_symphony(z273) & exists z270.((z270 = _he) & TrueP & exists e.(_surround(e) & (Subj(e) = z273) & (Acc(e) = z270) & TrueP)) & TrueP & (z274 = z273)) & TrueP & exists e.(_with(e,z274) & (Subj(e) = z275) & TrueP)) & exists e.(_play(e) & (Subj(e) = z280) & (Acc(e) = z275) & TrueP)) & TrueP & exists e.(_in(e,z280) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A senior is waiting at the window of a restaurant that serves sandwiches.
+
+\F1 F2.exists x.(_person(x) & exists z281.(_suit(z281) & TrueP & exists e.(_in(e,z281) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A man is looking to order a grilled cheese sandwich.
+
+\F1 F2.exists x.(_man(x) & exists z290.(_black(z290) & _suit(z290) & TrueP & exists e.(_in(e,z290) & (Subj(e) = x) & F1(x))) & exists z291.(_white(z291) & _shirt(z291) & TrueP & exists e.(_in(e,z291) & (Subj(e) = x) & F1(x))) & exists z292.(_black(z292) & _bowtie(z292) & exists z287.(_instrument(z287) & exists z286.(_rest(z286) & exists z285.(_symphony(z285) & exists z282.((z282 = _he) & TrueP & exists e.(_surround(e) & (Subj(e) = z285) & (Acc(e) = z282) & TrueP)) & TrueP & (z286 = z285)) & TrueP & exists e.(_with(e,z286) & (Subj(e) = z287) & TrueP)) & exists e.(_play(e) & (Subj(e) = z292) & (Acc(e) = z287) & TrueP)) & TrueP & exists e.(_in(e,z292) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Man in a black suit, white shirt and black bowtie playing an instrument with the rest of his symphony surrounding him.
+
+-exists x.(TrueP & exists z293.(_suit(z293) & TrueP & exists e.(_have(e) & (Subj(e) = x) & (Acc(e) = z293) & TrueP)))
+
+====================================
+
+
+
+A person in a suit
+
+\F1 F2.exists x.(_man(x) & exists z302.(_black(z302) & _suit(z302) & TrueP & exists e.(_in(e,z302) & (Subj(e) = x) & F1(x))) & exists z303.(_white(z303) & _shirt(z303) & TrueP & exists e.(_in(e,z303) & (Subj(e) = x) & F1(x))) & exists z304.(_black(z304) & _bowtie(z304) & exists z299.(_instrument(z299) & exists z298.(_rest(z298) & exists z297.(_symphony(z297) & exists z294.((z294 = _he) & TrueP & exists e.(_surround(e) & (Subj(e) = z297) & (Acc(e) = z294) & TrueP)) & TrueP & (z298 = z297)) & TrueP & exists e.(_with(e,z298) & (Subj(e) = z299) & TrueP)) & exists e.(_play(e) & (Subj(e) = z304) & (Acc(e) = z299) & TrueP)) & TrueP & exists e.(_in(e,z304) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Man in a black suit, white shirt and black bowtie playing an instrument with the rest of his symphony surrounding him.
+
+\F1 F2.exists x.(_tall(x) & _person(x) & exists z305.(_suit(z305) & TrueP & exists e.(_in(e,z305) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Nobody has a suit
+
+\F1 F2.exists x.(_two(x) & _woman(x) & exists z306.(_smoking(z306) & _cigarette(z306) & _drink(z306) & TrueP & exists e.(_have(e) & (Subj(e) = x) & (Acc(e) = z306) & exists z308.(_bar(z308) & TrueP & _at(e,z308) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+Man in a black suit, white shirt and black bowtie playing an instrument with the rest of his symphony surrounding him.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists e.(exists x.(_bar(x) & TrueP & _at(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+A tall person in a suit
+
+\F1 F2.exists x.(_two(x) & _woman(x) & exists z309.(_smoking(z309) & _cigarette(z309) & _drink(z309) & TrueP & exists e.(_have(e) & (Subj(e) = x) & (Acc(e) = z309) & exists z311.(_bar(z311) & TrueP & _at(e,z311) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+Two women having drinks and smoking cigarettes at the bar.
+
+exists x.(_three(x) & _woman(x) & TrueP & exists e.(exists x.(_bar(x) & TrueP & _at(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+Two women are at a bar.
+
+\F1 F2.exists x.(_two(x) & _woman(x) & exists z312.(_smoking(z312) & _cigarette(z312) & _drink(z312) & TrueP & exists e.(_have(e) & (Subj(e) = x) & (Acc(e) = z312) & exists z314.(_bar(z314) & TrueP & _at(e,z314) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+Two women having drinks and smoking cigarettes at the bar.
+
+exists x.(_woman(x) & TrueP & exists e.(_celebrate(e) & (Subj(e) = x) & exists x.(_bar(x) & TrueP & _at(e,x) & TrueP)))
+
+====================================
+
+
+
+Three women are at a bar.
+
+(exists x.(_crowd(x) & TrueP & exists e.(_congregate(e) & (Subj(e) = x) & TrueP)) & exists x.(_person(x) & exists z317.(_yellow(z317) & _chinese(z317) & _dragon(z317) & _costume(z317) & TrueP & exists e.(_in(e,z317) & (Subj(e) = x) & TrueP)) & exists z318.(_camera(z318) & TrueP & exists e.(_confront(e) & (Subj(e) = x) & (Acc(e) = z318) & TrueP))))(\e.(exists x.(_outdoor(x) & _event(x) & exists z315.(_asian_dash_themed(z315) & _area(z315) & TrueP & exists e0316.(_in(e0316,z315) & (Subj(e0316) = x) & TrueP)) & _at(e,x)) & TrueP))
+
+====================================
+
+
+
+Two women having drinks and smoking cigarettes at the bar.
+
+exists x.(_single(x) & _man(x) & TrueP & exists e.(_next(e) & (Subj(e) = x) & exists x.(_camera(x) & TrueP & _to(e,x)) & TrueP))
+
+====================================
+
+
+
+Women are celebrating at a bar.
+
+(exists x.(_crowd(x) & TrueP & exists e.(_congregate(e) & (Subj(e) = x) & TrueP)) & exists x.(_person(x) & exists z321.(_yellow(z321) & _chinese(z321) & _dragon(z321) & _costume(z321) & TrueP & exists e.(_in(e,z321) & (Subj(e) = x) & TrueP)) & exists z322.(_camera(z322) & TrueP & exists e.(_confront(e) & (Subj(e) = x) & (Acc(e) = z322) & TrueP))))(\e.(exists x.(_outdoor(x) & _event(x) & exists z319.(_asian_dash_themed(z319) & _area(z319) & TrueP & exists e0320.(_in(e0320,z319) & (Subj(e0320) = x) & TrueP)) & _at(e,x)) & TrueP))
+
+====================================
+
+
+
+At an outdoor event in an Asian-themed area, a crowd congregates as one person in a yellow Chinese dragon costume confronts the camera.
+
+exists x.(_crowd(x) & TrueP & exists e.(_dance(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+A single man is next to a camera
+
+(exists x.(_crowd(x) & TrueP & exists e.(_congregate(e) & (Subj(e) = x) & TrueP)) & exists x.(_person(x) & exists z325.(_yellow(z325) & _chinese(z325) & _dragon(z325) & _costume(z325) & TrueP & exists e.(_in(e,z325) & (Subj(e) = x) & TrueP)) & exists z326.(_camera(z326) & TrueP & exists e.(_confront(e) & (Subj(e) = x) & (Acc(e) = z326) & TrueP))))(\e.(exists x.(_outdoor(x) & _event(x) & exists z323.(_asian_dash_themed(z323) & _area(z323) & TrueP & exists e0324.(_in(e0324,z323) & (Subj(e0324) = x) & TrueP)) & _at(e,x)) & TrueP))
+
+====================================
+
+
+
+At an outdoor event in an Asian-themed area, a crowd congregates as one person in a yellow Chinese dragon costume confronts the camera.
+
+exists x.(_crowd(x) & TrueP & exists e.(exists x.(_front(x) & exists z327.(_camera(z327) & TrueP & (x = z327)) & TrueP & _in(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+A crowd is dancing
+
+exists x.(_two(x) & _doctor(x) & TrueP & exists z328.(_surgery(z328) & TrueP & exists e.(_perform(e) & (Subj(e) = x) & (Acc(e) = z328) & exists x.(_patient(x) & TrueP & _on(e,x) & TrueP))))
+
+====================================
+
+
+
+At an outdoor event in an Asian-themed area, a crowd congregates as one person in a yellow Chinese dragon costume confronts the camera.
+
+exists x.(_two(x) & _surgeon(x) & TrueP & exists z329.(_lunch(z329) & TrueP & exists e.(_have(e) & (Subj(e) = x) & (Acc(e) = z329) & TrueP)))
+
+====================================
+
+
+
+A crowd is in front of a camera
+
+exists x.(_two(x) & _doctor(x) & TrueP & exists z330.(_surgery(z330) & TrueP & exists e.(_perform(e) & (Subj(e) = x) & (Acc(e) = z330) & exists x.(_patient(x) & TrueP & _on(e,x) & TrueP))))
+
+====================================
+
+
+
+Two doctors perform surgery on patient.
+
+exists x.(_doctor(x) & TrueP & exists z331.(_surgery(z331) & TrueP & exists e.(_perform(e) & (Subj(e) = x) & (Acc(e) = z331) & TrueP)))
+
+====================================
+
+
+
+Two surgeons are having lunch.
+
+exists x.(_two(x) & _doctor(x) & TrueP & exists z332.(_surgery(z332) & TrueP & exists e.(_perform(e) & (Subj(e) = x) & (Acc(e) = z332) & exists x.(_patient(x) & TrueP & _on(e,x) & TrueP))))
+
+====================================
+
+
+
+Two doctors perform surgery on patient.
+
+exists x.(_two(x) & _doctor(x) & TrueP & exists z333.(_surgery(z333) & TrueP & exists e.(_perform(e) & (Subj(e) = x) & (Acc(e) = z333) & exists x.(_man(x) & TrueP & _on(e,x) & TrueP))))
+
+====================================
+
+
+
+Doctors are performing surgery.
+
+\F1 F2.exists x.(_white(x) & _dog(x) & exists z337.(_long(z337) & _hair(z337) & _jump(z337) & exists z334.(_green(z334) & _red(z334) & _toy(z334) & TrueP & exists e.(_catch(e) & (Subj(e) = z337) & (Acc(e) = z334) & TrueP)) & TrueP & exists e.(_with(e,z337) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Two doctors perform surgery on patient.
+
+exists x.(_white(x) & _dog(x) & exists z338.(_long(z338) & _hair(z338) & TrueP & exists e.(_with(e,z338) & (Subj(e) = x) & TrueP)) & exists z339.(_underwater(z339) & TrueP & exists e.(_swim(e) & (Subj(e) = x) & (Acc(e) = z339) & TrueP)))
+
+====================================
+
+
+
+Two doctors are performing surgery on a man.
+
+\F1 F2.exists x.(_white(x) & _dog(x) & exists z343.(_long(z343) & _hair(z343) & _jump(z343) & exists z340.(_green(z340) & _red(z340) & _toy(z340) & TrueP & exists e.(_catch(e) & (Subj(e) = z343) & (Acc(e) = z340) & TrueP)) & TrueP & exists e.(_with(e,z343) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A white dog with long hair jumps to catch a red and green toy.
+
+exists x.(_animal(x) & TrueP & exists e.(_jump(e) & (Subj(e) = x) & AccI(e,exists z344.(_object(z344) & TrueP & exists e.(_catch(e) & (Subj(e) = x) & (Acc(e) = z344) & TrueP))) & TrueP))
+
+====================================
+
+
+
+A white dog with long hair is swimming underwater.
+
+\F1 F2.exists x.(_white(x) & _dog(x) & exists z350.(_long(z350) & _hair(z350) & _jump(z350) & exists z347.(_green(z347) & _red(z347) & _toy(z347) & TrueP & exists e.(_catch(e) & (Subj(e) = z350) & (Acc(e) = z347) & TrueP)) & TrueP & exists e.(_with(e,z350) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A white dog with long hair jumps to catch a red and green toy.
+
+exists x.(_white(x) & _chihuahua(x) & _mix(x) & exists z351.(_long(z351) & _curly(z351) & _hair(z351) & TrueP & exists e.(_with(e,z351) & (Subj(e) = x) & TrueP)) & exists e.(_jump(e) & (Subj(e) = x) & AccI(e,exists z352.(_green(z352) & _red(z352) & _toy(z352) & _bone(z352) & TrueP & exists e.(_catch(e) & (Subj(e) = x) & (Acc(e) = z352) & TrueP))) & TrueP))
+
+====================================
+
+
+
+An animal is jumping to catch an object.
+
+exists x.(_kid(x) & TrueP & exists e.(exists x.(_amusement(x) & _ride(x) & TrueP & _on(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+A white dog with long hair jumps to catch a red and green toy.
+
+exists x.(_kid(x) & TrueP & exists z355.(_favorite(z355) & _amusement(z355) & _ride(z355) & TrueP & exists e.(_ride(e) & (Subj(e) = x) & (Acc(e) = z355) & TrueP)))
+
+====================================
+
+
+
+A white chihuahua mix with long curly hair is jumping to catch a red and green toy bone.
+
+exists x.(_kid(x) & TrueP & exists e.(exists x.(_amusement(x) & _ride(x) & TrueP & _on(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+Kids are on a amusement ride.
+
+\X0 K.X0(\F2 F3.exists x.(_car(x) & F2(x) & F3(x)),\e.(_break(e) & _down(e) & exists x.(_side(x) & exists z356.(_road(z356) & TrueP & (x = z356)) & TrueP & _on(e,x) & K(e))))
+
+====================================
+
+
+
+Kids ride their favorite amusement ride.
+
+exists x.(_kid(x) & TrueP & exists e.(exists x.(_amusement(x) & _ride(x) & TrueP & _on(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+Kids are on a amusement ride.
+
+exists x.(_kid(x) & TrueP & exists z357.(_amusement(z357) & _ride(z357) & TrueP & exists e.(_ride(e) & (Subj(e) = x) & (Acc(e) = z357) & TrueP)))
+
+====================================
+
+
+
+A car is broke down on the side of the road.
+
+exists x.(_man(x) & exists z358.(_black(z358) & _shirt(z358) & TrueP & exists e.(_in(e,z358) & (Subj(e) = x) & TrueP)) & exists z359.(_golf(z359) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z359) & _outside(e) & TrueP)))
+
+====================================
+
+
+
+Kids are on a amusement ride.
+
+exists x.(_man(x) & TrueP & exists e.(_play(e) & (Subj(e) = x) & exists x.(_golf(x) & _course(x) & exists e0362.(_relax(e0362) & (Subj(e0362) = x) & TrueP) & TrueP & _on(e,x) & TrueP)))
+
+====================================
+
+
+
+Kids ride an amusement ride.
+
+exists x.(_man(x) & exists z363.(_black(z363) & _shirt(z363) & TrueP & exists e.(_in(e,z363) & (Subj(e) = x) & TrueP)) & exists z364.(_golf(z364) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z364) & _outside(e) & TrueP)))
+
+====================================
+
+
+
+A man in a black shirt is playing golf outside.
+
+\F1 F2.exists x.(_man(x) & exists z367.(_black(z367) & _shirt(z367) & _trade(z367) & exists z366.(_card(z366) & exists z365.(_girlfriend(z365) & TrueP & exists e.(_with(e,z365) & (Subj(e) = z366) & TrueP)) & exists e.(_pokemon(e,z366) & (Subj(e) = z367) & TrueP)) & exists e.(_in(e,z367) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A man plays on a golf course to relax.
+
+exists x.(_man(x) & exists z368.(_black(z368) & _shirt(z368) & TrueP & exists e.(_in(e,z368) & (Subj(e) = x) & TrueP)) & exists z369.(_golf(z369) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z369) & _outside(e) & TrueP)))
+
+====================================
+
+
+
+A man in a black shirt is playing golf outside.
+
+exists x.(_man(x) & exists z370.(_black(z370) & _shirt(z370) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z370) & TrueP)) & TrueP & exists z374.(_game(z374) & exists z373.(_golf(z373) & TrueP & (z374 = z373)) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z374) & TrueP)))
+
+====================================
+
+
+
+The man in the black shirt trades Pokemon cards with his girlfriend.
+
+exists x.(_older(x) & _gentleman(x) & TrueP & exists e.(_find(e) & (Subj(e) = x) & AccI(e,exists x.((x = _it) & TrueP & exists e.(_humorous(e) & (Subj(e) = x) & AccI(e,exists x.((x = _he) & TrueP & exists z382.(_picture(z382) & exists e.(_take(e) & (Acc(e) = z382) & TrueP) & exists z375.(_laundry(z375) & TrueP & exists e.(_do(e) & (Subj(e) = z382) & (Acc(e) = z375) & TrueP)) & TrueP & exists e.(_get(e) & (Subj(e) = x) & (Acc(e) = z382) & TrueP)))) & TrueP))) & TrueP))
+
+====================================
+
+
+
+A man in a black shirt is playing golf outside.
+
+\X0 Q K.Q(\x.TrueP,\x.(exists z386.(_blond(z386) & _man(z386) & _laugh(z386) & X0(z386) & \G2.G2(x))(\e.TrueP) & exists z383.(_laundry(z383) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z383) & K(e)))))
+
+====================================
+
+
+
+The man wearing the black shirt plays a game of golf.
+
+exists x.(_older(x) & _gentleman(x) & TrueP & exists e.(_find(e) & (Subj(e) = x) & AccI(e,exists x.((x = _it) & TrueP & exists e.(_humorous(e) & (Subj(e) = x) & AccI(e,exists x.((x = _he) & TrueP & exists z394.(_picture(z394) & exists e.(_take(e) & (Acc(e) = z394) & TrueP) & exists z387.(_laundry(z387) & TrueP & exists e.(_do(e) & (Subj(e) = z394) & (Acc(e) = z387) & TrueP)) & TrueP & exists e.(_get(e) & (Subj(e) = x) & (Acc(e) = z394) & TrueP)))) & TrueP))) & TrueP))
+
+====================================
+
+
+
+A older gentleman finds it humorous that he is getting his picture taken while doing his laundry.
+
+exists x.(_guy(x) & TrueP & exists e.(_laugh(e) & (Subj(e) = x) & TrueP) & exists z395.(_laundry(z395) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z395) & TrueP)))
+
+====================================
+
+
+
+a blond man laughs while doing laundry
+
+exists x.(_older(x) & _gentleman(x) & TrueP & exists e.(_find(e) & (Subj(e) = x) & AccI(e,exists x.((x = _it) & TrueP & exists e.(_humorous(e) & (Subj(e) = x) & AccI(e,exists x.((x = _he) & TrueP & exists z407.(_picture(z407) & exists e.(_take(e) & (Acc(e) = z407) & TrueP) & exists z400.(_laundry(z400) & TrueP & exists e.(_do(e) & (Subj(e) = z407) & (Acc(e) = z400) & TrueP)) & TrueP & exists e.(_get(e) & (Subj(e) = x) & (Acc(e) = z407) & TrueP)))) & TrueP))) & TrueP))
+
+====================================
+
+
+
+A older gentleman finds it humorous that he is getting his picture taken while doing his laundry.
+
+exists x.(_two(x) & _lady(x) & TrueP & exists e1.(_pin(e1) & (Subj(e1) = x) & AccI(e1,exists x.(_clothes(x) & TrueP & exists e.(_dry(e) & (Subj(e) = x) & TrueP))) & TrueP))
+
+====================================
+
+
+
+a guy laughs while doing laundry
+
+exists x.(_indian(x) & _woman(x) & TrueP & exists z417.(_dirty(z417) & _laundry(z417) & exists z416.(_lake(z416) & TrueP & exists e.(_at(e,z416) & (Subj(e) = z417) & TrueP)) & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z417) & TrueP) & exists e.(_clean(e) & (Subj(e) = x) & (Acc(e) = z417) & TrueP)) & exists e1.(_in(e1) & (Subj(e1) = x) & exists z424.(_background(z424) & TrueP & exists z422.(_kid(z422) & exists e.(_appear(e) & (Subj(e) = z422) & AccI(e,exists e.(_jump(e) & (Subj(e) = z422) & exists z419.(_lake(z419) & TrueP & _into(e,z419)) & TrueP)) & TrueP) & TrueP & (z424 = z422))) & TrueP))
+
+====================================
+
+
+
+A older gentleman finds it humorous that he is getting his picture taken while doing his laundry.
+
+exists x.(_indian(x) & _woman(x) & TrueP & exists z428.(_laundry(z428) & exists z427.(_lake(z427) & TrueP & exists e.(_in(e,z427) & (Subj(e) = z428) & TrueP)) & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z428) & TrueP)))
+
+====================================
+
+
+
+two ladies pin clothes to dry
+
+exists x.(_indian(x) & _woman(x) & TrueP & exists z438.(_dirty(z438) & _laundry(z438) & exists z437.(_lake(z437) & TrueP & exists e.(_at(e,z437) & (Subj(e) = z438) & TrueP)) & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z438) & TrueP) & exists e.(_clean(e) & (Subj(e) = x) & (Acc(e) = z438) & TrueP)) & exists e1.(_in(e1) & (Subj(e1) = x) & exists z445.(_background(z445) & TrueP & exists z443.(_kid(z443) & exists e.(_appear(e) & (Subj(e) = z443) & AccI(e,exists e.(_jump(e) & (Subj(e) = z443) & exists z440.(_lake(z440) & TrueP & _into(e,z440)) & TrueP)) & TrueP) & TrueP & (z445 = z443))) & TrueP))
+
+====================================
+
+
+
+An Indian woman is washing and cleaning dirty laundry at a lake and in the background is a kid who appears to have jumped into the lake.
+
+exists x.(_indian(x) & _woman(x) & TrueP & exists z448.(_laundry(z448) & TrueP & exists e.(_put(e) & (Subj(e) = x) & (Acc(e) = z448) & exists x.(_machine(x) & TrueP & _into(e,x)) & TrueP)))
+
+====================================
+
+
+
+An Indian woman is doing her laundry in a lake.
+
+exists x.(_indian(x) & _woman(x) & TrueP & exists z458.(_dirty(z458) & _laundry(z458) & exists z457.(_lake(z457) & TrueP & exists e.(_at(e,z457) & (Subj(e) = z458) & TrueP)) & exists e.(_wash(e) & (Subj(e) = x) & (Acc(e) = z458) & TrueP) & exists e.(_clean(e) & (Subj(e) = x) & (Acc(e) = z458) & TrueP)) & exists e1.(_in(e1) & (Subj(e1) = x) & exists z465.(_background(z465) & TrueP & exists z463.(_kid(z463) & exists e.(_appear(e) & (Subj(e) = z463) & AccI(e,exists e.(_jump(e) & (Subj(e) = z463) & exists z460.(_lake(z460) & TrueP & _into(e,z460)) & TrueP)) & TrueP) & TrueP & (z465 = z463))) & TrueP))
+
+====================================
+
+
+
+An Indian woman is washing and cleaning dirty laundry at a lake and in the background is a kid who appears to have jumped into the lake.
+
+exists x.(_indian(x) & _woman(x) & TrueP & exists z468.(_laundry(z468) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z468) & exists x.(_son(x) & TrueP & _for(e,x) & exists x.(_lake(x) & TrueP & _in(e,x) & TrueP)))))
+
+====================================
+
+
+
+An Indian woman is putting her laundry into the machine.
+
+(exists x.(_man(x) & exists z469.(_green(z469) & _jersey(z469) & TrueP & exists e.(_in(e,z469) & (Subj(e) = x) & TrueP)) & exists e.(_appear(e) & (Subj(e) = x) & AccI(e,exists e.(_collide(e) & (Subj(e) = x) & exists z476.((z476 = _he) & TrueP & _with(e,z476)) & TrueP)) & TrueP)) & exists x.(_man(x) & exists z470.(_stumble(z470) & TrueP & exists e.(_rollerskate(e) & (Subj(e) = x) & (Acc(e) = z470) & exists z474.(_man(z474) & exists z471.(_black(z471) & _jersey(z471) & TrueP & exists e0472.(_in(e0472,z471) & (Subj(e0472) = z474) & TrueP)) & _as(e,z474)) & TrueP)) & TrueP & exists e.(_appear(e) & (Subj(e) = x) & AccI(e,exists e.(_collide(e) & (Subj(e) = x) & exists z476.((z476 = _he) & TrueP & _with(e,z476)) & TrueP)) & TrueP)))
+
+====================================
+
+
+
+An Indian woman is washing and cleaning dirty laundry at a lake and in the background is a kid who appears to have jumped into the lake.
+
+exists x.((x = _they) & TrueP & exists z477.(_car(z477) & TrueP & exists e.(_drive(e) & (Subj(e) = x) & (Acc(e) = z477) & TrueP)))
+
+====================================
+
+
+
+An Indian woman is doing laundry for her son in the lake.
+
+(exists x.(_man(x) & exists z478.(_green(z478) & _jersey(z478) & TrueP & exists e.(_in(e,z478) & (Subj(e) = x) & TrueP)) & exists e.(_appear(e) & (Subj(e) = x) & AccI(e,exists e.(_collide(e) & (Subj(e) = x) & exists z485.((z485 = _he) & TrueP & _with(e,z485)) & TrueP)) & TrueP)) & exists x.(_man(x) & exists z479.(_stumble(z479) & TrueP & exists e.(_rollerskate(e) & (Subj(e) = x) & (Acc(e) = z479) & exists z483.(_man(z483) & exists z480.(_black(z480) & _jersey(z480) & TrueP & exists e0481.(_in(e0481,z480) & (Subj(e0481) = z483) & TrueP)) & _as(e,z483)) & TrueP)) & TrueP & exists e.(_appear(e) & (Subj(e) = x) & AccI(e,exists e.(_collide(e) & (Subj(e) = x) & exists z485.((z485 = _he) & TrueP & _with(e,z485)) & TrueP)) & TrueP)))
+
+====================================
+
+
+
+A man in a green jersey and rollerskates stumbles as a man in a black jersey appears to collide with him.
+
+exists x.((x = _they) & _both(x) & TrueP & exists e.(_fall(e) & (Subj(e) = x) & exists x.(_ground(x) & TrueP & _to(e,x)) & TrueP))
+
+====================================
+
+
+
+They are driving cars.
+
+(exists x.(_man(x) & exists z486.(_green(z486) & _jersey(z486) & TrueP & exists e.(_in(e,z486) & (Subj(e) = x) & TrueP)) & exists e.(_appear(e) & (Subj(e) = x) & AccI(e,exists e.(_collide(e) & (Subj(e) = x) & exists z493.((z493 = _he) & TrueP & _with(e,z493)) & TrueP)) & TrueP)) & exists x.(_man(x) & exists z487.(_stumble(z487) & TrueP & exists e.(_rollerskate(e) & (Subj(e) = x) & (Acc(e) = z487) & exists z491.(_man(z491) & exists z488.(_black(z488) & _jersey(z488) & TrueP & exists e0489.(_in(e0489,z488) & (Subj(e0489) = z491) & TrueP)) & _as(e,z491)) & TrueP)) & TrueP & exists e.(_appear(e) & (Subj(e) = x) & AccI(e,exists e.(_collide(e) & (Subj(e) = x) & exists z493.((z493 = _he) & TrueP & _with(e,z493)) & TrueP)) & TrueP)))
+
+====================================
+
+
+
+A man in a green jersey and rollerskates stumbles as a man in a black jersey appears to collide with him.
+
+exists x.(_man(x) & TrueP & exists z495.(_stumble(z495) & exists z494.(_rollerskate(z494) & TrueP & exists e.(_in(e,z494) & (Subj(e) = z495) & TrueP)) & exists e.(_stumble(e) & (Subj(e) = x) & (Acc(e) = z495) & TrueP)))
+
+====================================
+
+
+
+They both fall to the ground.
+
+\F1 F2.exists x.((x = x) & exists z496.(_onlooker(z496) & _glance(z496) & TrueP & (x = z496)) & exists z497.(_person(z497) & TrueP & exists e.(_at(e,z497) & (Subj(e) = x) & exists z499.(_strange(z499) & _trick(z499) & exists z498.(_head(z498) & TrueP & exists e.(_on(e,z498) & (Subj(e) = z499) & TrueP)) & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z499) & TrueP)) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A man in a green jersey and rollerskates stumbles as a man in a black jersey appears to collide with him.
+
+exists x.(_boy(x) & TrueP & exists z502.(_card(z502) & _trick(z502) & TrueP & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z502) & TrueP)))
+
+====================================
+
+
+
+The man stumbles stumbles in rollerskates.
+
+\F1 F2.exists x.((x = x) & exists z503.(_onlooker(z503) & _glance(z503) & TrueP & (x = z503)) & exists z504.(_person(z504) & TrueP & exists e.(_at(e,z504) & (Subj(e) = x) & exists z506.(_strange(z506) & _trick(z506) & exists z505.(_head(z505) & TrueP & exists e.(_on(e,z505) & (Subj(e) = z506) & TrueP)) & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z506) & TrueP)) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A group of onlookers glance at a person doing a strange trick on her head.
+
+exists x.(_onlooker(x) & TrueP & exists e.(_impress(e) & (Acc(e) = x) & exists x.(_trick(x) & TrueP & (Subj(e) = x) & TrueP)))
+
+====================================
+
+
+
+A boy does a card trick.
+
+\F1 F2.exists x.((x = x) & exists z509.(_onlooker(z509) & _glance(z509) & TrueP & (x = z509)) & exists z510.(_person(z510) & TrueP & exists e.(_at(e,z510) & (Subj(e) = x) & exists z512.(_strange(z512) & _trick(z512) & exists z511.(_head(z511) & TrueP & exists e.(_on(e,z511) & (Subj(e) = z512) & TrueP)) & exists e.(_do(e) & (Subj(e) = x) & (Acc(e) = z512) & TrueP)) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A group of onlookers glance at a person doing a strange trick on her head.
+
+exists x.(_people(x) & TrueP & exists z518.(_person(z518) & exists z515.(_trick(z515) & TrueP & exists e.(_do(e) & (Subj(e) = z518) & (Acc(e) = z515) & TrueP)) & TrueP & exists e.(_watch(e) & (Subj(e) = x) & (Acc(e) = z518) & TrueP)))
+
+====================================
+
+
+
+Onlookers are impressed by the trick.
+
+exists x.(_middle(x) & _eastern(x) & _woman(x) & exists z519.(_pink(z519) & _headscarf(z519) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z519) & TrueP)) & TrueP & exists e.(_walk(e) & (Subj(e) = x) & exists x.(_woman(x) & TrueP & _beside(e,x) & exists x.(_purple(x) & _headscarf(x) & TrueP & _in(e,x) & TrueP))))
+
+====================================
+
+
+
+A group of onlookers glance at a person doing a strange trick on her head.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists e.(_walk(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+People watch another person do a trick.
+
+exists x.(_middle(x) & _eastern(x) & _woman(x) & exists z522.(_pink(z522) & _headscarf(z522) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z522) & TrueP)) & TrueP & exists e.(_walk(e) & (Subj(e) = x) & exists x.(_woman(x) & TrueP & _beside(e,x) & exists x.(_purple(x) & _headscarf(x) & TrueP & _in(e,x) & TrueP))))
+
+====================================
+
+
+
+The middle eastern woman wearing the pink headscarf is walking beside a woman in a purple headscarf.
+
+exists x.(_only(x) & _woman(x) & TrueP & exists z525.(_head(z525) & _scarf(z525) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z525) & TrueP)))
+
+====================================
+
+
+
+Two women are walking together.
+
+exists x.(_middle(x) & _eastern(x) & _woman(x) & exists z526.(_pink(z526) & _headscarf(z526) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z526) & TrueP)) & TrueP & exists e.(_walk(e) & (Subj(e) = x) & exists x.(_woman(x) & TrueP & _beside(e,x) & exists x.(_purple(x) & _headscarf(x) & TrueP & _in(e,x) & TrueP))))
+
+====================================
+
+
+
+The middle eastern woman wearing the pink headscarf is walking beside a woman in a purple headscarf.
+
+exists x.(_two(x) & _woman(x) & TrueP & exists z529.(_friend(z529) & TrueP & (x = z529)))
+
+====================================
+
+
+
+Only one woman is wearing a head scarf.
+
+exists x.(_taxi(x) & _suv(x) & TrueP & exists z532.(_street(z532) & exists z531.(_direction(z531) & TrueP & exists e.(_in(e,z531) & (Subj(e) = z532) & TrueP)) & exists e.(_drive(e) & (Subj(e) = x) & (Acc(e) = z532) & exists x.(_urban(x) & _construction(x) & _site(x) & TrueP & _past(e,x) & TrueP) & exists x.(_man(x) & TrueP & exists e0530.(_walk(e0530) & (Subj(e0530) = x) & _down(e0530) & TrueP)))))
+
+====================================
+
+
+
+The middle eastern woman wearing the pink headscarf is walking beside a woman in a purple headscarf.
+
+exists x.(_man(x) & TrueP & exists z537.(_suv(z537) & exists e.(_go(e) & (Subj(e) = z537) & exists z536.(_same(z536) & _direction(z536) & exists z533.((z533 = _he) & TrueP & exists e0534.(_as(e0534,z533) & (Subj(e0534) = z536) & TrueP)) & _in(e,z536) & TrueP)) & TrueP & exists e.(_chase(e) & (Subj(e) = x) & (Acc(e) = z537) & TrueP)))
+
+====================================
+
+
+
+These two women are friends.
+
+exists x.(_taxi(x) & _suv(x) & TrueP & exists z540.(_street(z540) & exists z539.(_direction(z539) & TrueP & exists e.(_in(e,z539) & (Subj(e) = z540) & TrueP)) & exists e.(_drive(e) & (Subj(e) = x) & (Acc(e) = z540) & exists x.(_urban(x) & _construction(x) & _site(x) & TrueP & _past(e,x) & TrueP) & exists x.(_man(x) & TrueP & exists e0538.(_walk(e0538) & (Subj(e0538) = x) & _down(e0538) & TrueP)))))
+
+====================================
+
+
+
+A taxi SUV drives past an urban construction site, as a man walks down the street in the other direction.
+
+(exists x.(_suv(x) & TrueP & exists e.(_go(e) & (Subj(e) = x) & exists x.(_opposite(x) & _direction(x) & TrueP & _in(e,x) & TrueP))) & exists x.(_man(x) & TrueP & exists e.(_go(e) & (Subj(e) = x) & exists x.(_opposite(x) & _direction(x) & TrueP & _in(e,x) & TrueP))))
+
+====================================
+
+
+
+A man is chasing an SUV that is going in the same direction as him.
+
+exists x.(_taxi(x) & _suv(x) & TrueP & exists z543.(_street(z543) & exists z542.(_direction(z542) & TrueP & exists e.(_in(e,z542) & (Subj(e) = z543) & TrueP)) & exists e.(_drive(e) & (Subj(e) = x) & (Acc(e) = z543) & exists x.(_urban(x) & _construction(x) & _site(x) & TrueP & _past(e,x) & TrueP) & exists x.(_man(x) & TrueP & exists e0541.(_walk(e0541) & (Subj(e0541) = x) & _down(e0541) & TrueP)))))
+
+====================================
+
+
+
+A taxi SUV drives past an urban construction site, as a man walks down the street in the other direction.
+
+faild parse
+
+====================================
+
+
+
+An SUV and a man are going in opposite directions.
+
+(exists x.(_people(x) & exists z545.(_red(z545) & _shirt(z545) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z545) & TrueP)) & TrueP & exists e.(_stand(e) & (Subj(e) = x) & exists x.(_large(x) & _pool(x) & exists z548.(_water(z548) & TrueP & (x = z548)) & TrueP & _in(e,x) & TrueP))) & exists x.((x = _it) & TrueP & exists e.(_splash(e) & (Subj(e) = x) & exists x.((x = _they) & TrueP & _over(e,x) & TrueP))) & exists x.((x = _it) & TrueP & exists e.(_splash(e) & (Subj(e) = x) & exists x.((x = _they) & TrueP & _around(e,x) & TrueP))))
+
+====================================
+
+
+
+A taxi SUV drives past an urban construction site, as a man walks down the street in the other direction.
+
+-exists x.(TrueP & exists z549.(_shirt(z549) & TrueP & exists e.(_have(e) & (Subj(e) = x) & (Acc(e) = z549) & _on(e) & TrueP)))
+
+====================================
+
+
+
+A taxi SUV races to pick up some clients while a man walks peacefully in the other direction.
+
+(exists x.(_people(x) & exists z550.(_red(z550) & _shirt(z550) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z550) & TrueP)) & TrueP & exists e.(_stand(e) & (Subj(e) = x) & exists x.(_large(x) & _pool(x) & exists z553.(_water(z553) & TrueP & (x = z553)) & TrueP & _in(e,x) & TrueP))) & exists x.((x = _it) & TrueP & exists e.(_splash(e) & (Subj(e) = x) & exists x.((x = _they) & TrueP & _over(e,x) & TrueP))) & exists x.((x = _it) & TrueP & exists e.(_splash(e) & (Subj(e) = x) & exists x.((x = _they) & TrueP & _around(e,x) & TrueP))))
+
+====================================
+
+
+
+People wearing red shirts are standing in a large pool of water as it splashes over and around them.
+
+\F1 F2.exists x.(_person(x) & exists z554.(_shirt(z554) & TrueP & exists e.(_in(e,z554) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+Nobody has a shirt on
+
+(exists x.(_people(x) & exists z555.(_red(z555) & _shirt(z555) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z555) & TrueP)) & TrueP & exists e.(_stand(e) & (Subj(e) = x) & exists x.(_large(x) & _pool(x) & exists z558.(_water(z558) & TrueP & (x = z558)) & TrueP & _in(e,x) & TrueP))) & exists x.((x = _it) & TrueP & exists e.(_splash(e) & (Subj(e) = x) & exists x.((x = _they) & TrueP & _over(e,x) & TrueP))) & exists x.((x = _it) & TrueP & exists e.(_splash(e) & (Subj(e) = x) & exists x.((x = _they) & TrueP & _around(e,x) & TrueP))))
+
+====================================
+
+
+
+People wearing red shirts are standing in a large pool of water as it splashes over and around them.
+
+\F1 F2.exists x.(_tall(x) & _person(x) & exists z559.(_shirt(z559) & TrueP & exists e.(_in(e,z559) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A person in a shirt
+
+exists x.(_man(x) & exists z560.(_white(z560) & _t_dash_shirt(z560) & TrueP & exists e.(_in(e,z560) & (Subj(e) = x) & TrueP)) & exists z561.(_picture(z561) & TrueP & exists e.(_take(e) & (Subj(e) = x) & (Acc(e) = z561) & exists x.(_middle(x) & exists z562.(_street(z562) & TrueP & (x = z562)) & exists z563.(_two(z563) & _public(z563) & _bus(z563) & TrueP & exists e0564.(_with(e0564,z563) & (Subj(e0564) = x) & TrueP)) & _in(e,x) & exists x.(_background(x) & TrueP & _in(e,x) & TrueP)))))
+
+====================================
+
+
+
+People wearing red shirts are standing in a large pool of water as it splashes over and around them.
+
+exists x.(_man(x) & TrueP & exists z565.(_black(z565) & _shirt(z565) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z565) & TrueP)))
+
+====================================
+
+
+
+A tall person in a shirt
+
+exists x.(_man(x) & exists z566.(_white(z566) & _t_dash_shirt(z566) & TrueP & exists e.(_in(e,z566) & (Subj(e) = x) & TrueP)) & exists z567.(_picture(z567) & TrueP & exists e.(_take(e) & (Subj(e) = x) & (Acc(e) = z567) & exists x.(_middle(x) & exists z568.(_street(z568) & TrueP & (x = z568)) & exists z569.(_two(z569) & _public(z569) & _bus(z569) & TrueP & exists e0570.(_with(e0570,z569) & (Subj(e0570) = x) & TrueP)) & _in(e,x) & exists x.(_background(x) & TrueP & _in(e,x) & TrueP)))))
+
+====================================
+
+
+
+A man in a white t-shirt takes a picture in the middle of the street with two public buses in the background.
+
+exists x.(_man(x) & TrueP & exists z571.(_white(z571) & _shirt(z571) & TrueP & exists e.(_wear(e) & (Subj(e) = x) & (Acc(e) = z571) & TrueP)))
+
+====================================
+
+
+
+A man is wearing a black shirt
+
+exists x.(_man(x) & exists z572.(_white(z572) & _t_dash_shirt(z572) & TrueP & exists e.(_in(e,z572) & (Subj(e) = x) & TrueP)) & exists z573.(_picture(z573) & TrueP & exists e.(_take(e) & (Subj(e) = x) & (Acc(e) = z573) & exists x.(_middle(x) & exists z574.(_street(z574) & TrueP & (x = z574)) & exists z575.(_two(z575) & _public(z575) & _bus(z575) & TrueP & exists e0576.(_with(e0576,z575) & (Subj(e0576) = x) & TrueP)) & _in(e,x) & exists x.(_background(x) & TrueP & _in(e,x) & TrueP)))))
+
+====================================
+
+
+
+A man in a white t-shirt takes a picture in the middle of the street with two public buses in the background.
+
+exists x.(_man(x) & TrueP & exists z577.(_photo(z577) & TrueP & exists e.(_take(e) & (Subj(e) = x) & (Acc(e) = z577) & _while(e) & exists x.(_tour(x) & TrueP & _on(e,x)) & exists x.(_nyc(x) & TrueP & _in(e,x) & TrueP))))
+
+====================================
+
+
+
+A man is wearing a white shirt
+
+(exists x.(_shirtless(x) & _man(x) & TrueP & exists e.(_sing(e) & (Subj(e) = x) & exists x.(_microphone(x) & TrueP & _into(e,x)) & TrueP)) & _next(\F2 F3.exists x.(_woman(x) & F2(x) & F3(x)),\e.exists x.((x = _he) & TrueP & _to(e,x)),\x.TrueP,\x.exists z580.(_accordion(z580) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z580) & TrueP))))
+
+====================================
+
+
+
+A man in a white t-shirt takes a picture in the middle of the street with two public buses in the background.
+
+exists x.((x = _he) & TrueP & _polish(x))
+
+====================================
+
+
+
+A man is taking photos while on tour in nyc
+
+(exists x.(_shirtless(x) & _man(x) & TrueP & exists e.(_sing(e) & (Subj(e) = x) & exists x.(_microphone(x) & TrueP & _into(e,x)) & TrueP)) & _next(\F2 F3.exists x.(_woman(x) & F2(x) & F3(x)),\e.exists x.((x = _he) & TrueP & _to(e,x)),\x.TrueP,\x.exists z581.(_accordion(z581) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z581) & TrueP))))
+
+====================================
+
+
+
+A shirtless man is singing into a microphone while a woman next to him plays an accordion.
+
+exists x.((x = _he) & TrueP & exists z582.(_saxophone(z582) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z582) & TrueP)))
+
+====================================
+
+
+
+He is Polish.
+
+(exists x.(_shirtless(x) & _man(x) & TrueP & exists e.(_sing(e) & (Subj(e) = x) & exists x.(_microphone(x) & TrueP & _into(e,x)) & TrueP)) & _next(\F2 F3.exists x.(_woman(x) & F2(x) & F3(x)),\e.exists x.((x = _he) & TrueP & _to(e,x)),\x.TrueP,\x.exists z583.(_accordion(z583) & TrueP & exists e.(_play(e) & (Subj(e) = x) & (Acc(e) = z583) & TrueP))))
+
+====================================
+
+
+
+A shirtless man is singing into a microphone while a woman next to him plays an accordion.
+
+exists x.(_man(x) & TrueP & exists e.(_sing(e) & (Subj(e) = x) & exists x.(_microphone(x) & TrueP & _into(e,x)) & TrueP))
+
+====================================
+
+
+
+He is playing a saxophone.
+
+\F1 F2.(exists x.(_woman(x) & F1(x) & F2(x)) & exists x.(_child(x) & exists e.(_sit(e) & (Subj(e) = x) & _outside(e) & exists z589.(_shade(z589) & TrueP & _in(e,z589) & exists z589.((z589 = z589) & exists z586.(_younger(z586) & _child(z586) & exists e0587.(_sit(e0587) & (Subj(e0587) = z586) & _inside(e0587) & exists z585.(_shade(z585) & TrueP & _in(e0587,z585) & TrueP)) & TrueP & (z589 = z586)) & TrueP & _while(e,z589) & TrueP))) & F1(x) & F2(x)))
+
+====================================
+
+
+
+A shirtless man is singing into a microphone while a woman next to him plays an accordion.
+
+exists x.((x = _it) & TrueP & _sunny(x))
+
+====================================
+
+
+
+A man is singing into a microphone.
+
+\F1 F2.(exists x.(_woman(x) & F1(x) & F2(x)) & exists x.(_child(x) & exists e.(_sit(e) & (Subj(e) = x) & _outside(e) & exists z595.(_shade(z595) & TrueP & _in(e,z595) & exists z595.((z595 = z595) & exists z592.(_younger(z592) & _child(z592) & exists e0593.(_sit(e0593) & (Subj(e0593) = z592) & _inside(e0593) & exists z591.(_shade(z591) & TrueP & _in(e0593,z591) & TrueP)) & TrueP & (z595 = z592)) & TrueP & _while(e,z595) & TrueP))) & F1(x) & F2(x)))
+
+====================================
+
+
+
+Women and children sitting outside in the shade while a group of younger children sitting inside in the shade.
+
+\F1 F2.(exists x.(_woman(x) & F1(x) & F2(x)) & exists x.(_kid(x) & F1(x) & F2(x)) & exists x.(exists e.(_sit(e) & (Subj(e) = x) & _down(e) & TrueP) & F1(x) & F2(x)))
+
+====================================
+
+
+
+It is very sunny outside.
+
+\F1 F2.(exists x.(_woman(x) & F1(x) & F2(x)) & exists x.(_child(x) & exists e.(_sit(e) & (Subj(e) = x) & _outside(e) & exists z603.(_shade(z603) & TrueP & _in(e,z603) & exists z603.((z603 = z603) & exists z600.(_younger(z600) & _child(z600) & exists e0601.(_sit(e0601) & (Subj(e0601) = z600) & _inside(e0601) & exists z599.(_shade(z599) & TrueP & _in(e0601,z599) & TrueP)) & TrueP & (z603 = z600)) & TrueP & _while(e,z603) & TrueP))) & F1(x) & F2(x)))
+
+====================================
+
+
+
+Women and children sitting outside in the shade while a group of younger children sitting inside in the shade.
+
+exists x.(_woman(x) & TrueP & exists e.(_run(e) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+The woman and kids and sitting down.
+
+\F1 F2.exists x.(_pregnant(x) & _lady(x) & exists e.(_sing(e) & (Subj(e) = x) & exists z608.(_stage(z608) & TrueP & _on(e,z608) & TrueP)) & exists z604.(_flag(z604) & TrueP & exists e.(_hold(e) & (Subj(e) = x) & (Acc(e) = z604) & exists z606.((z606 = _she) & TrueP & _behind(e,z606) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+Women and children sitting outside in the shade while a group of younger children sitting inside in the shade.
+
+exists x.(_woman(x) & TrueP & _sick(x))
+
+====================================
+
+
+
+The woman is running.
+
+\F1 F2.exists x.(_pregnant(x) & _lady(x) & exists e.(_sing(e) & (Subj(e) = x) & exists z615.(_stage(z615) & TrueP & _on(e,z615) & TrueP)) & exists z611.(_flag(z611) & TrueP & exists e.(_hold(e) & (Subj(e) = x) & (Acc(e) = z611) & exists z613.((z613 = _she) & TrueP & _behind(e,z613) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+A pregnant lady singing on stage while holding a flag behind her.
+
+exists x.(_woman(x) & TrueP & exists z618.(_music(z618) & TrueP & exists e.(_make(e) & (Subj(e) = x) & (Acc(e) = z618) & TrueP)))
+
+====================================
+
+
+
+A woman is sick in bed.
+
+\F1 F2.exists x.(_pregnant(x) & _lady(x) & exists e.(_sing(e) & (Subj(e) = x) & exists z623.(_stage(z623) & TrueP & _on(e,z623) & TrueP)) & exists z619.(_flag(z619) & TrueP & exists e.(_hold(e) & (Subj(e) = x) & (Acc(e) = z619) & exists z621.((z621 = _she) & TrueP & _behind(e,z621) & TrueP))) & F1(x) & F2(x))
+
+====================================
+
+
+
+A pregnant lady singing on stage while holding a flag behind her.
+
+exists x.(_lady(x) & TrueP & exists e.(_participate(e) & (Subj(e) = x) & exists x.(_talent(x) & _show(x) & TrueP & _in(e,x)) & TrueP))
+
+====================================
+
+
+
+A woman is making music.
+
+exists x.(_two(x) & _farmer(x) & TrueP & exists e.(_work(e) & (Subj(e) = x) & exists x.(_piece(x) & exists z626.(_john(z626) & _deere(z626) & _equipment(z626) & TrueP & (x = z626)) & TrueP & _on(e,x)) & TrueP))
+
+====================================
+
+
+
+A pregnant lady singing on stage while holding a flag behind her.
+
+exists x.(_man(x) & TrueP & exists e.(_work(e) & (Subj(e) = x) & exists x.(_john(x) & _deere(x) & _equipment(x) & TrueP & _on(e,x)) & TrueP))
+
+====================================
+
+
+
+A lady is participating in a talent show.
+
+exists x.(_two(x) & _farmer(x) & TrueP & exists e.(_work(e) & (Subj(e) = x) & exists x.(_piece(x) & exists z627.(_john(z627) & _deere(z627) & _equipment(z627) & TrueP & (x = z627)) & TrueP & _on(e,x)) & TrueP))
+
+====================================
+
+
+
+The two farmers are working on a piece of John Deere equipment.
+
+exists x.(_john(x) & _deere(x) & _equipment(x) & TrueP & exists e.(_work(e) & (Acc(e) = x) & _on(e) & exists x.(_two(x) & _farmer(x) & TrueP & (Subj(e) = x) & TrueP)))
+
+====================================
+
+
+
+Men are working on John Deere equipment
+
+exists x.(_two(x) & _farmer(x) & TrueP & exists e.(_work(e) & (Subj(e) = x) & exists x.(_piece(x) & exists z628.(_john(z628) & _deere(z628) & _equipment(z628) & TrueP & (x = z628)) & TrueP & _on(e,x)) & TrueP))
+
+====================================
+
+
+
+The two farmers are working on a piece of John Deere equipment.
+
+exists x.(_2(x) & _man(x) & TrueP & exists z629.(_pool(z629) & TrueP & exists e.(_make(e) & (Subj(e) = x) & (Acc(e) = z629) & TrueP)))
+
+====================================
+
+
+
+John Deere equipment is being worked on by two farmers
+
+\F1 F2.exists x.(_little(x) & _boy(x) & exists z633.(_blue(z633) & _shirt(z633) & exists z630.(_toy(z630) & TrueP & exists e.(_hold(e) & (Subj(e) = z633) & (Acc(e) = z630) & TrueP)) & TrueP & exists e.(_in(e,z633) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+The two farmers are working on a piece of John Deere equipment.
+
+exists x.(_boy(x) & TrueP & exists e.(_dress(e) & (Subj(e) = x) & exists x.(_blue(x) & _carry(x) & _toy(x) & exists z634.(_toybox(z634) & TrueP & exists e0635.(_to(e0635,z634) & (Subj(e0635) = x) & TrueP)) & _in(e,x) & TrueP)))
+
+====================================
+
+
+
+2 Men are making a pool together
+
+\F1 F2.exists x.(_little(x) & _boy(x) & exists z639.(_blue(z639) & _shirt(z639) & exists z636.(_toy(z636) & TrueP & exists e.(_hold(e) & (Subj(e) = z639) & (Acc(e) = z636) & TrueP)) & TrueP & exists e.(_in(e,z639) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A little boy in a blue shirt holding a toy.
+
+exists x.(_boy(x) & TrueP & exists e.(_dress(e) & (Subj(e) = x) & exists x.(_red(x) & _lighting(x) & _thing(x) & exists z640.(_fire(z640) & TrueP & exists e0641.(_on(e0641,z640) & (Subj(e0641) = x) & TrueP)) & _in(e,x)) & TrueP))
+
+====================================
+
+
+
+Boy dressed in blue carrying toy to a toybox.
+
+\F1 F2.exists x.(_little(x) & _boy(x) & exists z645.(_blue(z645) & _shirt(z645) & exists z642.(_toy(z642) & TrueP & exists e.(_hold(e) & (Subj(e) = z645) & (Acc(e) = z642) & TrueP)) & TrueP & exists e.(_in(e,z645) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A little boy in a blue shirt holding a toy.
+
+exists x.(_boy(x) & TrueP & exists e.(_dress(e) & (Subj(e) = x) & exists x.(_blue(x) & exists z646.(_toy(z646) & TrueP & exists e0649.(_hold(e0649) & (Subj(e0649) = x) & (Acc(e0649) = z646) & TrueP)) & TrueP & _in(e,x) & TrueP)))
+
+====================================
+
+
+
+Boy dressed in red lighting things on fire.
+
+exists x.(_woman(x) & TrueP & exists z654.(exists z653.(_post_dash_it(z653) & _note(z653) & exists e.(_hang(e) & (Subj(e) = z653) & exists z652.(_bulletin(z652) & _board(z652) & TrueP & _on(e,z652) & exists z652.(_lot(z652) & exists z650.(_post_dash_it(z650) & _note(z650) & TrueP & (z652 = z650)) & TrueP & _with(e,z652) & TrueP))) & TrueP & exists e.(_on(e,z653) & (Subj(e) = z654) & TrueP)) & exists e.(_write(e) & (Subj(e) = x) & (Acc(e) = z654) & TrueP)))
+
+====================================
+
+
+
+A little boy in a blue shirt holding a toy.
+
+exists x.(_woman(x) & TrueP & exists z655.(_grocery(z655) & _list(z655) & TrueP & exists e.(_write(e) & (Subj(e) = x) & (Acc(e) = z655) & TrueP)))
+
+====================================
+
+
+
+Boy dressed in blue holds a toy.
+
+exists x.(_woman(x) & TrueP & exists z660.(exists z659.(_post_dash_it(z659) & _note(z659) & exists e.(_hang(e) & (Subj(e) = z659) & exists z658.(_bulletin(z658) & _board(z658) & TrueP & _on(e,z658) & exists z658.(_lot(z658) & exists z656.(_post_dash_it(z656) & _note(z656) & TrueP & (z658 = z656)) & TrueP & _with(e,z658) & TrueP))) & TrueP & exists e.(_on(e,z659) & (Subj(e) = z660) & TrueP)) & exists e.(_write(e) & (Subj(e) = x) & (Acc(e) = z660) & TrueP)))
+
+====================================
+
+
+
+A woman is writing something on a post-it note which is hanging on a bulletin board with a lot of other post-it notes.
+
+exists x.(_woman(x) & TrueP & exists e.(_talk(e) & (Subj(e) = x) & exists x.(_phone(x) & TrueP & _on(e,x)) & TrueP))
+
+====================================
+
+
+
+The woman is writing a grocery list.
+
+exists x.(_woman(x) & TrueP & exists z665.(exists z664.(_post_dash_it(z664) & _note(z664) & exists e.(_hang(e) & (Subj(e) = z664) & exists z663.(_bulletin(z663) & _board(z663) & TrueP & _on(e,z663) & exists z663.(_lot(z663) & exists z661.(_post_dash_it(z661) & _note(z661) & TrueP & (z663 = z661)) & TrueP & _with(e,z663) & TrueP))) & TrueP & exists e.(_on(e,z664) & (Subj(e) = z665) & TrueP)) & exists e.(_write(e) & (Subj(e) = x) & (Acc(e) = z665) & TrueP)))
+
+====================================
+
+
+
+A woman is writing something on a post-it note which is hanging on a bulletin board with a lot of other post-it notes.
+
+exists x.(_woman(x) & TrueP & exists z666.(_note(z666) & TrueP & exists e.(_write(e) & (Subj(e) = x) & (Acc(e) = z666) & TrueP)))
+
+====================================
+
+
+
+The woman is talking on the phone.
+
+\F1 F2.exists x.(_baby(x) & exists z670.(_end(z670) & exists z668.(_slip(z668) & TrueP & (z670 = z668)) & exists z669.(_slide(z669) & exists z667.(_party(z667) & TrueP & exists e.(_at(e,z667) & (Subj(e) = z669) & TrueP)) & (z670 = z669)) & TrueP & exists e.(_at(e,z670) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A woman is writing something on a post-it note which is hanging on a bulletin board with a lot of other post-it notes.
+
+exists x.(_baby(x) & TrueP & _wet(x))
+
+====================================
+
+
+
+The woman is writing a note.
+
+\F1 F2.exists x.(_baby(x) & exists z674.(_end(z674) & exists z672.(_slip(z672) & TrueP & (z674 = z672)) & exists z673.(_slide(z673) & exists z671.(_party(z671) & TrueP & exists e.(_at(e,z671) & (Subj(e) = z673) & TrueP)) & (z674 = z673)) & TrueP & exists e.(_at(e,z674) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A baby at the end of a slip and slide at a party
+
+exists x.(_man(x) & TrueP & exists e.(exists x.(_end(x) & exists z675.(_slide(z675) & _slip(z675) & TrueP & (x = z675)) & TrueP & _at(e,x)) & (Subj(e) = x) & TrueP))
+
+====================================
+
+
+
+The baby is wet.
+
+\F1 F2.exists x.(_baby(x) & exists z679.(_end(z679) & exists z677.(_slip(z677) & TrueP & (z679 = z677)) & exists z678.(_slide(z678) & exists z676.(_party(z676) & TrueP & exists e.(_at(e,z676) & (Subj(e) = z678) & TrueP)) & (z679 = z678)) & TrueP & exists e.(_at(e,z679) & (Subj(e) = x) & F1(x))) & F2(x))
+
+====================================
+
+
+
+A baby at the end of a slip and slide at a party
+
+exists x.(_party(x) & TrueP & exists e.((Subj(e) = Subj(e)) & TrueP))
+
+====================================
+
+
+
+The man is at the end of the slip and slide
+
+exists x.(_girl(x) & TrueP & exists e.(_swing(e) & (Subj(e) = x) & _high(e) & exists x.(_air(x) & TrueP & _in(e,x) & TrueP)))
+
+====================================
+
+
+
+A baby at the end of a slip and slide at a party
+
+(exists x.(_girl(x) & TrueP & exists z681.(_swing(z681) & TrueP & exists e.(_flip(e) & (Subj(e) = x) & (Acc(e) = z681) & _off(e) & TrueP))) & exists x.(_girl(x) & TrueP & exists z680.(_momentum(z680) & TrueP & exists e.(_gain(e) & (Subj(e) = x) & (Acc(e) = z680) & TrueP))))
+
+====================================
+
+
+
+There is a party
+
+exists x.(_girl(x) & TrueP & exists e.(_swing(e) & (Subj(e) = x) & _high(e) & exists x.(_air(x) & TrueP & _in(e,x) & TrueP)))
+
+====================================
+
+
+
+A girl swings high in the air.
+
+exists x.(_girl(x) & TrueP & exists e.(_lay(e) & (Subj(e) = x) & exists x.(_pool(x) & TrueP & _in(e,x) & TrueP)))
+
+====================================

@@ -1,0 +1,36 @@
+% NLP年次大会用スタイルファイル
+
+% 各種長さ設定
+\setlength{\oddsidemargin}{-5.4mm}
+\setlength{\evensidemargin}{-5.4mm}
+\setlength{\topmargin}{1.3mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{-1mm}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24.4cm}
+
+\setlength{\columnsep}{1cm}
+\setlength{\leftmargin}{-0.5cm}
+\setlength{\itemsep}{-0.5cm}
+
+\baselineskip=0.9\baselineskip
+\abovedisplayskip=0.8\abovedisplayskip
+\belowdisplayskip=0.8\belowdisplayskip
+\abovedisplayshortskip=0.8\abovedisplayshortskip
+\belowdisplayshortskip=0.8\belowdisplayshortskip
+
+% ページ番号を消す
+\renewcommand{\thepage}{}
+
+% \auther{} で所属が同じときに使う \and
+\def\AND{\hskip 2em plus 40fil}
+
+% 例文
+\newcounter{ex}
+\newcommand{\itemex}{\refstepcounter{ex}\item[\textmd{\textrm{(\theex)}}]}
+
+\def\ex#1{
+\begin{description}
+ \itemex #1
+\end{description}
+}

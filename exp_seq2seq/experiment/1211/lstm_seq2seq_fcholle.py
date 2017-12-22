@@ -12,15 +12,11 @@ import h5py
 import re
 
 batch_size = 64  # Batch size for training.
-epochs = 100  # Number of epochs to train for.
+epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
 data_path = '/Users/guru/MyResearch/sg/snli/json/snli_input_data_100_1214.json'
-
-
-#load dictionary
-#dictionary = corpora.Dictionary.load_from_text('livedoordic.txt')
 
 # Vectorize the data.
 input_texts = []
@@ -143,9 +139,6 @@ checkpoint = keras.callbacks.ModelCheckpoint(
 #トレーニングデータ，テストデータ分割
 #data_train, data_test, label_train, label_test = train_test_split(bow, labels_list, test_size=0.5)
 
-# Define the model that will turn
-# `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
-
 model = Model([enc_main_input, dec_main_input], decoder_outputs)
 #plot_model(model, to_file='model.png')
 # Run training
@@ -184,9 +177,8 @@ model.save('s2s.h5')
 #model = load_model('s2s.h5')
 
 #encoder_model = load_model('encoder.h5')
-encoder_model = Model(encoder_inputs, encoder_states)
+encoder_model = Model(enc_main_input, encoder_states)
 encoder_model.save('encoder.h5')
-
 
 #decoder_model = load_model('decoder.h5')
 decoder_state_input_h = Input(shape=(latent_dim,))
@@ -197,7 +189,7 @@ decoder_outputs, state_h, state_c = decoder_lstm(
 decoder_states = [state_h, state_c]
 decoder_outputs = decoder_dense(decoder_outputs)
 decoder_model = Model(
-    [decoder_inputs] + decoder_states_inputs,
+    [dec_main_input] + decoder_states_inputs,
     [decoder_outputs] + decoder_states)
 decoder_model.save('decoder.h5')
 
@@ -214,9 +206,9 @@ def decode_sequence(input_seq):
     states_value = encoder_model.predict(input_seq)
 
     # Generate empty target sequence of length 1.
-    target_seq = np.zeros((1, 1, num_decoder_tokens))
+    target_seq = np.zeros((1,max_decoder_seq_length))
     # Populate the first character of target sequence with the start character.
-    target_seq[0, 0, target_token_index['BOS']] = 1.
+    target_seq[0, 0] = target_token_index['BOS']
 
     # Sampling loop for a batch of sequences
     # (to simplify, here we assume a batch of size 1).
@@ -233,20 +225,18 @@ def decode_sequence(input_seq):
 
         # Exit condition: either hit max length
         # or find stop character.
-        if (sampled_char == '\n' or
+        if (sampled_char == 'EOS' or
            len(decoded_sentence) > max_decoder_seq_length):
             stop_condition = True
 
         # Update the target sequence (of length 1).
-        target_seq = np.zeros((1, 1, num_decoder_tokens))
-        target_seq[0, 0, sampled_token_index] = 1.
+        target_seq = np.zeros((1, max_decoder_seq_length))
+        target_seq[0, 0] = sampled_token_index
 
         # Update states
         states_value = [h, c]
 
     return decoded_sentence
-
-
 
 for seq_index in range(10):
     # Take one sequence (part of the training test)

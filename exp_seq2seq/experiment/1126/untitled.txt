@@ -1,6 +1,0 @@
-snli データセットと
-論理式 -> 文　
-
-tensorborad可視化と
-グリッドサーチ/ランダムサーチ/ベイズ最適
-http://futurismo.biz/archives/6445

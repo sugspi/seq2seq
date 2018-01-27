@@ -66,7 +66,10 @@ def coq_string_application_expr(expression):
     # uncurry the arguments and find the base function
     if expression.is_atom():
         function, args = expression.uncurry()
-        arg_str = ' '.join("%s" % coqstr(arg) for arg in args)
+        if coqstr(function) == 'AccI':
+            arg_str = coqstr(args[0]) + ',('  + coqstr(args[1]) + ')'
+        else:
+            arg_str = ','.join("%s" % coqstr(arg) for arg in args)
     else:
         #Leave arguments curried
         function = expression.function
@@ -87,11 +90,11 @@ def coq_string_application_expr(expression):
     if parenthesize_function:
         function_str = Tokens.OPEN + function_str + Tokens.CLOSE
 
-    return function_str + ',' + arg_str + ','
-    #return Tokens.OPEN + function_str + ' ' + arg_str + Tokens.CLOSE
+    return function_str + Tokens.OPEN + arg_str + Tokens.CLOSE
+    #これをどうすればいいのかわからない
 
 reserved_predicates = \
-  {'AND' : 'and', 'OR' : 'or', 'neg' : 'not', 'EMPTY' : '', 'TrueP' : 'True'}
+  {'AND' : 'AND', 'OR' : 'OR', 'neg' : 'neg', 'EMPTY' : '', 'TrueP' : 'TrueP'}
 def coq_string_abstract_variable_expr(expression):
     expr_str = str(expression.variable)
     if expr_str in reserved_predicates:
@@ -105,6 +108,7 @@ def coq_string_abstract_variable_expr(expression):
         expr_str = "%s" % expr_str
     return expr_str
 
+#シカトしてもよさそうだけど一応
 def coq_string_lambda_expr(expression):
     variables = [expression.variable]
     term = expression.term
@@ -115,9 +119,10 @@ def coq_string_lambda_expr(expression):
            ' => ' + "%s" % coqstr(term) + Tokens.CLOSE
 
 nltk2coq_quantifier = {'exists' : 'exists',
-                       'exist' : 'exists',
-                       'all' : 'forall',
+                       'exist' : 'exist',
+                       'all' : 'all',
                        'forall' : 'forall'}
+
 def coq_string_quantified_expr(expression):
     variables = [expression.variable]
     term = expression.term
@@ -133,9 +138,9 @@ def coq_string_quantified_expr(expression):
     else:
         coq_quantifier = nltk_quantifier
 
-    return coq_quantifier + ',' \
-           + ','.join("%s" % coqstr(v) for v in variables) + \
-           ',' + "%s" % coqstr(term) + ','
+    return coq_quantifier + ' ' \
+           + ' '.join("%s" % coqstr(v) for v in variables) + \
+           '.' + Tokens.OPEN + "%s" % coqstr(term) + Tokens.CLOSE
 
     #return Tokens.OPEN + coq_quantifier + ' ' \
     #       + ' '.join("%s" % coqstr(v) for v in variables) + \
@@ -144,25 +149,66 @@ def coq_string_quantified_expr(expression):
 def coq_string_and_expr(expression):
     first = coqstr(expression.first)
     second = coqstr(expression.second)
-    return 'and,' + first + ',' + second + ','
+    if first == 'TrueP' or first == 'True':
+        return second
+    elif second == 'TrueP' or second == 'True':
+        return first
+    else:
+        return  first + ' & ' + second
     #return Tokens.OPEN + 'and ' + first + ' ' + second + Tokens.CLOSE
 
 def coq_string_or_expr(expression):
     first = coqstr(expression.first)
     second = coqstr(expression.second)
-    return 'or,' + first + ',' + second + ','
+    if first == 'TrueP' or first == 'True':
+        return ''
+    elif second == 'TrueP' or second == 'True':
+        return ''
+    else:
+        return first + ' | ' + second
     #return Tokens.OPEN + 'or ' + first + ' ' + second + Tokens.CLOSE
 
 def coq_string_not_expr(expression):
     term_str = coqstr(expression.term)
-    return 'not,' + term_str + ','
+    return '-' + term_str
     #return Tokens.OPEN + 'not ' + term_str + Tokens.CLOSE
 
 def coq_string_binary_expr(expression):
     first = coqstr(expression.first)
     second = coqstr(expression.second)
-    return expression.getOp() + ',' + first + ','  \
-             + second + ','
-
+    if expression.getOp() == '=':
+        output = first + ' = ' + second
+    elif expression.getOp() == '->':
+        if first == 'TrueP' or first == 'True':
+            output = second
+        else:
+            output =  first + ' -> ' + second
+    else:
+        output =  first + expression.getOp()  \
+             + second
+    return Tokens.OPEN + output + Tokens.CLOSE
     #return Tokens.OPEN + first + ' ' + expression.getOp() \
     #        + ' ' + second + Tokens.CLOSE
+
+data_path = '/Users/guru/MyResearch/sg/snli/snli_0118.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
+f = open('/Users/guru/MyResearch/sg/snli/snli_0122.txt', 'w')
+data = []
+
+lines = open(data_path)
+for line in lines :
+    line = line.split('#')
+    l1 = line[0]
+    l2 = line[1].rstrip()
+    l1 = normalize_interpretation(l1)
+
+    data.append(l1 + '#' + l2)
+
+
+for i in data :
+    f.write(str(i)+'\n')
+f.close()
+
+
+
+print(len(data))
+print(len(set_txt))

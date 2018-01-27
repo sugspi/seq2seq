@@ -1,40 +1,65 @@
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto(
+    gpu_options=tf.GPUOptions(
+        visible_device_list="0", # specify GPU number
+        allow_growth=True
+    )
+)
+set_session(tf.Session(config=config))
+
 # coding: utf-8
+#ifrom __future__ import print_function
+
 from keras.models import Model
 from keras.models import load_model
 from keras.layers import Input, LSTM,Embedding, Dense
 import keras
 
+#from sklearn.model_selection import train_test_split
+
 import numpy as np
 import json
+import re
+#import pydot
 
+import nltk
+from nltk.tree import Tree
 from nltk.translate.bleu_score import sentence_bleu
+
+####
+
+import logging
+
+from nltk.sem.logic import LogicParser
+from nltk.sem.logic import LogicalExpressionException
 
 
 batch_size = 256  # Batch size for training.
-epochs = 110  # Number of epochs to train for.
+epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path = '/home/8/17IA0973/snli_input_data_1214.json'
+data_path =  '/home/8/17IA0973/snli_0122_graph.txt'
 
 # Vectorize the data.
 input_texts = []
 target_texts = []
 output_texts =[]
-test_texts =[]
 input_characters = set()
 target_characters = set()
 lines = open(data_path)
 
-jdict = json.load(lines)
-keys = [int(i) for i in list(jdict.keys())]
-keys.sort()
-keys = [str(i) for i in keys]
-for line in keys:
-    input_text = (jdict[line])['formula']
-    target_text = (jdict[line])['text']
+
+for line in lines:
+    line = line.split('#')
+    input_text = line[0]
+    target_text = line[1]
+    input_text = input_text.split(',') 
+    input_text.append('EOS')
     output_texts.append(target_text.lstrip())
-    target_text = '\t' + target_text + '\n'
+    target_text = 'BOS' + target_text + 'EOS'
+    target_text = re.split('\s|\.', target_text)
     input_texts.append(input_text)
     target_texts.append(target_text)
     for char in input_text:
@@ -43,6 +68,8 @@ for line in keys:
     for char in target_text:
         if char not in target_characters:
             target_characters.add(char)
+print(len(output_texts))
+print(len(target_texts))
 
 input_characters = sorted(list(input_characters))
 target_characters = sorted(list(target_characters))
@@ -87,32 +114,39 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
-np.delete(encoder_input_data,[i for i in range(1500)])
-np.delete(decoder_input_data,[i for i in range(1500)])
-np.delete(decoder_target_data,[i for i in range(1500)])
+encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
+decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
+decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
+
+print("test: ",len(encoder_input_data))
+print("inp: ",len(decoder_input_data))
+print("out: ",len(decoder_target_data))
+
 
 # Define an input sequence and process it.
 enc_main_input = Input(shape=(max_encoder_seq_length,), dtype='int32', name='enc_main_input')
-encoder_inputs  = Embedding(output_dim=74, input_dim=num_encoder_tokens, input_length=max_encoder_seq_length,mask_zero=True)(enc_main_input)
+encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, input_length=max_encoder_seq_length,mask_zero=True)(enc_main_input)
 encoder = LSTM(latent_dim, return_state=True)
 encoder_outputs, state_h, state_c  = encoder(encoder_inputs)
 encoder_states = [state_h, state_c]
 
 # Set up the decoder, using `encoder_states` as initial state.
 dec_main_input = Input(shape=(max_decoder_seq_length,), dtype='int32', name='dec_main_input')
-decoder_inputs  = Embedding(output_dim=77, input_dim=num_decoder_tokens, input_length=max_decoder_seq_length,mask_zero=True)(dec_main_input)
+decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, input_length=max_decoder_seq_length,mask_zero=True)(dec_main_input)
 decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
 decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
                                      initial_state=encoder_states)
 decoder_dense = Dense(num_decoder_tokens, activation='softmax')
 decoder_outputs = decoder_dense(decoder_outputs)
 
+
 #callback function and parameter search
 #if you want to use below function, you add callbacks=[name-val]
 earlystop =keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose=0, mode='auto')
+            #keras.callbacks.EarlyStopping(monitor='loss', min_delta=0.0001, patience=10, verbose=0, mode='auto')
 tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
 checkpoint = keras.callbacks.ModelCheckpoint(
-             filepath = 'elapsed_seq2seq.h5',
+             filepath = 'elapsed_seq2seq.h5',#'seq2seq_model{epoch:02d}-loss{loss:.2f}-vloss{val_loss:.2f}.h5',
              monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
 # Define the model that will turn
@@ -129,18 +163,21 @@ model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
           batch_size=batch_size,
           epochs=epochs,
           validation_split=0.2,
-          callbacks=[checkpoint]
+          callbacks=[checkpoint,tensorboard]
           )
-
 
 # Save model
 model.save('s2s.h5')
-
-encoder_model = Model(enc_main_input, encoder_states)
-encoder_model.save('encoder.h5')
+model = load_model('elapsed_seq2seq.h5')
+m = load_model('elapsed_seq2seq.h5')
+m.save_weights('weights.h5')
+model.load_weights('weights.h5')
 
 #encoder_model = load_model('encoder.h5')
 #decoder_model = load_model('decoder.h5')
+
+encoder_model = Model(enc_main_input, encoder_states)
+encoder_model.save('encoder.h5')
 
 decoder_state_input_h = Input(shape=(latent_dim,))
 decoder_state_input_c = Input(shape=(latent_dim,))
@@ -156,8 +193,6 @@ decoder_model.save('decoder.h5')
 
 # Reverse-lookup token index to decode sequences back to
 # something readable.
-reverse_input_char_index = dict(
-    (i, char) for char, i in input_token_index.items())#0 ' ',or''
 
 reverse_target_char_index = dict(
     (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
@@ -169,7 +204,7 @@ def decode_sequence(input_seq):
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
     # Populate the first character of target sequence with the start character.
-    target_seq[0, 0] = target_token_index['\t']
+    target_seq[0, 0] = target_token_index['BOS']
     # Sampling loop for a batch of sequences
     # (to simplify, here we assume a batch of size 1).
     stop_condition = False
@@ -184,13 +219,16 @@ def decode_sequence(input_seq):
             decoded_sentence += '!'
         else:
             sampled_char = reverse_target_char_index[sampled_token_index]
-            decoded_sentence += sampled_char
+            if sampled_char != 'EOS':
+                decoded_sentence += sampled_char + ' '
 
         # Exit condition: either hit max length
         # or find stop character.
-        if (sampled_char == '\n' or
-           len(decoded_sentence) > max_decoder_seq_length):
+        if (sampled_char == 'EOS' or
+           len(decoded_sentence) > max_decoder_seq_length + 15):
             stop_condition = True
+            decoded_sentence = decoded_sentence.rstrip()
+            decoded_sentence += '.'
 
         # Update the target sequence (of length 1).
         target_seq = np.zeros((1, max_decoder_seq_length))
@@ -208,7 +246,7 @@ for seq_index in range(len_inp-1):
     input_seq = test_input_data[seq_index: seq_index + 1]
     decoded_sentence = decode_sequence(input_seq).lstrip()
     sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
-    fname = 'cc2l/result'+str(seq_index)+'.txt'
+    fname = 'c2l/result'+str(seq_index)+'.txt'
     f = open(fname, 'w')
     f.write(output_texts[seq_index])
     f.write(decoded_sentence.strip()+'\n')

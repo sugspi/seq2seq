@@ -42,7 +42,7 @@ epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/home/8/17IA0973/snli_input_data_1214.json'
+data_path =  '/home/8/17IA0973/snli_0118.txt'
 
 # Vectorize the data.
 input_texts = []
@@ -52,15 +52,19 @@ input_characters = set()
 target_characters = set()
 lines = open(data_path)
 
-jdict = json.load(lines)
-keys = [int(i) for i in list(jdict.keys())]
-keys.sort()
-keys = [str(i) for i in keys]
-for line in keys:
-    input_text = (jdict[line])['formula']
-    target_text = (jdict[line])['text']
-    input_text = normalize_interpretation(input_text)
+
+for line in lines:
+    line = line.split('#')
+    input_text = line[0]
+    target_text = line[1]
+    try:
+        input_text = normalize_interpretation(input_text)
+    except:
+        print(input_text)
+        print(target_text)
+        continue
     input_text = [i for i in re.split(r',',input_text) if i != '']
+    input_text = [i for i in input_text if (i != 'True') ]
     input_text.append('EOS')
     output_texts.append(target_text.lstrip())
     target_text = 'BOS' + target_text + 'EOS'
@@ -73,7 +77,8 @@ for line in keys:
     for char in target_text:
         if char not in target_characters:
             target_characters.add(char)
-
+print(len(output_texts))
+print(len(target_texts))
 
 input_characters = sorted(list(input_characters))
 target_characters = sorted(list(target_characters))
@@ -118,9 +123,13 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
-np.delete(encoder_input_data,[i for i in range(1500)])
-np.delete(decoder_input_data,[i for i in range(1500)])
-np.delete(decoder_target_data,[i for i in range(1500)])
+encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
+decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
+decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
+
+print("test: ",len(encoder_input_data))
+print("inp: ",len(decoder_input_data))
+print("out: ",len(decoder_target_data))
 
 # Define an input sequence and process it.
 enc_main_input = Input(shape=(max_encoder_seq_length,), dtype='int32', name='enc_main_input')
@@ -145,51 +154,53 @@ earlystop =keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose
             #keras.callbacks.EarlyStopping(monitor='loss', min_delta=0.0001, patience=10, verbose=0, mode='auto')
 tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
 checkpoint = keras.callbacks.ModelCheckpoint(
-             filepath = '2elapsed_seq2seq.h5',#'seq2seq_model{epoch:02d}-loss{loss:.2f}-vloss{val_loss:.2f}.h5',
+             filepath = 'elapsed_seq2seq.h5',#'seq2seq_model{epoch:02d}-loss{loss:.2f}-vloss{val_loss:.2f}.h5',
              monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
 # Define the model that will turn
 # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
-#model = Model([enc_main_input, dec_main_input], decoder_outputs)
+model = Model([enc_main_input, dec_main_input], decoder_outputs)
 #plot_model(model, to_file='model.png')
 # Run training
-#model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
-model = load_model('2elapsed_seq2seq.h5')
-m = load_model('2elapsed_seq2seq.h5')
-m.save_weights('weights.h5')
-model.load_weights('weights.h5')
-#model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
-#          batch_size=batch_size,
-#          epochs=epochs,
-#          validation_split=0.2,
-#          callbacks=[checkpoint]
-#          )
+model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+#model = load_model('elapsed_seq2seq.h5')
+#m = load_model('elapsed_seq2seq.h5')
+#m.save_weights('weights.h5')
+#model.load_weights('weights.h5')
+model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
+          batch_size=batch_size,
+          epochs=epochs,
+          validation_split=0.2,
+          callbacks=[checkpoint,tensorboard]
+          )
 
 # Save model
-#model.save('2s2s.h5')
+#model.save('s2s.h5')
+model = load_model('elapsed_seq2seq.h5')
+m = load_model('elapsed_seq2seq.h5')
+m.save_weights('weights.h5')
+model.load_weights('weights.h5')
 
-encoder_model = load_model('2encoder.h5')
-decoder_model = load_model('2decoder.h5')
+#encoder_model = load_model('encoder.h5')
+#decoder_model = load_model('decoder.h5')
 
-#encoder_model = Model(enc_main_input, encoder_states)
-#encoder_model.save('2encoder.h5')
+encoder_model = Model(enc_main_input, encoder_states)
+encoder_model.save('encoder.h5')
 
-#decoder_state_input_h = Input(shape=(latent_dim,))
-#decoder_state_input_c = Input(shape=(latent_dim,))
-#decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
-#decoder_outputs, state_h, state_c = decoder_lstm(
-#    decoder_inputs, initial_state=decoder_states_inputs)
-#decoder_states = [state_h, state_c]
-#decoder_outputs = decoder_dense(decoder_outputs)
-#decoder_model = Model(
-#    [dec_main_input] + decoder_states_inputs,
-#    [decoder_outputs] + decoder_states)
-#decoder_model.save('2decoder.h5')
+decoder_state_input_h = Input(shape=(latent_dim,))
+decoder_state_input_c = Input(shape=(latent_dim,))
+decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
+decoder_outputs, state_h, state_c = decoder_lstm(
+    decoder_inputs, initial_state=decoder_states_inputs)
+decoder_states = [state_h, state_c]
+decoder_outputs = decoder_dense(decoder_outputs)
+decoder_model = Model(
+    [dec_main_input] + decoder_states_inputs,
+    [decoder_outputs] + decoder_states)
+decoder_model.save('decoder.h5')
 
 # Reverse-lookup token index to decode sequences back to
 # something readable.
-reverse_input_char_index = dict(
-    (i, char) for char, i in input_token_index.items())#0 ' ',or''
 
 reverse_target_char_index = dict(
     (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
@@ -216,7 +227,7 @@ def decode_sequence(input_seq):
             decoded_sentence += '!'
         else:
             sampled_char = reverse_target_char_index[sampled_token_index]
-            if sampled_char != 'EOS' :
+            if sampled_char != 'EOS':
                 decoded_sentence += sampled_char + ' '
 
         # Exit condition: either hit max length
@@ -224,6 +235,7 @@ def decode_sequence(input_seq):
         if (sampled_char == 'EOS' or
            len(decoded_sentence) > max_decoder_seq_length + 15):
             stop_condition = True
+            decoded_sentence = decoded_sentence.rstrip()
             decoded_sentence += '.'
 
         # Update the target sequence (of length 1).

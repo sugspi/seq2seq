@@ -1,0 +1,475 @@
+%卒論発表会は発表12分、質問3分です。
+
+
+
+\documentclass[dvipdfmx,cjk]{beamer}
+
+% 各種色の設定
+% 自分で好きな色を定義して使うことができる(colorパッケージが必要?)
+% 以下の例だと、berryという色が使えるようになる
+\definecolor{berry}{RGB}{234,97,142}
+\definecolor{usuhanada}{RGB}{80,126,164}
+
+
+% プリアンブル
+% Beamerに必要なパッケージ
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{pgfpages}
+
+% その他、普段使うもの（必要に応じて追加）
+\usepackage{ascmac}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{fancybox}
+\usepackage{moreverb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{proof}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage{smartdiagram}
+\usepackage[ipaex]{pxchfon}
+\usepackage{graphics}
+\usepackage{tikz}
+\usepackage[ipaex]{pxchfon}
+\usepackage[dvipdfmx]{graphicx}
+
+\input{jpncolor}
+
+
+
+
+% Beamerの設定
+% スタイル
+\usetheme{Berlin}%Szeged} %Darmstadt %Berlin
+% フォント
+\usefonttheme{professionalfonts}
+% 色
+\usecolortheme[RGB={80,126,164}]{structure}
+% タイトルのフォント
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+% フレームタイトルのフォント
+\setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% 日本語用の設定（多分）
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+\mathversion{bold}
+
+\newenvironment{slide}[1][]{\begin{frame}\frametitle{#1}}{\end{frame}}
+
+\newcommand{\freebox}[2][1.0]{\scalebox{#1}{\ensuremath{#2}}}
+\newcommand{\leftfunctor}[2]{#1^{\triangleright}#2}
+\newcommand{\rightfunctor}[2]{#1^{\triangleleft}#2}
+\newcommand{\formula}[2]{\textbf{#1} & \begin{array}[t]{l} #2 \end{array}}
+
+% スライド番号
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{footline}{size=\small,series=\bfseries}
+\setbeamercolor{footline}{fg=usuhanada,bg=usuhanada}
+
+% Sectionが変わるごとに目次が出るようにしたいときは以下を追加
+%\AtBeginSection[]{
+%    \begin{frame}
+%        \tableofcontents[currentsection]
+%    \end{frame}
+%}
+
+% 参考文献の引用をテキスト表示
+\setbeamertemplate{bibliography item}[text]
+\setbeamercolor{bibliography entry author}{fg=black,bg=white}
+\setbeamercolor{bibliography entry journal}{fg=black,bg=white}
+
+% ナビゲーションシンボルを消す
+\setbeamertemplate{navigation symbols}{}
+
+% Adobeの目次の文字化け解消
+\usepackage{atbegshi}
+\ifnum 42146=\euc"A4A2 \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}\else
+\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}\fi
+
+%appendixでページ番号を出さない
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}}
+}
+
+
+
+\title{RNN系列変換モデルを用いた高階論理からの文生成}
+%\subtitle{Subtitle}
+\author[]{馬目 華奈\inst{1} \and 戸次 大介\inst{1}}
+\institute{\inst{1}戸次研究室}
+\date{\today}
+
+
+
+% 本体
+\begin{document}
+
+% \begin{frame}〜\end{frame}まででスライド1枚
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% 目次
+%\begin{frame}[]{もくじ}
+% \tableofcontents
+% もくじ
+%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=10cm]{backend1.png}
+        \label{fig:backend1}
+\end{figure}
+\end{center}
+
+%\begin{itemize}
+% \item 近年の構文解析と意味解析の技術の発展によって，文の意味を論理式で表して高度な推論を行うシステムの構築が可能となった.
+% \item このようなシステムは，含意関係認識や文間類似度計算のタスクで高精度 を達成しており，今後，さらなる自然言語処理タスクへの応用が期待されている.
+% \item 文からその論理式への変換が高精度に行われる一方で，論理式を自然言語文に戻す方法については自明ではない.
+% \item 論理式から自然言語文に逆変換する ことができれば，推論システムの改善や，様々な自然 言語処理タスクへの応用が期待できる.
+%\end{itemize}
+
+%文字色を変えたいときは、{\color{berry} こう。}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=10cm]{backend2.png}
+        \label{fig:backend2}
+\end{figure}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究概要}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+\end{center}
+\begin{block}{}
+  \begin{itemize}
+    \item ニューラルネットによる系列変換モデルを用いて\\高階論理式から文を生成する手法を提案.
+    \item 埋め込みの際，４つの手法\\（記号，トークン，木構造,グラフ）による比較実験を行う．
+  \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{関連研究１}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true, set color list={toki,gray,gray,gray},}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+\end{center}
+\begin{block}{}
+  \begin{itemize}
+    \item ニューラルネットによる系列変換モデルを用いて\\{\color{berry}高階論理式}から文を生成する手法を提案.
+    \item 埋め込みの際，４つの手法\\（記号，トークン，木構造,グラフ）による比較実験を行う．
+  \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{関連研究：CCG に基づく論理式による文の意味表現}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=10cm]{c2l.png}
+        \label{fig:c2l}
+\end{figure}
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{関連研究：意味表現からの文生成}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{関連研究２}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true, set color list={gray,gray,shion,gray},}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+\end{center}
+\begin{block}{}
+  \begin{itemize}
+    \item {\color{berry}ニューラルネットによる系列変換モデル}を用いて\\高階論理式から文を生成する手法を提案.
+    \item 埋め込みの際，４つの手法\\（記号，トークン，木構造,グラフ）による比較実験を行う．
+  \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{関連研究：系列変換モデル }
+\begin{itemize}
+  \item 入出力がシーケンスとなるニューラルネットのモデル
+  \item エンコータ：入力列を再帰型NNにより隠れ状態ベクトルに変換
+  \item デコーダ：隠れ状態ベクトルを初期値とし，\\隠れ状態と自身のこれまでの出力結果を基に\\次のトークンを生成
+\end{itemize}
+
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=8cm]{learn_model.png}
+        \label{fig:seq2seq}
+\end{figure}
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true, set color list={gray,mizuasagi,gray,gray},}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+\end{center}
+\begin{block}{}
+  \begin{itemize}
+    \item ニューラルネットによる系列変換モデルを用いて\\高階論理式から文を生成する手法を提案.
+    \item 埋め込みの際，４つの手法\\{\color{berry}（記号，トークン，木構造,グラフ）}による比較実験を行う．
+  \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：論理式埋め込み１}
+%例：exists x.((x = Bob)&exists z1.(Pizza(z1)& exists e.(eat(e) & (Subj(e) = x) & (Obj(e) = z1) )))
+\begin{block}{記号ごとに区切る}
+  [e,x,i,s,t,s, ,x, ,., ,(,(,x, ,=,...]
+\end{block}
+\begin{block}{トークンごとに区切る}
+  [exists,x,and,=,x,Bob,,exists,z1,and,]
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：論理式埋め込み２}
+\begin{columns}[t]
+    \begin{column}{0.5\textwidth} % 左:60%
+      \begin{block}{記号ごとに区切る}
+        \begin{figure}[h]
+        \begin{center}
+        \begin{tikzpicture}[
+          level 1/.style={sibling distance=20mm},
+          level 2/.style={sibling distance=10mm},
+          nodeop/.style={circle,draw}
+        ]
+        \node[nodeop]  {$\exists$}
+          child { node[nodeop] {$x$}
+            child { node[nodeop] {$A$} edge from parent node [auto,swap]{2} }
+            child { node[nodeop] {$B$} edge from parent node [auto,swap]{3}}
+            edge from parent node [auto,swap]{1}
+          }
+          child { node[nodeop]  {$\&$}
+            child { node[nodeop]  {$C$} edge from parent node [auto,swap]{5}}
+            child { node[nodeop]  {$D$} edge from parent node [auto,swap]{6}}
+            edge from parent node [auto,swap]{4}
+          };
+        \end{tikzpicture}
+        \caption{木構造のDFS}
+        \end{center}
+        \end{figure}
+      \end{block}
+    \end{column}
+    \begin{column}{0.5\textwidth} % 右:40%
+      \begin{block}{グラフ}
+        \begin{figure}[h]
+        	\includegraphics[width=4cm]{graph.png}
+                \label{fig:graph}
+        \end{figure}
+      \end{block}
+    \end{column}
+\end{columns}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{提案手法：学習モデル}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：データセット}
+\begin{itemize}
+  \item
+SNLIを用い論理式と文のペアを作成
+
+\item 60単語以内の文例を対象
+train:18087/dev:3617/test:1500\\
+
+\end{itemize}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=6cm]{edit_data.png}
+        \label{fig:editdata}
+\end{figure}
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{実験：実験設定}
+\begin{itemize}
+  \item 系列変換モデルによる文生成 \\
+入力：論理式，出力：文\\
+\item 記号ベースの埋め込みベクトルを
+エンコーダ70次元，デコーダ78次元，\\
+その他の埋め込みベクトルを256次元
+\end{itemize}
+
+\begin{center}
+  \begin{tabular}{rrrrr}
+    \hline
+    　  & 文字 & 単語 & 木構造 & グラフ \\
+    \hline \hline
+    入力語彙数  & 70  &  5,118 & 5,107 & 4,991\\
+    出力語彙数  & 78   & 7,214 & 7,214 & 7,214\\
+    入力列最長 & 2,097  & 699 & 451 & 259 \\
+    出力列最長 & 270  & 55 & 53 & 53 \\
+    \hline
+  \end{tabular}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{実験：評価方法}
+\begin{block}{BLEUによる評価}
+%\begin{figure}[h]
+%	\includegraphics[width=6cm]{eval.png}
+%        \label{fig:eval}
+%\end{figure}
+
+\[
+	\mathit{score} = \mathit{BP}\exp\left(\sum_{i=1}^N \frac{1}{N}\log P_n\right)
+\]
+\[
+  \mathit{BP} = \left\{ \begin{array}{ll}
+    1 &  (c \geq r) \\
+    \exp\left(1- \frac{r}{c}\right) & ($c $ < $ r$)
+  \end{array} \right.
+\]
+\\
+\[
+	P_n = \frac{\sum_{i=0}\text{出力文i中と解答文i中で一致した}n\mathchar`-gram\text{数}}{\sum_{i=0}\text{出力文i中の全}n\mathchar`-gram\text{数}}
+\]
+
+\end{block}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{実験：実験結果}
+\begin{block}{BLEU評価}
+  \label{table:evaluation}
+  \centering
+  \begin{tabular}{ccccc}
+    \hline
+    指標  & 文字 & トークン & 木構造 & グラフ \\
+    \hline \hline
+    BLEU  &36.6   &39.7 & 41.8  & 44.7\\
+    \hline
+  \end{tabular}
+\label{sec:result}
+\end{block}
+``Two kids are playing tag.''　の例 \\
+\begin{itemize}
+  \item トークン：Two dogs are playing a game.\\
+  \item 木構造　：Two kids are playing tennis.\\
+  \item グラフ　：Two kids are playing together.\\
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{まとめ}
+\begin{itemize}
+\item 系列変換モデルを用いて\\高階論理式から文を生成する手法を提案した．
+\item 含意関係認識用データセットを用いて\\提案手法の評価を行った結果，
+論理式をグラフ化し埋め込むことで\\精度向上がみられた．
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{今後の課題}
+\begin{itemize}
+\item 他の意味表現からの文生成との比較や\\他のデータセットによる評価を行う．
+\item アテンション付き系列変換モデルや\\コピー機構を用いるなどモデルの改良に取り組む．
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{参考文献}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\end{document}

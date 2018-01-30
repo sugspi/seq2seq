@@ -104,11 +104,13 @@
 
 
 
-\title{RNN系列変換モデルを用いた高階論理からの文生成}
-%\subtitle{Subtitle}
-\author[]{馬目 華奈\inst{1} \and 戸次 大介\inst{1}}
-\institute{\inst{1}戸次研究室}
-\date{\today}
+\title{RNN変換モデル用いた高階論理からの文生成}
+\subject{卒業研究発表会}
+\author[]{馬目 華奈}
+\institute{戸次研究室}
+\date{
+卒業研究発表会\\
+February 6, 2018}
 
 
 
@@ -159,6 +161,37 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=10cm]{backend3.png}
+        \label{fig:backend3}
+\end{figure}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=5cm]{backend4.png}
+        \label{fig:backend4}
+\end{figure}
+\end{center}
+\begin{block}{応用例}
+  \begin{itemize}
+    \item テキスト平易化
+    \item パラフレーズ抽出
+  \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,12 +199,12 @@
 \frametitle{研究概要}
 \begin{center}
   \smartdiagramset{back arrow disabled=true}
-  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
 \end{center}
 \begin{block}{}
   \begin{itemize}
     \item ニューラルネットによる系列変換モデルを用いて\\高階論理式から文を生成する手法を提案.
-    \item 埋め込みの際，４つの手法\\（記号，トークン，木構造,グラフ）による比較実験を行う．
+    \item 埋め込みの際，４種の手法\\（記号，トークン，木構造,グラフ）を検討する．
   \end{itemize}
 \end{block}
 
@@ -184,12 +217,12 @@
 \frametitle{関連研究１}
 \begin{center}
   \smartdiagramset{back arrow disabled=true, set color list={toki,gray,gray,gray},}
-  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
 \end{center}
 \begin{block}{}
   \begin{itemize}
     \item ニューラルネットによる系列変換モデルを用いて\\{\color{berry}高階論理式}から文を生成する手法を提案.
-    \item 埋め込みの際，４つの手法\\（記号，トークン，木構造,グラフ）による比較実験を行う．
+    \item 埋め込みの際，４種の手法\\（記号，トークン，木構造,グラフ）を検討する．
   \end{itemize}
 \end{block}
 
@@ -223,12 +256,12 @@
 \frametitle{関連研究２}
 \begin{center}
   \smartdiagramset{back arrow disabled=true, set color list={gray,gray,shion,gray},}
-  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
 \end{center}
 \begin{block}{}
   \begin{itemize}
     \item {\color{berry}ニューラルネットによる系列変換モデル}を用いて\\高階論理式から文を生成する手法を提案.
-    \item 埋め込みの際，４つの手法\\（記号，トークン，木構造,グラフ）による比較実験を行う．
+    \item 埋め込みの際，４種の手法\\（記号，トークン，木構造,グラフ）を検討する．
   \end{itemize}
 \end{block}
 
@@ -261,12 +294,12 @@
 \frametitle{提案手法}
 \begin{center}
   \smartdiagramset{back arrow disabled=true, set color list={gray,mizuasagi,gray,gray},}
-  \smartdiagram[flow diagram:horizontal]{高階論理式,埋め込み,系列変換モデル,文}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
 \end{center}
 \begin{block}{}
   \begin{itemize}
     \item ニューラルネットによる系列変換モデルを用いて\\高階論理式から文を生成する手法を提案.
-    \item 埋め込みの際，４つの手法\\{\color{berry}（記号，トークン，木構造,グラフ）}による比較実験を行う．
+    \item 埋め込みの際，４種の手法\\{\color{berry}（記号，トークン，木構造,グラフ）}を検討する．
   \end{itemize}
 \end{block}
 
@@ -277,12 +310,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{提案手法：論理式埋め込み１}
-%例：exists x.((x = Bob)&exists z1.(Pizza(z1)& exists e.(eat(e) & (Subj(e) = x) & (Obj(e) = z1) )))
+例：exists x.((x = Bob)\&exists z1.(Pizza(z1)\& exists e.(eat(e) \& (Subj(e) = x) \& (Obj(e) = z1) )))
 \begin{block}{記号ごとに区切る}
+  スペース，カッコを込みで埋め込む
   [e,x,i,s,t,s, ,x, ,., ,(,(,x, ,=,...]
 \end{block}
 \begin{block}{トークンごとに区切る}
-  [exists,x,and,=,x,Bob,,exists,z1,and,]
+  トークンごとなのでスペースを除くことができるが，カッコは入る．
+  [exists,x,(,(,x,=,Bob,exists,z1,...]
 \end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -313,12 +348,31 @@
             edge from parent node [auto,swap]{4}
           };
         \end{tikzpicture}
-        \caption{木構造のDFS}
         \end{center}
         \end{figure}
       \end{block}
     \end{column}
     \begin{column}{0.5\textwidth} % 右:40%
+      \begin{block}{}
+        \begin{itemize}
+          \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
+          \item pre-orderでたどる
+          \item $[exists,x,\&,=,x,Bob,exists,z1,...]$
+        \end{itemize}
+      \end{block}
+    \end{column}
+\end{columns}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：論理式埋め込み３}
+\begin{columns}[t]
+    \begin{column}{0.5\textwidth} % 左:60%
       \begin{block}{グラフ}
         \begin{figure}[h]
         	\includegraphics[width=4cm]{graph.png}
@@ -326,10 +380,19 @@
         \end{figure}
       \end{block}
     \end{column}
+    \begin{column}{0.5\textwidth} % 右:40%
+      \begin{block}{}
+        \begin{itemize}
+          \item $[exists,<var\_en>,<var\_en>,...]$
+        \end{itemize}
+      \end{block}
+    \end{column}
 \end{columns}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -346,7 +409,7 @@
 SNLIを用い論理式と文のペアを作成
 
 \item 60単語以内の文例を対象
-train:18087/dev:3617/test:1500\\
+train:9140/dev:2285/test:1500\\
 
 \end{itemize}
 \begin{center}
@@ -365,15 +428,15 @@ train:18087/dev:3617/test:1500\\
 \begin{itemize}
   \item 系列変換モデルによる文生成 \\
 入力：論理式，出力：文\\
-\item 記号ベースの埋め込みベクトルを
+\item 記号ベースのLSTMの出力次元数を
 エンコーダ70次元，デコーダ78次元，\\
-その他の埋め込みベクトルを256次元
+その他のLSTMの出力次元数を256
 \end{itemize}
 
 \begin{center}
   \begin{tabular}{rrrrr}
     \hline
-    　  & 文字 & 単語 & 木構造 & グラフ \\
+    　  & 記号 & トークン & 木構造 & グラフ \\
     \hline \hline
     入力語彙数  & 70  &  5,118 & 5,107 & 4,991\\
     出力語彙数  & 78   & 7,214 & 7,214 & 7,214\\
@@ -422,14 +485,14 @@ train:18087/dev:3617/test:1500\\
   \centering
   \begin{tabular}{ccccc}
     \hline
-    指標  & 文字 & トークン & 木構造 & グラフ \\
+    指標  & 記号 & トークン & 木構造 & グラフ \\
     \hline \hline
-    BLEU  &36.6   &39.7 & 41.8  & 44.7\\
+    BLEU  & 34.9   & 39.7 & 41.8  & 44.7\\
     \hline
   \end{tabular}
 \label{sec:result}
 \end{block}
-``Two kids are playing tag.''　の例 \\
+``Two kids are playing tag.''　の変換例 \\
 \begin{itemize}
   \item トークン：Two dogs are playing a game.\\
   \item 木構造　：Two kids are playing tennis.\\
@@ -442,9 +505,9 @@ train:18087/dev:3617/test:1500\\
 \begin{frame}
 \frametitle{まとめ}
 \begin{itemize}
-\item 系列変換モデルを用いて\\高階論理式から文を生成する手法を提案した．
-\item 含意関係認識用データセットを用いて\\提案手法の評価を行った結果，
-論理式をグラフ化し埋め込むことで\\精度向上がみられた．
+\item 系列変換モデルを用いて高階論理式から文を生成する手法を提案した．
+\item 含意関係認識用データセットを用いて提案手法の評価を行った結果，
+論理式をグラフ化し埋め込むことで精度向上がみられた．
 \end{itemize}
 
 \end{frame}

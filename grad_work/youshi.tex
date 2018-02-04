@@ -3,6 +3,7 @@
 
 
 \documentclass[dvipdfmx,cjk]{beamer}
+\bibliographystyle{junsrt}
 
 % 各種色の設定
 % 自分で好きな色を定義して使うことができる(colorパッケージが必要?)
@@ -84,6 +85,7 @@
 \setbeamercolor{bibliography entry author}{fg=black,bg=white}
 \setbeamercolor{bibliography entry journal}{fg=black,bg=white}
 
+
 % ナビゲーションシンボルを消す
 \setbeamertemplate{navigation symbols}{}
 
@@ -149,6 +151,7 @@ February 6, 2018}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{研究背景}
@@ -166,26 +169,20 @@ February 6, 2018}
 \frametitle{研究背景}
 \begin{center}
 \begin{figure}[h]
-	\includegraphics[width=10cm]{backend3.png}
-        \label{fig:backend3}
-\end{figure}
-\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{研究背景}
-\begin{center}
-\begin{figure}[h]
-	\includegraphics[width=5cm]{backend4.png}
+	\includegraphics[width=8cm]{backend4.png}
         \label{fig:backend4}
 \end{figure}
 \end{center}
-\begin{block}{応用例}
+\begin{block}{前提が足りない例}
   \begin{itemize}
-    \item テキスト平易化
-    \item パラフレーズ抽出
+    \item All women ordered coffee or tea.
+    \item Some woman ordered tea.
+  \end{itemize}
+\end{block}
+\begin{block}{知識が足りない例}
+  \begin{itemize}
+    \item All women ordered drink.
+    \item Some woman ordered tea.
   \end{itemize}
 \end{block}
 
@@ -260,7 +257,7 @@ February 6, 2018}
 \end{center}
 \begin{block}{}
   \begin{itemize}
-    \item {\color{berry}ニューラルネットによる系列変換モデル}を用いて\\高階論理式から文を生成する手法を提案.
+    \item {\color{berry}ニューラルネットによる系列変換モデル}を用いて高階論理式から文を生成する手法を提案.\cite{seq2seq}
     \item 埋め込みの際，４種の手法\\（記号，トークン，木構造,グラフ）を検討する．
   \end{itemize}
 \end{block}
@@ -425,12 +422,10 @@ train:9140/dev:2285/test:1500\\
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{実験：実験設定}
+
 \begin{itemize}
-  \item 系列変換モデルによる文生成 \\
-入力：論理式，出力：文\\
-\item 記号ベースのLSTMの出力次元数を
-エンコーダ70次元，デコーダ78次元，\\
-その他のLSTMの出力次元数を256
+\item 系列変換モデルによる文生成 （入力：論理式，出力：文）
+\item トークンベースのLSTMの出力次元数をLSTMの出力次元数を256
 \end{itemize}
 
 \begin{center}
@@ -445,6 +440,15 @@ train:9140/dev:2285/test:1500\\
     \hline
   \end{tabular}
 \end{center}
+
+\begin{block}{環境，ライブラリ}
+\begin{itemize}
+\item tsubameサーバ(メモリ240GiB，GPU× 4）
+\item ニューラルネットのモデル：Keras
+\item logic関係：nltk
+\end{itemize}
+\end{block}
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -492,12 +496,28 @@ train:9140/dev:2285/test:1500\\
   \end{tabular}
 \label{sec:result}
 \end{block}
-``Two kids are playing tag.''　の変換例 \\
-\begin{itemize}
-  \item トークン：Two dogs are playing a game.\\
-  \item 木構造　：Two kids are playing tennis.\\
-  \item グラフ　：Two kids are playing together.\\
-\end{itemize}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll} \hline
+文 & Two surgeons are having lunch. \\ \hline
+記号単位 & Two children are playing basketball.\\
+トークン単位 & Two entertainers are having fun.\\
+木構造 & Two teams are having a brawl.\\
+グラフ & Two brothers are having a picnic.\\ \hline
+\end{tabular}
+\label{tab:example1}
+\end{table}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll} \hline
+文 & The towel is pink and blue striped. \\ \hline
+記号単位 & A horse is talking to each other.\\
+トークン単位 & A guy snipping a ladys hair.\\
+木構造 & The blue is blue and blue.\\
+グラフ & A blue tractor is wearing blue.\\ \hline
+\end{tabular}
+\label{tab:example2}
+\end{table}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -528,11 +548,16 @@ train:9140/dev:2285/test:1500\\
 \begin{frame}
 \frametitle{参考文献}
 
+\bibliography{main}
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+\begin{thebibliography}{longest label text}
+    %environment contents
+    \bibitem<overlay specification>[citation text]{label name}
+\end{thebibliography}
 
 
 \end{document}

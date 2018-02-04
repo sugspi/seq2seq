@@ -37,6 +37,7 @@
 \usepackage[ipaex]{pxchfon}
 \usepackage{graphics}
 \usepackage{tikz}
+\usepackage{tikz-qtree}
 \usepackage[ipaex]{pxchfon}
 \usepackage[dvipdfmx]{graphicx}
 
@@ -104,6 +105,16 @@
    \addtocounter{framenumber}{\value{framenumberappendix}}
 }
 
+\newcommand{\LF}[1]{\ensuremath{\texttt{#1}}}
+\newcommand\vartextvisiblespace[1][.5em]{%
+  \makebox[#1]{%
+    \kern.07em
+    \vrule height.3ex
+    \hrulefill
+    \vrule height.3ex
+    \kern.07em
+  }%
+}
 
 
 \title{RNN変換モデル用いた高階論理からの文生成}
@@ -307,14 +318,20 @@ February 6, 2018}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{提案手法：論理式埋め込み１}
-例：exists x.((x = Bob)\&exists z1.(Pizza(z1)\& exists e.(eat(e) \& (Subj(e) = x) \& (Obj(e) = z1) )))
+Bob walked の論理式：\\
+\textbf{
+  \LF{exists} x.((x = \LF{Bob}) \& \LF{exists} e.(\LF{walk}(e) \& (\LF{Subj}(e) = x)))
+}
+\\~\
 \begin{block}{記号ごとに区切る}
-  スペース，カッコを込みで埋め込む
-  [e,x,i,s,t,s, ,x, ,., ,(,(,x, ,=,...]
+\begin{center}
+$[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,{\tt \vartextvisiblespace},.,{\tt \vartextvisiblespace},(,(,x,{\tt \vartextvisiblespace},=,...]$
+\end{center}
 \end{block}
 \begin{block}{トークンごとに区切る}
-  トークンごとなのでスペースを除くことができるが，カッコは入る．
-  [exists,x,(,(,x,=,Bob,exists,z1,...]
+\begin{center}
+  $[\LF{exists},x,(,(,x,=,\LF{Bob},),\&,\LF{exists},...]$
+\end{center}
 \end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -324,39 +341,31 @@ February 6, 2018}
 \begin{frame}
 \frametitle{提案手法：論理式埋め込み２}
 \begin{columns}[t]
-    \begin{column}{0.5\textwidth} % 左:60%
-      \begin{block}{記号ごとに区切る}
+    \begin{column}{0.4\textwidth} % 左:60%
         \begin{figure}[h]
         \begin{center}
-        \begin{tikzpicture}[
-          level 1/.style={sibling distance=20mm},
-          level 2/.style={sibling distance=10mm},
-          nodeop/.style={circle,draw}
-        ]
-        \node[nodeop]  {$\exists$}
-          child { node[nodeop] {$x$}
-            child { node[nodeop] {$A$} edge from parent node [auto,swap]{2} }
-            child { node[nodeop] {$B$} edge from parent node [auto,swap]{3}}
-            edge from parent node [auto,swap]{1}
-          }
-          child { node[nodeop]  {$\&$}
-            child { node[nodeop]  {$C$} edge from parent node [auto,swap]{5}}
-            child { node[nodeop]  {$D$} edge from parent node [auto,swap]{6}}
-            edge from parent node [auto,swap]{4}
-          };
-        \end{tikzpicture}
+          \scalebox{}[0.8]{
+          \begin{tikzpicture}[sibling distance=0pt]
+          \Tree [.$\exists$ [.$x$ ]
+          [.$\&$
+           [.\LF{Bob} $x$ ]
+           [.$\exists$ [.$e$ ]
+           [.$\&$ [.\LF{walk} $e$ ] [.$=$ [.\LF{subj} $e$ ] [.$x$ ] ] ] ] ] ]
+         \end{tikzpicture}}
         \end{center}
         \end{figure}
-      \end{block}
     \end{column}
-    \begin{column}{0.5\textwidth} % 右:40%
-      \begin{block}{}
-        \begin{itemize}
-          \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
-          \item pre-orderでたどる
-          \item $[exists,x,\&,=,x,Bob,exists,z1,...]$
-        \end{itemize}
+    \begin{column}{0.6\textwidth} % 右:40%
+      \begin{block}{木構造}
+        \begin{center}
+          $[\LF{exists},x,\&,=,\LF{Bob},x,\LF{exists},e,\&,...]$
+        \end{center}
       \end{block}
+      \\~\
+      \begin{itemize}
+        \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
+        \item pre-orderの深さ優先探索でたどる
+      \end{itemize}
     \end{column}
 \end{columns}
 
@@ -369,20 +378,24 @@ February 6, 2018}
 \begin{frame}
 \frametitle{提案手法：論理式埋め込み３}
 \begin{columns}[t]
-    \begin{column}{0.5\textwidth} % 左:60%
-      \begin{block}{グラフ}
+    \begin{column}{0.4\textwidth} % 左:60%
         \begin{figure}[h]
         	\includegraphics[width=4cm]{graph.png}
                 \label{fig:graph}
         \end{figure}
-      \end{block}
     \end{column}
-    \begin{column}{0.5\textwidth} % 右:40%
-      \begin{block}{}
-        \begin{itemize}
-          \item $[exists,<var\_en>,<var\_en>,...]$
-        \end{itemize}
+    \begin{column}{0.6\textwidth} % 右:40%
+      \begin{block}{グラフ構造}
+        \begin{center}
+         $[\LF{exists},x,x,\&,\LF{Bob},\&,=,\LF{Subj},\LF{walk}...]$
+         \end{center}
       \end{block}
+      \\~\
+      \begin{itemize}
+        \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
+        \item 同じ変数をさす様にedgeを変更
+        \item pre-orderの深さ優先探索でたどる
+      \end{itemize}
     \end{column}
 \end{columns}
 
@@ -443,7 +456,7 @@ train:9140/dev:2285/test:1500\\
 
 \begin{block}{環境，ライブラリ}
 \begin{itemize}
-\item tsubameサーバ(メモリ240GiB，GPU× 4）
+\item tsubameサーバ(メモリ240GiB,GPU×4）
 \item ニューラルネットのモデル：Keras
 \item logic関係：nltk
 \end{itemize}
@@ -526,8 +539,9 @@ train:9140/dev:2285/test:1500\\
 \frametitle{まとめ}
 \begin{itemize}
 \item 系列変換モデルを用いて高階論理式から文を生成する手法を提案した．
-\item 含意関係認識用データセットを用いて提案手法の評価を行った結果，
-論理式をグラフ化し埋め込むことで精度向上がみられた．
+\item 評価をする際，ccg2lambdaを用いてデータセットを作成した．
+\item 提案手法の評価を行った結果，BLEUスコアは，トークン単位で区切り，
+論理式の計算の順序を考慮することで高くなった.
 \end{itemize}
 
 \end{frame}
@@ -537,8 +551,13 @@ train:9140/dev:2285/test:1500\\
 \begin{frame}
 \frametitle{今後の課題}
 \begin{itemize}
-\item 他の意味表現からの文生成との比較や\\他のデータセットによる評価を行う．
-\item アテンション付き系列変換モデルや\\コピー機構を用いるなどモデルの改良に取り組む．
+\item 他の意味表現からの文生成との比較を行う．
+\item 他のデータセット（英語，日本語）でも行う．
+\item 逆変換（文→論理式）を行い，モデルを評価する．
+\item 評価方法に，文類似度を使用するなど文生成における評価方法を工夫する．
+\item アテンション付き系列変換モデルやコピー機構を用いるなどモデルの改良に取り組む．
+
+
 \end{itemize}
 
 \end{frame}
@@ -554,10 +573,10 @@ train:9140/dev:2285/test:1500\\
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{thebibliography}{longest label text}
+%\begin{thebibliography}{longest label text}
     %environment contents
-    \bibitem<overlay specification>[citation text]{label name}
-\end{thebibliography}
+%    \bibitem<overlay specification>[citation text]{label name}
+%\end{thebibliography}
 
 
 \end{document}

@@ -2,8 +2,8 @@
 
 
 
-\documentclass[dvipdfmx,cjk]{beamer}
-\bibliographystyle{junsrt}
+\documentclass[dvipdfmx]{beamer}
+
 
 % 各種色の設定
 % 自分で好きな色を定義して使うことができる(colorパッケージが必要?)
@@ -42,8 +42,6 @@
 \usepackage[dvipdfmx]{graphicx}
 
 \input{jpncolor}
-
-
 
 
 % Beamerの設定
@@ -141,6 +139,7 @@ February 6, 2018}
 % もくじ
 %\end{frame}
 
+\section{intoro}
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{研究背景}
@@ -220,6 +219,7 @@ February 6, 2018}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\section{relatedwork}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{関連研究１}
@@ -563,11 +563,15 @@ train:9140/dev:2285/test:1500\\
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{参考文献}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks]
+\frametitle{参考文献}
+\notautomath
+\small
+\bibliographystyle{junsrt}
 \bibliography{main}
+\nocite{*}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%

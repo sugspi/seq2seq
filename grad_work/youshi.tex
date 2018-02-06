@@ -345,7 +345,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{提案手法：木構造のlinearize}
+\frametitle{提案手法：木構造のベクトル化}
 \begin{columns}[t]
     \begin{column}{0.4\textwidth} % 左:60%
         \begin{figure}[h]
@@ -382,7 +382,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{提案手法：グラフ構造のlinearlize}
+\frametitle{提案手法：グラフ構造のベクトル化}
 \begin{columns}[t]
     \begin{column}{0.4\textwidth} % 左:60%
         \begin{figure}[h]
@@ -391,7 +391,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
         \end{figure}
     \end{column}
     \begin{column}{0.6\textwidth} % 右:40%
-      \begin{block}{グラフ構造を用いたグラフ}
+      \begin{block}{グラフ構造を用いたベクトル}
         \begin{center}
          $[\LF{exists},x,x,\&,\LF{Bob},\&,=,\LF{Subj},\LF{walk}...]$
          \end{center}
@@ -417,15 +417,18 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 %\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{データセット}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{データセットの作成}
 \begin{itemize}
   \item
-SNLIを用い論理式と文のペアを作成
+SNLI\citep{snli:emnlp2015}を用い論理式と文のペアを作成
 
 \item 60単語以内の文例を対象
 train:9140/dev:2285/test:1500\\
+
+\item ccg2lambdaを用いる
 
 \end{itemize}
 \begin{center}
@@ -539,8 +542,8 @@ train:9140/dev:2285/test:1500\\
 \begin{frame}
 \frametitle{まとめ}
 \begin{itemize}
-\item 系列変換モデルを用いて高階論理式から文を生成する手法を提案した．
-\item 評価をする際，ccg2lambdaを用いてデータセットを作成した．
+\item RNN系列変換モデルを用いて高階論理式から文を生成する手法を提案した．
+\item 実験をする際，ccg2lambdaを用いてデータセットを作成した．
 \item 提案手法の評価を行った結果，BLEUスコアは，トークン単位で区切り，
 論理式の計算の順序を考慮することで高くなった.
 \end{itemize}

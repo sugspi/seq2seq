@@ -1,0 +1,588 @@
+%卒論発表会は発表12分、質問3分です。
+\documentclass[dvipdfmx]{beamer}
+
+% 各種色の設定
+% 自分で好きな色を定義して使うことができる(colorパッケージが必要?)
+% 以下の例だと、berryという色が使えるようになる
+\definecolor{berry}{RGB}{234,97,142}
+\definecolor{usuhanada}{RGB}{80,126,164}
+
+% プリアンブル
+% Beamerに必要なパッケージ
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{pgfpages}
+
+% その他、普段使うもの（必要に応じて追加）
+\usepackage{ascmac}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{fancybox}
+\usepackage{moreverb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{proof}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage{smartdiagram}
+\usepackage[ipaex]{pxchfon}
+\usepackage{graphics}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage[ipaex]{pxchfon}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{natbib}
+
+\input{jpncolor}
+
+
+% Beamerの設定
+% スタイル
+\usetheme{Berlin}%Szeged} %Darmstadt %Berlin
+% フォント
+\usefonttheme{professionalfonts}
+% 色
+\usecolortheme[RGB={80,126,164}]{structure}
+% タイトルのフォント
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+% フレームタイトルのフォント
+\setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% 日本語用の設定（多分）
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+\mathversion{bold}
+
+\newenvironment{slide}[1][]{\begin{frame}\frametitle{#1}}{\end{frame}}
+
+\newcommand{\freebox}[2][1.0]{\scalebox{#1}{\ensuremath{#2}}}
+\newcommand{\leftfunctor}[2]{#1^{\triangleright}#2}
+\newcommand{\rightfunctor}[2]{#1^{\triangleleft}#2}
+\newcommand{\formula}[2]{\textbf{#1} & \begin{array}[t]{l} #2 \end{array}}
+\newcommand{\highlight}[3][38]{\tikz[baseline=(x.base)]{
+ \node[rectangle,rounded corners,fill=#2!#1](x){#3};}}
+
+% スライド番号
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{footline}{size=\small,series=\bfseries}
+\setbeamercolor{footline}{fg=usuhanada,bg=usuhanada}
+
+% Sectionが変わるごとに目次が出るようにしたいときは以下を追加
+%\AtBeginSection[]{
+%    \begin{frame}
+%        \tableofcontents[currentsection]
+%    \end{frame}
+%}
+
+% 参考文献の引用をテキスト表示
+\setbeamertemplate{bibliography item}[text]
+\setbeamercolor{bibliography entry author}{fg=black,bg=white}
+\setbeamercolor{bibliography entry journal}{fg=black,bg=white}
+
+
+% ナビゲーションシンボルを消す
+\setbeamertemplate{navigation symbols}{}
+
+% Adobeの目次の文字化け解消
+\usepackage{atbegshi}
+\ifnum 42146=\euc"A4A2 \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}\else
+\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}\fi
+
+%appendixでページ番号を出さない
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}}
+}
+
+\newcommand{\LF}[1]{\ensuremath{\texttt{#1}}}
+\newcommand\vartextvisiblespace[1][.5em]{%
+  \makebox[#1]{%
+    \kern.07em
+    \vrule height.3ex
+    \hrulefill
+    \vrule height.3ex
+    \kern.07em
+  }%
+}
+
+
+\title{RNN変換モデルを用いた\\高階論理からの文生成}
+\subject{卒業研究発表会}
+\author[]{馬目 華奈}
+\institute{戸次研究室}
+\date{
+卒業研究発表会\\
+February 6, 2018}
+
+% 本体
+\begin{document}
+
+% \begin{frame}〜\end{frame}まででスライド1枚
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% 目次
+%\begin{frame}[]{もくじ}
+% \tableofcontents
+% もくじ
+%\end{frame}
+
+\section{研究背景}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=10cm]{backend1.png}
+        \label{fig:backend1}
+\end{figure}
+\vspace{-1zh}
+\begin{center}
+含意関係認識　　　　　　　文間類似度\\
+\small{\citep{ccg2lambda}}　　\small{\cite{yanaka2017determining}}
+\end{center}
+\end{center}
+
+%\begin{itemize}
+% \item 近年の構文解析と意味解析の技術の発展によって，文の意味を論理式で表して高度な推論を行うシステムの構築が可能となった.
+% \item このようなシステムは，含意関係認識や文間類似度計算のタスクで高精度 を達成しており，今後，さらなる自然言語処理タスクへの応用が期待されている.
+% \item 文からその論理式への変換が高精度に行われる一方で，論理式を自然言語文に戻す方法については自明ではない.
+% \item 論理式から自然言語文に逆変換する ことができれば，推論システムの改善や，様々な自然 言語処理タスクへの応用が期待できる.
+%\end{itemize}
+
+%文字色を変えたいときは、{\color{berry} こう。}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{flushright}
+\begin{figure}[h]
+	\includegraphics[width=9cm]{backend2.png}
+        \label{fig:backend2}
+\end{figure}
+\end{flushright}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究背景}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=8cm]{backend4.png}
+        \label{fig:backend4}
+\end{figure}
+\end{center}
+\begin{block}{推論失敗：論理式}
+  \begin{itemize}
+    \fontsize{9pt}{0pt}\selectfont
+    \item \textbf{\LF{exists} x. (\LF{woman}(x) \& \LF{exists} y. (\LF{tea}(y) \& \LF{order}(x, y)))}
+    \item \textbf{\LF{forall} x. (\LF{woman}(x) → \LF{exists} y. (\LF{drink}(y) \& \LF{order}(x, y)))}
+    \fontsize{12pt}{0pt}\selectfont
+  \end{itemize}
+\end{block}
+\begin{block}{推論失敗：文}
+  \begin{itemize}
+    \item Some woman ordered tea.
+    \item All women ordered drink.
+  \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{研究概要}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{研究概要}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true}
+  \smartdiagramset{font=\scriptsize}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
+\end{center}
+
+\begin{itemize}
+  \item RNN系列変換モデルを用いて\\高階論理式から文を生成する手法を提案.
+  \item embeddingの際，４種の手法を検討する．\\（記号，トークン，木構造，グラフ）　
+\end{itemize}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{関連研究}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{文から高階論理式への変換}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true, set color list={toki,gray,gray,gray},}
+  \smartdiagramset{font=\scriptsize}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
+\end{center}
+
+\begin{itemize}
+  \item RNN系列変換モデルを用いて\\{\color{berry}高階論理式}から文を生成する手法を提案.
+  \item embeddingの際，４種の手法を検討する．\\（記号，トークン，木構造，グラフ）　
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{関連研究：CCG に基づく論理式による文の意味表現}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=10cm]{c2l.png}
+        \label{fig:c2l}
+\end{figure}
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{関連研究：意味表現からの文生成}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{RNN系列変換モデル}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true, set color list={gray,gray,shion,gray},}
+  \smartdiagramset{font=\scriptsize}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
+\end{center}
+
+\begin{itemize}
+  \item {\color{berry}RNN系列変換モデル}を用いて高階論理式から文を生成する手法を提案.
+  \item embeddingの際，４種の手法を検討する．\\（記号，トークン，木構造，グラフ）　
+\end{itemize}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{関連研究：系列変換モデル\citep{seq2seq} }
+\begin{itemize}
+  \item 入出力がシーケンスとなるニューラルネットのモデル
+  \item エンコーダ：入力列を RNNニューラルネットにより隠れ状態ベクトルに変換
+  \item デコーダ：隠れ状態ベクトルを初期値とし，\\隠れ状態と自身のこれまでの出力結果をもとに\\次のトークンを生成
+\end{itemize}
+
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=8cm]{learn_model.png}
+        \label{fig:seq2seq}
+\end{figure}
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{提案手法}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{embedding手法の提案}
+\begin{center}
+  \smartdiagramset{back arrow disabled=true, set color list={gray,mizuasagi,gray,gray},}
+  \smartdiagramset{font=\scriptsize}
+  \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
+\end{center}
+\begin{itemize}
+  \item RNN系列変換モデルを用いて\\高階論理式から文を生成する手法を提案.
+  \item embeddingの際，４種の手法\\{\color{berry}（記号，トークン，木構造,グラフ）}を検討する．
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：記号区切りとトークン区切り}
+Bob walked の論理式：\\
+\textbf{
+  \LF{exists} x.(\LF{Bob}（x） \& \LF{exists} e.(\LF{walk}(e) \& (\LF{Subj}(e) = x)))
+}
+\\~\
+\begin{block}{１：記号ごとに区切る}
+\begin{center}
+$[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvisiblespace},(,x,),...]$
+\end{center}
+\end{block}
+\begin{block}{２：トークンごとに区切る}
+\begin{center}
+  $[\LF{exists},x,(,\LF{Bob},(,x,),\&,\LF{exists},e,(,...]$
+\end{center}
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：木構造のベクトル化}
+\begin{columns}[t]
+    \begin{column}{0.4\textwidth} % 左:60%
+        \begin{figure}[h]
+        \begin{center}
+          \scalebox{}[0.8]{
+          \begin{tikzpicture}[sibling distance=0pt]
+          \Tree [.\LF{exists} [.$x$ ]
+          [.$\&$
+           [.\LF{Bob} $x$ ]
+           [.\LF{exists} [.$e$ ]
+           [.$\&$ [.\LF{walk} $e$ ] [.$=$ [.\LF{subj} $e$ ] [.$x$ ] ] ] ] ] ]
+         \end{tikzpicture}}
+        \end{center}
+        \end{figure}
+    \end{column}
+    \begin{column}{0.6\textwidth} % 右:40%
+      \begin{block}{木構造を用いたベクトル}
+        \begin{center}
+          $[\LF{exists},x,\&,=,\LF{Bob},x,\LF{exists},e,\&,...]$
+        \end{center}
+      \end{block}
+      \\~\
+      \begin{itemize}
+        \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
+        \item pre-orderの深さ優先探索でたどる
+      \end{itemize}
+    \end{column}
+\end{columns}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{提案手法：グラフ構造のベクトル化}
+\begin{columns}[t]
+    \begin{column}{0.4\textwidth} % 左:60%
+        \begin{figure}[h]
+        	\includegraphics[width=4cm]{graph.png}
+                \label{fig:graph}
+        \end{figure}
+    \end{column}
+    \begin{column}{0.6\textwidth} % 右:40%
+      \begin{block}{グラフ構造を用いたベクトル}
+        \begin{center}
+         $[\LF{exists},x,x,\&,\LF{Bob},\&,=,\LF{Subj},\LF{walk}...]$
+         \end{center}
+      \end{block}
+      \\~\
+      \begin{itemize}
+        \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
+        \item 同じ変数をさす様にedgeを変更
+        \item pre-orderの深さ優先探索でたどる
+      \end{itemize}
+    \end{column}
+\end{columns}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{提案手法：学習モデル}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{データセット}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{データセットの作成}
+\begin{itemize}
+  \item
+SNLI\citep{snli:emnlp2015}を用い論理式と文のペアを作成
+
+\item 60単語以内の文例を対象
+train:9140/dev:2285/test:1500\\
+
+\item ccg2lambdaを用いる
+
+\end{itemize}
+\begin{center}
+\begin{figure}[h]
+	\includegraphics[width=8cm]{editdata.png}
+        \label{fig:editdata}
+\end{figure}
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{実験}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{実験設定}
+
+\begin{itemize}
+\item 系列変換モデルによる文生成 （入力：論理式，出力：文）
+\item トークンベースのLSTMの出力を256次元に設定
+\end{itemize}
+
+\begin{center}
+  \begin{tabular}{rrrrr}
+    \hline
+    　  & 記号 & トークン & 木構造 & グラフ \\
+    \hline \hline
+    入力語数  & 70  &  5,118 & 5,107 & 4,991\\
+    出力語数  & 78   & 7,214 & 7,214 & 7,214\\
+    最長入力列 & 2,097  & 699 & 451 & 259 \\
+    最長出力列 & 270  & 55 & 53 & 53 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\begin{block}{環境，ライブラリ}
+\begin{itemize}
+\item tsubameサーバ（メモリ240GiB,GPU×4）
+\item python3系ライブラリ（Keras,nltk）
+\end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{評価方法}
+\begin{block}{BLEUによる評価}
+%\begin{figure}[h]
+%	\includegraphics[width=6cm]{eval.png}
+%        \label{fig:eval}
+%\end{figure}
+
+\[
+	\mathit{score} = \mathit{BP}\exp\left(\sum_{i=1}^N \frac{1}{N}\log P_n\right)
+\]
+\[
+  \mathit{BP} = \left\{ \begin{array}{ll}
+    1 &  (c \geq r) \\
+    \exp\left(1- \frac{r}{c}\right) & ($c $ < $ r$)
+  \end{array} \right.
+\]
+\\
+\[
+	P_n = \frac{\sum_{i=0}\text{出力文i中と解答文i中で一致した}n\mathchar`-gram\text{数}}{\sum_{i=0}\text{出力文i中の全}n\mathchar`-gram\text{数}}
+\]
+
+\end{block}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{結果}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{実験結果}
+\begin{block}{BLEU評価}
+  \label{table:evaluation}
+  \centering
+  \begin{tabular}{ccccc}
+    \hline
+    指標  & 記号 & トークン & 木構造 & グラフ \\
+    \hline \hline
+    BLEU  & 34.9   & 39.7 & 41.8  & 44.7\\
+    \hline
+  \end{tabular}
+\label{sec:result}
+\end{block}
+\vspace{1zh}
+入力論理式：\\
+\LF{exists} x.(\_\LF{towel}(x) \& \LF{exists} e.(\LF{\_pink}(e) \& (\LF{Subj}(e) = x))
+\& \LF{exists} e.(\LF{\_blue}(e) \& (\LF{Subj}(e) = x) \& \_\LF{striped}(e)))
+\begin{table}[h]
+\centering
+\begin{tabular}{ll} \hline
+文 & \highlight{midori}{The} towel \highlight{benihi}{is} pink \highlight{kobai}{and} \highlight{konpeki}{blue} striped. \\ \hline
+記号単位 & A horse \highlight{benihi}{is} talking to each other.\\
+トークン単位 & A guy snipping a ladys hair.\\
+木構造 & \highlight{midori}{The} \highlight{konpeki}{blue} \highlight{benihi}{is} \highlight{konpeki}{blue} \highlight{kobai}{and} \highlight{konpeki}{blue}.\\
+グラフ & A \highlight{konpeki}{blue} tractor \highlight{benihi}{is} wearing \highlight{konpeki}{blue}.\\ \hline
+\end{tabular}
+\label{tab:example2}
+\end{table}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{おわりに}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{まとめ}
+\begin{itemize}
+\item RNN系列変換モデルを用いて高階論理式から文を生成する手法を提案した．
+\item 実験をする際，ccg2lambdaを用いてデータセットを作成した．
+\item 提案手法の評価を行った結果，BLEUスコアは，トークン単位で区切り，
+論理式の計算の順序を考慮することで高くなった.
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{今後の課題}
+\begin{itemize}
+\item 他の意味表現からの文生成との比較を行う．
+\item 他のデータセット（英語，日本語）でも行う．
+\item 逆変換（文→論理式）を行い，モデルを評価する．
+\item 評価方法に，文類似度を使用するなど文生成における評価方法を工夫する．
+\item アテンション付き系列変換モデルやコピー機構を用いるなどモデルの改良に取り組む．
+
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks]{References}{} % フレームの始まり。自動改ページ
+\frametitle{参考文献}
+\fontsize{9pt}{0pt}\selectfont % 文献リストの文字サイズ。この場合は9ptに指定。
+\bibliographystyle{plainnat}
+\bibliography{main}
+\nocite{*}
+\fontsize{12pt}{0pt}\selectfont % 元の文字サイズに戻す。この場合は12ptに戻している。
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{thebibliography}{longest label text}
+    %environment contents
+%    \bibitem<overlay specification>[citation text]{label name}
+%\end{thebibliography}
+
+
+\end{document}

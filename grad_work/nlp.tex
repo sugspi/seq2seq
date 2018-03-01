@@ -116,10 +116,10 @@
 \title{RNN変換モデルを用いた\\高階論理からの文生成}
 \subject{卒業研究発表会}
 \author[]{馬目 華奈}
-\institute{戸次研究室}
+\institute{お茶の水女子大学 戸次研究室}
 \date{
-卒業研究発表会\\
-February 6, 2018}
+言語処理学会\\
+March 13, 2018}
 
 % 本体
 \begin{document}
@@ -273,7 +273,7 @@ February 6, 2018}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{関連研究}
+\section{論理式}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{文から高階論理式への変換}
@@ -294,10 +294,10 @@ February 6, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{関連研究：CCG に基づく論理式による文の意味表現}
+\frametitle{関連研究：ccg2lambda に基づく論理式による文の意味表現}
 \begin{center}
 \begin{figure}[h]
-	\includegraphics[width=10cm]{c2l.png}
+	\includegraphics[width=10cm]{c2l2.png}
         \label{fig:c2l}
 \end{figure}
 \end{center}
@@ -313,7 +313,7 @@ February 6, 2018}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{提案手法}
+\section{embedding}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{embedding手法の提案}
@@ -417,7 +417,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\section{系列変換モデル}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{RNN系列変換モデル}
@@ -440,7 +440,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{関連研究：系列変換モデル\citep{seq2seq} }
+\frametitle{系列変換モデル\citep{seq2seq} }
 \begin{itemize}
   \item 入出力がシーケンスとなるニューラルネットのモデル
   \item エンコーダ：入力列を RNNニューラルネットにより隠れ状態ベクトルに変換

@@ -13,8 +13,8 @@ set_session(tf.Session(config=config))
 
 from keras.models import Model
 from keras.models import load_model
-from keras.layers import Input, LSTM,Embedding, Dense, Permute, Flatten
-from keras.layers import Lambda,multiply,dot,concatenate
+from keras.layers import Input, LSTM,Embedding, Dense, Permute, Flatten,Softmax
+from keras.layers import Lambda,multiply,dot,concatenate,add
 import keras
 
 from keras import backend as K
@@ -25,7 +25,8 @@ import numpy as np
 import json
 import re
 import math
-#import pydot
+import pydot
+from keras.utils import plot_model
 
 import nltk
 from nltk.tree import Tree
@@ -118,9 +119,9 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
-encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
-decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
-decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
+#encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
+#decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
+#decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
 
 print("test: ",len(encoder_input_data))
 print("inp: ",len(decoder_input_data))
@@ -130,39 +131,51 @@ print("out: ",len(decoder_target_data))
 #mask_zero=Trueをemnbeddingレイヤーで消してしまった
 # Define an input sequence and process it.
 enc_main_input = Input(shape=(max_encoder_seq_length,), dtype='int32', name='enc_main_input')
-encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, input_length=max_encoder_seq_length)(enc_main_input)
-encoder = LSTM(latent_dim, return_state=True,return_sequences=True)
+encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, input_length=max_encoder_seq_length,name='enc_embedding')(enc_main_input)
+encoder = LSTM(latent_dim, return_state=True,return_sequences=True,name='enc_lstm')
 encoder_outputs, state_h, state_c  = encoder(encoder_inputs)
 encoder_states = [state_h, state_c]
 print("enc_hidden: ",K.int_shape(encoder_outputs))
 
 # Set up the decoder, using `encoder_states` as initial state.
 dec_main_input = Input(shape=(max_decoder_seq_length,), dtype='int32', name='dec_main_input')
-decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, input_length=max_decoder_seq_length)(dec_main_input)
-decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
+decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, input_length=max_decoder_seq_length,name='dec_embedding')(dec_main_input)
+decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True,name='dec_lstm')
 decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
                                      initial_state=encoder_states)
 print("dec_hidden: ",K.int_shape(decoder_outputs))
 
-#t_decoder_outputs = Permute((2,1))(decoder_outputs)
-inner_prod = dot([encoder_outputs,decoder_outputs], axes=2)#K.dot(encoder_outputs,t_decoder_outputs)#内積
+
+inner_prod = dot([encoder_outputs,decoder_outputs], axes=2)
 print("mul (enc,hid): ",K.int_shape(inner_prod))
-#print(K.int_shape(inner_prod))
-a_vector = Dense(max_decoder_seq_length, activation='softmax')
-#print(K.int_shape(a_vector))
+
+################ Denseだと内積の結果にさらに行列をかけてしまうのでちょっと違うかも
+################ keras.layers.Softmaxというのがあるらしいですよ
+a_vector = Dense(max_decoder_seq_length, activation='softmax',name='softmax')
 a_vector = a_vector(inner_prod)
 print("a_vecotr(softmax): ",K.int_shape(a_vector))
 
 context_vector = dot([a_vector,encoder_outputs], axes=1)
 print("context_vector: ",K.int_shape(context_vector))
 
-concat_vector = concatenate([context_vector,decoder_outputs], axis=-1)
+# concat_vector = add([context_vector,decoder_outputs])#, axis=-1)
+concat_vector = concatenate([context_vector,decoder_outputs], axis=2) ################# addじゃなくてconcatenate
 print("concat_vector: ",K.int_shape(concat_vector))
 
-decoder_tanh = Dense(latent_dim, activation='tanh')
-decoder_outputs = decoder_tanh(concat_vector)
-print("new_dec_hidden: ",K.int_shape(decoder_outputs))
+decoder_tanh = Dense(latent_dim, activation='tanh',name='tanh')
+new_decoder_outputs = decoder_tanh(concat_vector)
+print("new_dec_hidden: ",K.int_shape(new_decoder_outputs))
 
+############### エラーの原因は、上の(バッチ,出力系列,256)のshapeのdecoder_tanh(本でのhチルダ)が一番最後になってたことっぽいです．
+############### 一番最後の出力は(バッチ,出力系列,num_decoder_tokens)のテンソルがほしくて、
+############### というのも一番最後の出力のテンソルが語彙数次元(num_decoder_tokens)ないと、
+############### categorical_crossentropyとかが計算できなくなってしまいます．
+############### 本でhチルダを計算した後にどうしてたか知らないのですが、もう一度Denseして
+############### (バッチ,出力系列,num_decoder_tokens)にすると動きました．
+#new_decoder_outputs = Dense(num_decoder_tokens)(new_decoder_outputs)
+
+decoder_dense = Dense(num_decoder_tokens, activation='softmax',name='softmax2')
+new_decoder_outputs = decoder_dense(new_decoder_outputs)
 
 #callback function and parameter search
 #if you want to use below function, you add callbacks=[name-val]
@@ -175,10 +188,10 @@ checkpoint = keras.callbacks.ModelCheckpoint(
 
 # Define the model that will turn
 # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
-model = Model([enc_main_input, dec_main_input], decoder_outputs)
+model = Model([enc_main_input, dec_main_input], new_decoder_outputs)
 model.summary()
 
-#plot_model(model, to_file='model.png')
+plot_model(model, to_file='model.png')
 # Run training
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 #model = load_model('elapsed_seq2seq.h5')

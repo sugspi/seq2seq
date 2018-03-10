@@ -36,6 +36,7 @@
 \usepackage[ipaex]{pxchfon}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{natbib}
+\usepackage{pgfplots}%Stacked bar plot
 
 \input{jpncolor}
 
@@ -138,26 +139,25 @@ March 13, 2018}
 
 \section{はじめに}
 %%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{本研究の目的}
-\begin{center}
-\begin{figure}[h]
-	\includegraphics[width=8cm]{myobj1.png}
-        \label{fig:myobj1}
-\end{figure}
-\end{center}
-\end{frame}
+%begin{frame}
+%\frametitle{本研究の目的}
+%\begin{center}
+%\begin{figure}[h]
+%	\includegraphics[width=8cm]{myobj1.png}
+%        \label{fig:myobj1}
+%\end{figure}
+%\end{center}
+%\end{frame}
 
-\begin{frame}
-\frametitle{本研究の目的}
-\begin{center}
-\begin{figure}[h]
-	\includegraphics[width=8cm]{myobj2.png}
-        \label{fig:myobj2}
-\end{figure}
-\end{center}
-\end{frame}
-
+%\begin{frame}
+%\frametitle{本研究の目的}
+%\begin{center}
+%\begin{figure}[h]
+%	\includegraphics[width=8cm]{myobj2.png}
+%        \label{fig:myobj2}
+%\end{figure}
+%\end{center}
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -222,8 +222,23 @@ March 13, 2018}
 %  \end{itemize}
 %\end{block}
 
-\end{frame}
+%\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{意味表示としての論理式}
+
+\begin{itemize}
+ \item 係り受け解析や述語項構造解析などの従来の解析を超える深い意味解析が可能
+ \item イベント意味論に基づき，副詞や前置詞などの修飾表現をイベントを項に持つ述語として扱うため，修飾表現を含む文も簡潔
+ \item 量化や否定などの論理推論，モダリティや内包的述語などを伴う複雑な意味を扱える
+ \item 述語論理の論理式に変換し，推論ができる
+\end{itemize}
+ \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -294,7 +309,7 @@ March 13, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{関連研究：ccg2lambda に基づく論理式による文の意味表現}
+\frametitle{ccg2lambdaを用いた論理式変換}
 \begin{center}
 \begin{figure}[h]
 	\includegraphics[width=10cm]{c2l2.png}
@@ -333,6 +348,7 @@ March 13, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+\usetikzlibrary{shapes,snakes}%ノード変更
 \frametitle{提案手法：記号区切りとトークン区切り}
 Bob walked の論理式：\\
 \textbf{
@@ -362,11 +378,12 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
         \begin{center}
           \scalebox{}[0.8]{
           \begin{tikzpicture}[sibling distance=0pt]
-          \Tree [.\LF{exists} [.$x$ ]
-          [.$\&$
-           [.\LF{Bob} $x$ ]
-           [.\LF{exists} [.$e$ ]
-           [.$\&$ [.\LF{walk} $e$ ] [.$=$ [.\LF{subj} $e$ ] [.$x$ ] ] ] ] ] ]
+          \Tree [.\node[ellipse,draw]{\tiny\LF{exists}}; [.\node[ellipse,draw]{\tiny$x$}; ]
+          [.\node[ellipse,draw]{\tiny$\&$};
+           [.\node[ellipse,draw]{\tiny\LF{Bob}}; \node[ellipse,draw]{\tiny$x$};]
+           [.\node[ellipse,draw]{\tiny\LF{exists}}; [.\node[ellipse,draw]{\tiny$e$}; ]
+           [.\node[ellipse,draw]{\tiny$\&$}; [.\node[ellipse,draw]{\tiny\LF{walk}}; \node[ellipse,draw]{\tiny$e$}; ] [.\node[ellipse,draw]{\tiny $=$}; [.\node[ellipse,draw]{\tiny \LF{subj}}; \node[ellipse,draw]{\tiny $e$}; ]
+           [.\node[ellipse,draw]{\tiny $x$}; ] ] ] ] ] ]
          \end{tikzpicture}}
         \end{center}
         \end{figure}
@@ -374,10 +391,9 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
     \begin{column}{0.6\textwidth} % 右:40%
       \begin{block}{木構造を用いたベクトル}
         \begin{center}
-          $[\LF{exists},x,\&,=,\LF{Bob},x,\LF{exists},e,\&,...]$
+          $[\LF{exists},x,\&,\LF{Bob},x,\LF{exists},e,\&,...]$
         \end{center}
       \end{block}
-      \\~\
       \begin{itemize}
         \item 論理式をポーランド記法に変換する\\（論理演算子を前にもってくる）
         \item pre-orderの深さ優先探索でたどる
@@ -402,7 +418,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
     \begin{column}{0.6\textwidth} % 右:40%
       \begin{block}{グラフ構造を用いたベクトル}
         \begin{center}
-         $[\LF{exists},x,x,\&,\LF{Bob},\&,=,\LF{Subj},\LF{walk}...]$
+         $[\LF{exists},e,x,\&,\LF{Bob},\&,=,\LF{Subj},\LF{walk}]$
          \end{center}
       \end{block}
       \\~\
@@ -568,6 +584,70 @@ train:9140/dev:2285/test:1500\\
   \end{tabular}
 \label{sec:result}
 \end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{BLEUスコア割合}
+\begin{tikzpicture}
+%\pgfplotsset{ybar stacked, ymin=0, ymax=100
+\colorlet{xcolorA}{red!80!black}
+\colorlet{xcolorB}{orange}
+\colorlet{ycolorA}{blue}
+\colorlet{ycolorB}{blue!40!white}
+\begin{axis}[
+  ybar stacked,
+  draw=none,
+	bar width=40pt,
+    enlargelimits=0.15,
+    legend pos = outer north east,
+    %legend style={at={(0.5,-0.20)},
+    %anchor=north,legend columns=-1},
+    %ylabel={件数},
+    symbolic x coords={記号, トークン, 木構造, グラフ},
+    %xtick=data,
+    %x tick label style={rotate=45,anchor=east},
+    ]
+\addplot+[draw=none, fill= mizu] plot coordinates {(記号,0.14) (トークン,0.13)
+  (木構造,0.1) (グラフ,0.08) };
+\addplot+[draw=none, fill=wakatake] plot coordinates {(記号,0.26) (トークン,0.21)
+  (木構造,0.2) (グラフ,0.18) };
+\addplot+[draw=none, fill=natane] plot coordinates {(記号,0.28) (トークン,0.22)
+  (木構造,0.23) (グラフ,0.2)) };
+\addplot+[draw=none, fill=ikkonzome] plot coordinates {(記号,0.18) (トークン,0.18)
+  (木構造,0.15) (グラフ,0.18) };
+\addplot+[draw=none, fill=rindo] plot coordinates {(記号,0.08) (トークン,0.1)
+    (木構造,0.13) (グラフ,0.14) };
+\addplot+[draw=none, fill=nibi] plot coordinates {(記号,0.04) (トークン,0.07)
+      (木構造,0.09) (グラフ,0.09) };
+\addplot+[draw=none, fill=ai] plot coordinates {(記号,0.02) (トークン,0.09)
+    (木構造,0.1) (グラフ,0.13) };
+
+
+%\addplot+[draw=none, fill=blue!30] plot coordinates {(記号,207) (トークン,192)
+%    (木構造,145) (グラフ,120) };
+%  \addplot+[ybar] plot coordinates {(記号,396) (トークン,311)
+%    (木構造,307) (グラフ,267) };
+%  \addplot+[ybar] plot coordinates {(記号,414) (トークン,324)
+%    (木構造,338) (グラフ,297)) };
+%  \addplot+[ybar] plot coordinates {(記号,268) (トークン,276)
+%    (木構造,231) (グラフ,264) };
+%  \addplot+[ybar] plot coordinates {(記号,125) (トークン,146)
+%      (木構造,194) (グラフ,203) };
+%  \addplot+[ybar] plot coordinates {(記号,59) (トークン,108)
+%        (木構造,128) (グラフ,141) };
+%  \addplot+[ybar] plot coordinates {(記号,30) (トークン,142)
+%      (木構造,156) (グラフ,207) };
+
+\legend{\strut 0-10, \strut 10-20, \strut 20-30, \strut 30-40, \strut 40-50, \strut 50-60,\strut 70-}
+\end{axis}
+\end{tikzpicture}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{実験結果}
+
 \vspace{1zh}
 入力論理式：\\
 \LF{exists} x.(\_\LF{towel}(x) \& \LF{exists} e.(\LF{\_pink}(e) \& (\LF{Subj}(e) = x))
@@ -585,6 +665,11 @@ train:9140/dev:2285/test:1500\\
 \end{table}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 \section{おわりに}
 %%%%%%%%%%%%%%%%%%%%%%%%%

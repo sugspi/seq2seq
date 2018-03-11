@@ -648,21 +648,29 @@ train:9140/dev:2285/test:1500\\
 \begin{frame}
 \frametitle{実験結果}
 
-\vspace{1zh}
-入力論理式：\\
-\LF{exists} x.(\_\LF{towel}(x) \& \LF{exists} e.(\LF{\_pink}(e) \& (\LF{Subj}(e) = x))
-\& \LF{exists} e.(\LF{\_blue}(e) \& (\LF{Subj}(e) = x) \& \_\LF{striped}(e)))
+\begin{block}{入力論理式}
+  \LF{exists} x.(\_\LF{towel}(x) \& \LF{exists} e.(\LF{\_pink}(e) \& (\LF{Subj}(e) = x))
+  \& \LF{exists} e.(\LF{\_blue}(e) \& (\LF{Subj}(e) = x) \& \_\LF{striped}(e)))
+\end{block}
+
+\begin{block}{出力文}
+ \highlight{midori}{The} towel \highlight{benihi}{is} pink \highlight{kobai}{and} \highlight{konpeki}{blue} striped. \\ \hline
+\end{block}
+
+
+%\vspace{1zh}
+\begin{block}{出力結果}
 \begin{table}[h]
-\centering
+%\centering
 \begin{tabular}{ll} \hline
-文 & \highlight{midori}{The} towel \highlight{benihi}{is} pink \highlight{kobai}{and} \highlight{konpeki}{blue} striped. \\ \hline
-記号単位 & A horse \highlight{benihi}{is} talking to each other.\\
+  記号単位 & A horse \highlight{benihi}{is} talking to each other.\\
 トークン単位 & A guy snipping a ladys hair.\\
 木構造 & \highlight{midori}{The} \highlight{konpeki}{blue} \highlight{benihi}{is} \highlight{konpeki}{blue} \highlight{kobai}{and} \highlight{konpeki}{blue}.\\
 グラフ & A \highlight{konpeki}{blue} tractor \highlight{benihi}{is} wearing \highlight{konpeki}{blue}.\\ \hline
 \end{tabular}
 \label{tab:example2}
 \end{table}
+\end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 

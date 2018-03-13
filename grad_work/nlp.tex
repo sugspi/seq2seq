@@ -1,4 +1,4 @@
-%卒論発表会は発表12分、質問3分です。
+
 \documentclass[dvipdfmx]{beamer}
 
 % 各種色の設定
@@ -102,7 +102,7 @@
    \addtocounter{framenumber}{\value{framenumberappendix}}
 }
 
-\newcommand{\LF}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\LF}[1]{\ensuremath{\texttt{\bf #1}}}
 \newcommand\vartextvisiblespace[1][.5em]{%
   \makebox[#1]{%
     \kern.07em
@@ -114,13 +114,13 @@
 }
 
 
-\title{RNN変換モデルを用いた\\高階論理からの文生成}
-\subject{卒業研究発表会}
+\title{RNN系列変換モデルを用いた\\高階論理からの文生成}
 \author[]{馬目 華奈}
 \institute{お茶の水女子大学 戸次研究室}
 \date{
-言語処理学会\\
-March 13, 2018}
+言語処理学会第24回年次大会\\
+March 13, 2018
+}
 
 % 本体
 \begin{document}
@@ -129,12 +129,6 @@ March 13, 2018}
 \begin{frame}
   \titlepage
 \end{frame}
-
-% 目次
-%\begin{frame}[]{もくじ}
-% \tableofcontents
-% もくじ
-%\end{frame}
 
 
 \section{はじめに}
@@ -161,7 +155,7 @@ March 13, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{意味表示としての論理式}
+\frametitle{はじめに}
 \begin{center}
 \begin{figure}[h]
 	\includegraphics[width=10cm]{backend1.png}
@@ -227,12 +221,12 @@ March 13, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{意味表示としての論理式}
+\frametitle{意味表示に論理式を採用する利点}
 
 \begin{itemize}
- \item 係り受け解析や述語項構造解析などの従来の解析を超える深い意味解析が可能
- \item イベント意味論に基づき，副詞や前置詞などの修飾表現をイベントを項に持つ述語として扱うため，修飾表現を含む文も簡潔
- \item 量化や否定などの論理推論，モダリティや内包的述語などを伴う複雑な意味を扱える
+ \item 従来の係り受け解析や述語項構造解析を超える深い意味解析が可能%
+ \item 副詞や前置詞などは，イベントを項に持つ述語として扱うため，修飾表現を含む文も簡潔に扱える %イベント意味論に基づき，
+ \item 量化や否定などの論理推論，モダリティや内包的述語など複雑な意味を扱える
  \item 述語論理の論理式に変換し，推論ができる
 \end{itemize}
  \end{frame}
@@ -242,28 +236,62 @@ March 13, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{論理式→文の応用例}
+\frametitle{論理式を意味表示にした場合の応用例}
 
 \begin{columns}[t]
     \begin{column}{0.5\textwidth} % 左:60%
-      \begin{block}{テキスト平易化}
+      \begin{center}
+        テキスト平易化(cf.\cite{plain_text})\\
         \begin{figure}[h]
+          \scalebox{1.2}{
         	\includegraphics[width=5cm]{ouyou1.png}
+          }
                 \label{fig:application1}
         \end{figure}
-      \end{block}
+      \end{center}
     \end{column}
     \begin{column}{0.5\textwidth} % 右:40%
-      \begin{block}{翻訳}
+      \begin{center}
+        翻訳(cf.\cite{neuralAMR})\\
         \begin{figure}[h]
+          \scalebox{1}{
         	\includegraphics[width=4.5cm]{ouyou2.png}
+          }
                 \label{fig:application2}
         \end{figure}
-      \end{block}
+      \end{center}
+
     \end{column}
 \end{columns}
 
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{研究の目的}
+
+%\begin{columns}[t]
+%    \begin{column}{0.5\textwidth} % 左:60%
+%      \begin{block}{テキスト平易化}
+%        \begin{figure}[h]
+%        	\includegraphics[width=5cm]{obj1.png}
+%                \label{fig:obj1}
+%        \end{figure}
+%      \end{block}
+%    \end{column}
+%    \begin{column}{0.5\textwidth} % 右:40%
+%      \begin{block}{翻訳}
+%        \begin{figure}[h]
+%        	\includegraphics[width=4.5cm]{obj2.png}
+%                \label{fig:obj2}
+%        \end{figure}
+%      \end{block}
+%    \end{column}
+%end{columns}
+
+%\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -279,7 +307,7 @@ March 13, 2018}
 \end{center}
 
 \begin{itemize}
-  \item RNN系列変換モデルを用いて\\高階論理式から文を生成する手法を提案．
+  \item エンコーダ・デコーダを用いて\\高階論理式から文を生成する手法を提案．
   \item embeddingの際，４種の手法を検討する．\\（記号，トークン，木構造，グラフ）　
 \end{itemize}
 
@@ -299,7 +327,7 @@ March 13, 2018}
 \end{center}
 
 \begin{itemize}
-  \item RNN系列変換モデルを用いて\\{\color{berry}高階論理式}から文を生成する手法を提案．
+  \item エンコーダ・デコーダを用いて\\{\color{berry}高階論理式}から文を生成する手法を提案．
   \item embeddingの際，４種の手法を検討する．\\（記号，トークン，木構造，グラフ）　
 \end{itemize}
 
@@ -338,7 +366,7 @@ March 13, 2018}
   \smartdiagram[flow diagram:horizontal]{高階論理式,embedding,系列変換モデル,文}
 \end{center}
 \begin{itemize}
-  \item RNN系列変換モデルを用いて\\高階論理式から文を生成する手法を提案．
+  \item エンコーダ・デコーダを用いて\\高階論理式から文を生成する手法を提案．
   \item embeddingの際，４種の手法\\{\color{berry}（記号，トークン，木構造,グラフ）}を検討する．
 \end{itemize}
 
@@ -352,17 +380,21 @@ March 13, 2018}
 \frametitle{提案手法：記号区切りとトークン区切り}
 Bob walked の論理式：\\
 \textbf{
-  \LF{exists} x.(\LF{Bob}（x） \& \LF{exists} e.(\LF{walk}(e) \& (\LF{Subj}(e) = x)))
+  \LF{exists} x.(\LF{Bob}(x) \& \LF{exists} e.(\LF{walk}(e) \& (\LF{Subj}(e) = x)))
 }
 \\~\
-\begin{block}{１：記号ごとに区切る}
+\begin{block}{１：記号(文字)ごとに区切る}
 \begin{center}
-$[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvisiblespace},(,x,),...]$
+  \scalebox{1.2}{
+    $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvisiblespace},(,x,),...]$
+  }
 \end{center}
 \end{block}
-\begin{block}{２：トークンごとに区切る}
+\begin{block}{２：トークン(単語)ごとに区切る}
 \begin{center}
-  $[\LF{exists},x,(,\LF{Bob},(,x,),\&,\LF{exists},e,(,...]$
+  \scalebox{1.2}{
+    $[\LF{exists},x,(,\LF{Bob},(,x,),\&,\LF{exists},e,(,...]$
+  }
 \end{center}
 \end{block}
 \end{frame}
@@ -436,7 +468,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 \section{系列変換モデル}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{RNN系列変換モデル}
+\frametitle{エンコーダ・デコーダ}
 \begin{center}
   \smartdiagramset{back arrow disabled=true, set color list={gray,gray,shion,gray},}
   \smartdiagramset{font=\scriptsize}
@@ -444,7 +476,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 \end{center}
 
 \begin{itemize}
-  \item {\color{berry}RNN系列変換モデル}を用いて高階論理式から文を生成する手法を提案．
+  \item {\color{berry}エンコーダ・デコーダ}を用いて高階論理式から文を生成する手法を提案．
   \item embeddingの際，４種の手法を検討する．\\（記号，トークン，木構造，グラフ）　
 \end{itemize}
 
@@ -459,7 +491,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 \frametitle{系列変換モデル\citep{seq2seq} }
 \begin{itemize}
   \item 入出力がシーケンスとなるニューラルネットのモデル
-  \item エンコーダ：入力列を RNNニューラルネットにより隠れ状態ベクトルに変換
+  \item エンコーダ：入力列をRNNにより隠れ状態ベクトルに変換
   \item デコーダ：隠れ状態ベクトルを初期値とし，\\隠れ状態と自身のこれまでの出力結果をもとに\\次のトークンを生成
 \end{itemize}
 
@@ -491,7 +523,7 @@ $[\LF{e,x,i,s,t,s}, {\tt \vartextvisiblespace}, x,.,(,\LF{B,o,b,}{\tt \vartextvi
 SNLI(The Stanford Natural Language Inference Corpus) \citep{snli:emnlp2015}を用い論理式と文のペアを作成
 
 \item 60単語以内の文例を対象
-train:9140/dev:2285/test:1500\\
+train:9140/val:2285/test:1500\\
 
 \item ccg2lambdaを用いる
 
@@ -513,7 +545,7 @@ train:9140/dev:2285/test:1500\\
 
 \begin{itemize}
 \item 系列変換モデルによる文生成 （入力：論理式，出力：文）
-\item トークンベースのLSTMの出力を256次元に設定
+\item トークン区切りの次元数を256次元に
 \end{itemize}
 
 \begin{center}
@@ -531,13 +563,41 @@ train:9140/dev:2285/test:1500\\
 
 \begin{block}{環境，ライブラリ}
 \begin{itemize}
-\item tsubameサーバ（メモリ240GiB,GPU×4）
+\item TSUBAMEサーバ（メモリ240GiB,GPU×4）
 \item python3系ライブラリ（Keras,nltk）
 \end{itemize}
 \end{block}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{モデルの詳細}
+%\begin{columns}[t]
+%    \begin{column}{0.55\textwidth} % 左:60%
+%        \begin{figure}[h,s]
+%        	\includegraphics[width=6cm]{model.png}
+%                \label{fig:model}
+%        \end{figure}
+%    \end{column}
+%    \begin{column}{0.45\textwidth} % 右:40%
+%      \begin{block}{学習モデル}
+%        \begin{center}
+%          embedding\_1 →256 次元 \\
+%          embedding\_2 → 256 次元 \\
+%          lstm\_1 → 256次元 \\
+%          lstm\_2 → 256次元 \\
+%          dense\_1(softmax) → 出力語数 \\
+%         \end{center}
+%%    \end{column}
+%\end{columns}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -645,28 +705,83 @@ train:9140/dev:2285/test:1500\\
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{実験結果}
+
+%\begin{block}{入力論理式}
+%  \LF{exists} x.(\_\LF{towel}(x) \& \LF{exists} e.(\LF{\_pink}(e) \& (\LF{Subj}(e) = x))
+%  \& \LF{exists} e.(\LF{\_blue}(e) \& (\LF{Subj}(e) = x) \& \_\LF{striped}(e)))
+%\end{block}
+
+%\begin{block}{出力文}
+% \highlight{midori}{The} towel \highlight{benihi}{is} pink \highlight{kobai}{and} \highlight{konpeki}{blue} striped. \\ \hline
+%\end{block}
+
+%\vspace{1zh}
+%\begin{block}{出力結果}
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{ll} \hline
+%  記号単位 & A horse \highlight{benihi}{is} talking to each other.\\
+%トークン単位 & A guy snipping a ladys hair.\\
+%木構造 & \highlight{midori}{The} \highlight{konpeki}{blue} \highlight{benihi}{is} \highlight{konpeki}{blue} \highlight{kobai}{and} \highlight{konpeki}{blue}.\\
+%グラフ & A \highlight{konpeki}{blue} tractor \highlight{benihi}{is} wearing \highlight{konpeki}{blue}.\\ \hline
+%\end{tabular}
+%\label{tab:example2}
+%\end{table}
+%\end{block}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{実験結果}
+\frametitle{出力結果１：主語の例}
 
 \begin{block}{入力論理式}
-  \LF{exists} x.(\_\LF{towel}(x) \& \LF{exists} e.(\LF{\_pink}(e) \& (\LF{Subj}(e) = x))
-  \& \LF{exists} e.(\LF{\_blue}(e) \& (\LF{Subj}(e) = x) \& \_\LF{striped}(e)))
+  \LF{exists} x.(\LF{\_door}(x) \& \LF{exists} e.(\LF{\_open}(e) \& (\LF{Subj}(e) = x)))
 \end{block}
 
-\begin{block}{出力文}
- \highlight{midori}{The} towel \highlight{benihi}{is} pink \highlight{kobai}{and} \highlight{konpeki}{blue} striped. \\ \hline
+\begin{block}{正解文}
+  The door is open.
 \end{block}
-
 
 %\vspace{1zh}
 \begin{block}{出力結果}
 \begin{table}[h]
 %\centering
-\begin{tabular}{ll} \hline
-  記号単位 & A horse \highlight{benihi}{is} talking to each other.\\
-トークン単位 & A guy snipping a ladys hair.\\
-木構造 & \highlight{midori}{The} \highlight{konpeki}{blue} \highlight{benihi}{is} \highlight{konpeki}{blue} \highlight{kobai}{and} \highlight{konpeki}{blue}.\\
-グラフ & A \highlight{konpeki}{blue} tractor \highlight{benihi}{is} wearing \highlight{konpeki}{blue}.\\ \hline
+\begin{tabular}{llll} \hline
+記 & 16.1& The kids are related.\\
+ト & 13.3 & the grilled cheese is burned.\\
+木 & 31.1 & The is is empty.\\
+グ & 31.8 & The jeep is hot.\\ \hline
+\end{tabular}
+\label{tab:example3}
+\end{table}
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{出力結果２：目的語の例}
+
+\begin{block}{入力論理式}
+  \LF{exists} x.(\LF{\_boy(x)} \& \LF{exists} z.(\LF{\_football}(z) \& \LF{exists} e.(\LF{\_play}(e) \& (\LF{Subj}(e) = x) \& (\LF{Obj}(e) = z)))\\
+\end{block}
+
+\begin{block}{正解文}
+  {boys play} \highlight{benihi}{football}.
+\end{block}
+
+%\vspace{1zh}
+\begin{block}{出力結果}
+\begin{table}[h]
+%\centering
+\begin{tabular}{llll} \hline
+記 & 20.0 &{The boy} is wearing a blue shirt.\\
+ト & 36.1 &{The boy is playing} \highlight{benihi}{basketball}.\\
+木 & 27.2 & {The boys are playing} \highlight{benihi}{sports}.\\
+グ & 54.1 & {The boy is playing} \highlight{benihi}{football}.\\ \hline
 \end{tabular}
 \label{tab:example2}
 \end{table}
@@ -674,6 +789,43 @@ train:9140/dev:2285/test:1500\\
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{出力結果３：長文の例}
+
+\begin{block}{入力論理式}
+  \footnotesize
+  \LF{exists} x.(\LF{\_man}(x) \& \LF{exists} z01.(\LF{exists} e.(\LF{\_blue}(e) \& (\LF{Subj}(e) = z01)
+  \& \LF{\_standing}(z01) \& \LF{\_shirt}(z01)) \& \LF{exists} z02.(\LF{\_front}(z02) \& \LF{exists} z00. ...
+  %(\LF{exists} e.(\_garage\_dash\_like(e) \& (Subj(e) = z00) \& \_structure(z00)) \& (z02 = z00))
+  %\& \& \LF{exists} e.(\_in(e,z02) \& (Subj(e) = z01))) \& \LF{exists} e.(\_in(e,z01) \& (Subj(e) = x)))...
+  %\& exists e.(_paint(e) & (Acc(e) = x) & exists x.(exists e00.(_geometric(e00) & (Subj(e00) = x) & _design(x)) & TrueP & _with(e,x)) & TrueP))\end{block}
+\end{block}
+
+\begin{block}{正解文}
+\footnotesize
+  \highlight{kobai}{A man in a blue shirt} {standing} in front of a garage-like structure painted {with} geometric designs.
+\end{block}
+
+%\vspace{1zh}
+\begin{block}{出力結果}
+%\begin{table}[h]
+%\centering
+%\vspace{-1zh}
+\begin{tabular}{llll} \hline
+
+\footnotesize 記 & 36.8 & \footnotesize \highlight{kobai}{A man in a blue shirt} and a black shirt and blue jeans is walking ... \\% through a pool with his daughter.\\
+\footnotesize ト & 30.1 &\footnotesize \highlight{kobai}{A man in a blue shirt} and a woman in a red \\
+& &\footnotesize dress holding up a small boy.\\
+\footnotesize 木 & 31.9 &\footnotesize  \highlight{kobai}{man in a blue shirt} {with} a beard is standing on a computer while a.\\
+\footnotesize グ & 35.3 &\footnotesize \highlight{kobai}{A man in a blue shirt} {standing} next to a cement mixer\\
+& & \footnotesize {with} one  in a purple.\\ \hline
+\end{tabular}
+\label{tab:example4}
+%\end{table}
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -684,7 +836,7 @@ train:9140/dev:2285/test:1500\\
 \begin{frame}
 \frametitle{まとめ}
 \begin{itemize}
-\item RNN系列変換モデルを用いて高階論理式から文を生成する手法を提案した．
+\item エンコーダ・デコーダを用いて高階論理式から文を生成する手法を提案した．
 \item 実験をする際，ccg2lambdaを用いてデータセットを作成した．
 \item 提案手法の評価を行った結果，BLEUスコアは，トークン単位で区切り，
 論理式の計算の順序を考慮することで高くなった.
@@ -697,12 +849,10 @@ train:9140/dev:2285/test:1500\\
 \begin{frame}
 \frametitle{今後の課題}
 \begin{itemize}
-\item 他の意味表現からの文生成との比較を行う．
-\item 他のデータセット（英語，日本語）でも行う．
-\item 逆変換（文→論理式）を行い，モデルを評価する．
-\item 評価方法に，文類似度を使用するなど文生成における評価方法を工夫する．
-\item アテンション付き系列変換モデルやコピー機構を用いるなどモデルの改良に取り組む．
-
+\item 他の意味表現を用いた文生成との比較を行う．
+\item 評価方法に，文類似度を使用するなど評価方法を工夫する．
+\item 論理式の述語中に出てくる単語を出力するマスキング処理をかける．
+\item 論理式のembeddingを改良する．
 \end{itemize}
 
 \end{frame}

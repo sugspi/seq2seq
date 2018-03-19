@@ -224,10 +224,10 @@ March 13, 2018
 \frametitle{意味表示に論理式を採用する利点}
 
 \begin{itemize}
- \item 従来の係り受け解析や述語項構造解析を超える深い意味解析が可能%
- \item 副詞や前置詞などは，イベントを項に持つ述語として扱うため，修飾表現を含む文も簡潔に扱える %イベント意味論に基づき，
- \item 量化や否定などの論理推論，モダリティや内包的述語など複雑な意味を扱える
- \item 述語論理の論理式に変換し，推論ができる
+ \item 従来の係り受け解析や述語項構造解析を超える深い意味解析が可能．%
+ \item 副詞や前置詞などは，イベントを項に持つ述語として扱うため，修飾表現を含む文も簡潔に扱える． %イベント意味論に基づき，
+ \item 量化や否定などの論理推論，モダリティや内包的述語など複雑な意味を扱える．
+ \item 述語論理の論理式に変換し，推論ができる．
 \end{itemize}
  \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,7 +241,7 @@ March 13, 2018
 \begin{columns}[t]
     \begin{column}{0.5\textwidth} % 左:60%
       \begin{center}
-        テキスト平易化(cf.\cite{plain_text})\\
+        テキスト平易化\\(cf.\cite{plain_text})\\
         \begin{figure}[h]
           \scalebox{1.2}{
         	\includegraphics[width=5cm]{ouyou1.png}
@@ -750,10 +750,10 @@ train:9140/val:2285/test:1500\\
 \begin{table}[h]
 %\centering
 \begin{tabular}{llll} \hline
-記 & 16.1& The kids are related.\\
-ト & 13.3 & the grilled cheese is burned.\\
-木 & 31.1 & The is is empty.\\
-グ & 31.8 & The jeep is hot.\\ \hline
+記号 & 16.1& The kids are related.\\
+トークン & 13.3 & the grilled cheese is burned.\\
+木構造 & 31.1 & The is is empty.\\
+グラフ & 31.8 & The jeep is hot.\\ \hline
 \end{tabular}
 \label{tab:example3}
 \end{table}
@@ -814,7 +814,7 @@ train:9140/val:2285/test:1500\\
 %\vspace{-1zh}
 \begin{tabular}{llll} \hline
 
-\footnotesize 記 & 36.8 & \footnotesize \highlight{kobai}{A man in a blue shirt} and a black shirt and blue jeans is walking ... \\% through a pool with his daughter.\\
+\footnotesize 記 & 36.8 & \footnotesize \highlight{kobai}{A man in a blue shirt} and a black shirt and blue jeans ... \\% through a pool with his daughter.\\
 \footnotesize ト & 30.1 &\footnotesize \highlight{kobai}{A man in a blue shirt} and a woman in a red \\
 & &\footnotesize dress holding up a small boy.\\
 \footnotesize 木 & 31.9 &\footnotesize  \highlight{kobai}{man in a blue shirt} {with} a beard is standing on a computer while a.\\
@@ -851,7 +851,7 @@ train:9140/val:2285/test:1500\\
 \begin{itemize}
 \item 他の意味表現を用いた文生成との比較を行う．
 \item 評価方法に，文類似度を使用するなど評価方法を工夫する．
-\item 論理式の述語中に出てくる単語を出力するマスキング処理をかける．
+\item モデルにアテンションやマスキング処理を加える．
 \item 論理式のembeddingを改良する．
 \end{itemize}
 

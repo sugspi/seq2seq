@@ -17,7 +17,7 @@ epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/Users/guru/MyResearch/sg/snli/json/snli_input_data_1214.json'
+data_path =  '/Users/guru/MyResearch/sg/data/jp_full_nlambda.json'
 
 # Vectorize the data.
 input_texts = []
@@ -34,7 +34,7 @@ c1 = 0
 c2 = 0
 c3 = 0
 
-f = open('snli_0118.txt', 'w')
+f = open('jp/jp_full0319.txt', 'w')
 
 data = []
 
@@ -56,5 +56,3 @@ f.close()
 
 
 print(len(data))
-print(len(set_txt))
-raise

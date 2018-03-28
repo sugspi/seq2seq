@@ -124,7 +124,7 @@ print("out: ",len(decoder_target_data))
 
 # Define an input sequence and process it.
 enc_main_input = Input(shape=(max_encoder_seq_length,), dtype='int32', name='enc_main_input')
-encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, input_length=max_encoder_seq_length,name='enc_embedding')(enc_main_input)
+encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, mask_zero=True,input_length=max_encoder_seq_length,name='enc_embedding')(enc_main_input)
 encoder = LSTM(latent_dim, return_state=True,return_sequences=True,name='enc_lstm')
 encoder_outputs, state_h, state_c  = encoder(encoder_inputs)
 encoder_states = [state_h, state_c]
@@ -134,7 +134,7 @@ print("encoder_state_c: ",K.int_shape(state_c))
 
 # Set up the decoder, using `encoder_states` as initial state.
 dec_main_input = Input(shape=(max_decoder_seq_length,), dtype='int32', name='dec_main_input')
-decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, input_length=max_decoder_seq_length,name='dec_embedding')(dec_main_input)
+decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, mask_zero=True,input_length=max_decoder_seq_length,name='dec_embedding')(dec_main_input)
 decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True,name='dec_lstm')
 decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
                                      initial_state=encoder_states)

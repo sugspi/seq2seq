@@ -34,15 +34,12 @@ import logging
 from nltk.sem.logic import LogicParser
 from nltk.sem.logic import LogicalExpressionException
 
-from  nltk2pn import lexpr
-from  nltk2pn import normalize_interpretation
-
 batch_size = 256  # Batch size for training.
-epochs = 100  # Number of epochs to train for.
+epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/home/8/17IA0973/snli_0118.txt'
+data_path =  '/Users/guru/MyResearch/sg/data/jp/jp_full_tree.txt'
 
 # Vectorize the data.
 input_texts = []
@@ -57,14 +54,7 @@ for line in lines:
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    try:
-        input_text = normalize_interpretation(input_text)
-    except:
-        print(input_text)
-        print(target_text)
-        continue
-    input_text = [i for i in re.split(r',',input_text) if i != '']
-    input_text = [i for i in input_text if (i != 'True') ]
+    input_text = input_text.split(',')
     input_text.append('EOS')
     output_texts.append(target_text.lstrip())
     target_text = 'BOS' + target_text + 'EOS'
@@ -173,7 +163,7 @@ model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
           validation_split=0.2,
           callbacks=[checkpoint,tensorboard]
           )
-
+          
 # Save model
 #model.save('s2s.h5')
 model = load_model('elapsed_seq2seq.h5')

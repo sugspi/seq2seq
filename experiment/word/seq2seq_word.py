@@ -21,7 +21,7 @@ epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path = '/home/8/17IA0973/snli_0118.txt'
+data_path = '/Users/guru/MyResearch/sg/data/jp/jp_full_token.txt'
 
 # Vectorize the data.
 input_formulas = []
@@ -35,10 +35,7 @@ for line in lines :
     line = line.split('#')
     input_formula = line[0]
     target_text = line[1]
-    input_formula = re.sub('\(', '( ',input_formula)
-    input_formula = re.sub('\)', ' )',input_formula)
-    input_formula = re.split('\s|\.', input_formula)
-    input_formula = [i for i in input_formula if (i != 'TrueP') ]
+    input_formula = input_formula.split(',')
     input_formula.append('EOS')
     output_texts.append(target_text.lstrip())
     target_text = 'BOS ' + target_text + ' EOS'

@@ -36,11 +36,11 @@ from nltk.sem.logic import LogicalExpressionException
 
 
 batch_size = 256  # Batch size for training.
-epochs = 100  # Number of epochs to train for.
+epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/home/8/17IA0973/snli_0122_graph.txt'
+data_path =  '/Users/guru/MyResearch/sg/data/kyoto_read/kyotou_read_0219.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
 # Vectorize the data.
 input_texts = []
@@ -55,7 +55,7 @@ for line in lines:
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    input_text = input_text.split(',') 
+    input_text = input_text.split(',')
     input_text.append('EOS')
     output_texts.append(target_text.lstrip())
     target_text = 'BOS' + target_text + 'EOS'
@@ -190,6 +190,9 @@ decoder_model = Model(
     [dec_main_input] + decoder_states_inputs,
     [decoder_outputs] + decoder_states)
 decoder_model.save('decoder.h5')
+from keras.utils import plot_model
+plot_model(decoder_model, to_file='decoder_model.png')
+raise
 
 # Reverse-lookup token index to decode sequences back to
 # something readable.

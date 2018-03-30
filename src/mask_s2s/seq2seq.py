@@ -13,15 +13,17 @@ set_session(tf.Session(config=config))
 
 from keras.models import Model
 from keras.models import load_model
-from keras.layers import Input, LSTM,Embedding, Dense
+from keras.layers import Input, LSTM,Embedding, Dense, multiply
 import keras
+from keras import backend as K
+#from keras.utils import plot_model
 
 #from sklearn.model_selection import train_test_split
 
 import numpy as np
 import json
 import re
-#import pydot
+import pydot
 
 import nltk
 from nltk.tree import Tree
@@ -47,6 +49,7 @@ data_path =  '/Users/guru/Google drive/seq2seq/en/small.txt'#'/home/8/17IA0973/s
 
 stemmer = stem.PorterStemmer()
 
+#新１，機能語のリストを得る．
 func_list = [] #機能語のリスト
 f = open('/Users/guru/MyResearch/sg/src/mask_s2s/func_word.txt')
 line = f.readline()
@@ -55,14 +58,18 @@ while line:
     func_list.append(line.rstrip())
 f.close()
 
+#新２，マスク行列の行を返す関数．
+#入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
 def get_masking_list(inp):
-    mask = decoder_mask_matrix = np.zeros((1, num_decoder_tokens),dtype='float32')
-    for t in inp :
+    mask = decoder_mask_matrix = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
+    for num,t in enumerate(inp) :
         if(t[:1]=='_'):
             s1 = stemmer.stem(t[1:])
-            mask[0,target_stem_token_index[s1]] = 1.
-    for i in func_index:
-        mask[0,i] = 1.
+            for i in range(max_decoder_seq_length):
+                mask[0,i,target_stem_token_index[s1]] = 1.
+    for f in func_index:
+        for i in range(max_decoder_seq_length):
+            mask[0,i,f] = 1.
     return mask
 
 # Vectorize the data.
@@ -119,7 +126,8 @@ target_stem_token_index = dict(
 reverse_target_char_index = dict(
     (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
 
-func_index = [] #機能語のインデックス格納
+#新３，機能語のインデックス格納
+func_index = []
 for w in func_list:
     if w in target_token_index:
         func_index.append(target_token_index[w])
@@ -136,12 +144,13 @@ decoder_target_data = np.zeros(
     (len(input_texts), max_decoder_seq_length, num_decoder_tokens),
     dtype='float32')
 
-#マスキング行列
+#新４，マスキング行列
 decoder_mask_matrix = np.zeros(
-    (len(input_texts), num_decoder_tokens),
+    (len(input_texts), max_decoder_seq_length,num_decoder_tokens),
     dtype='float32')
 
 for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
+    #新５，マスキング行列
     decoder_mask_matrix[i] = get_masking_list(input_texts[1])
     for t, char in enumerate(input_text):
         encoder_input_data[i, t] = input_token_index[char]
@@ -179,6 +188,13 @@ decoder_dense = Dense(num_decoder_tokens, activation='softmax')
 decoder_outputs = decoder_dense(decoder_outputs)
 
 
+### maskを新しくInputを追加
+mask_input = Input(shape=(max_decoder_seq_length,num_decoder_tokens), dtype='float32', name='mask_input')
+
+### 掛け算に"*"つかえるでしょか？？
+decoder_outputs = multiply([mask_input, decoder_outputs])
+
+
 #callback function and parameter search
 #if you want to use below function, you add callbacks=[name-val]
 earlystop =keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose=0, mode='auto')
@@ -190,7 +206,7 @@ checkpoint = keras.callbacks.ModelCheckpoint(
 
 # Define the model that will turn
 # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
-model = Model([enc_main_input, dec_main_input], decoder_outputs)
+model = Model([enc_main_input, dec_main_input,mask_input], decoder_outputs)
 #plot_model(model, to_file='model.png')
 # Run training
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
@@ -199,7 +215,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 #m.save_weights('weights.h5')
 #model.load_weights('weights.h5')
 
-model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
+model.fit([encoder_input_data, decoder_input_data,decoder_mask_matrix], decoder_target_data,
           batch_size=batch_size,
           epochs=epochs,
           validation_split=0.2,

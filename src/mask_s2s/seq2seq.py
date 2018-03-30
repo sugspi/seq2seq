@@ -40,7 +40,7 @@ from nltk import stem
 
 
 batch_size = 256  # Batch size for training.
-epochs = 1  # Number of epochs to train for.
+epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
@@ -243,7 +243,7 @@ decoder_outputs, state_h, state_c = decoder_lstm(
 decoder_states = [state_h, state_c]
 decoder_outputs = decoder_dense(decoder_outputs)
 decoder_model = Model(
-    [dec_main_input] + decoder_states_inputs,
+    [dec_main_input,mask_input] + decoder_states_inputs,
     [decoder_outputs] + decoder_states)
 decoder_model.save('decoder.h5')
 from keras.utils import plot_model
@@ -259,6 +259,7 @@ def decode_sequence(input_seq):
 
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
+    mask_seq = get_masking_list(input_seq)
     # Populate the first character of target sequence with the start character.
     target_seq[0, 0] = target_token_index['BOS']
     # Sampling loop for a batch of sequences
@@ -267,7 +268,7 @@ def decode_sequence(input_seq):
     decoded_sentence = ''
     while not stop_condition:
         output_tokens, h, c = decoder_model.predict(
-            [target_seq] + states_value)
+            [target_seq,mask_seq] + states_value)
 
         # Sample a token
         sampled_token_index = np.argmax(output_tokens[0, -1, :])

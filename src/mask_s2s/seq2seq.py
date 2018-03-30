@@ -34,13 +34,36 @@ import logging
 from nltk.sem.logic import LogicParser
 from nltk.sem.logic import LogicalExpressionException
 
+from nltk import stem
+
 
 batch_size = 256  # Batch size for training.
-epochs = 100  # Number of epochs to train for.
+epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/home/8/17IA0973/snli_0122_graph.txt'
+data_path =  '/Users/guru/Google drive/seq2seq/en/small.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+
+
+stemmer = stem.PorterStemmer()
+
+func_list = [] #機能語のリスト
+f = open('/Users/guru/MyResearch/sg/src/mask_s2s/func_word.txt')
+line = f.readline()
+while line:
+    line = f.readline()
+    func_list.append(line.rstrip())
+f.close()
+
+def get_masking_list(inp):
+    mask = decoder_mask_matrix = np.zeros((1, num_decoder_tokens),dtype='float32')
+    for t in inp :
+        if(t[:1]=='_'):
+            s1 = stemmer.stem(t[1:])
+            mask[0,target_stem_token_index[s1]] = 1.
+    for i in func_index:
+        mask[0,i] = 1.
+    return mask
 
 # Vectorize the data.
 input_texts = []
@@ -55,7 +78,7 @@ for line in lines:
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    input_text = input_text.split(',') 
+    input_text = input_text.split(',')
     input_text.append('EOS')
     output_texts.append(target_text.lstrip())
     target_text = 'BOS' + target_text + 'EOS'
@@ -70,6 +93,7 @@ for line in lines:
             target_characters.add(char)
 print(len(output_texts))
 print(len(target_texts))
+
 
 input_characters = sorted(list(input_characters))
 target_characters = sorted(list(target_characters))
@@ -89,6 +113,16 @@ input_token_index = dict(
 target_token_index = dict(
     [(char, i+1) for i, char in enumerate(target_characters)])
 
+target_stem_token_index = dict(
+    [(stemmer.stem(char), i+1) for i, char in enumerate(target_characters)])
+
+reverse_target_char_index = dict(
+    (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
+
+func_index = [] #機能語のインデックス格納
+for w in func_list:
+    if w in target_token_index:
+        func_index.append(target_token_index[w])
 
 encoder_input_data = np.zeros(
     (len(input_texts), max_encoder_seq_length),
@@ -102,7 +136,13 @@ decoder_target_data = np.zeros(
     (len(input_texts), max_decoder_seq_length, num_decoder_tokens),
     dtype='float32')
 
+#マスキング行列
+decoder_mask_matrix = np.zeros(
+    (len(input_texts), num_decoder_tokens),
+    dtype='float32')
+
 for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
+    decoder_mask_matrix[i] = get_masking_list(input_texts[1])
     for t, char in enumerate(input_text):
         encoder_input_data[i, t] = input_token_index[char]
     for t, char in enumerate(target_text):
@@ -114,14 +154,13 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
-encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
-decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
-decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
+#encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
+#decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
+#decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
 
 print("test: ",len(encoder_input_data))
 print("inp: ",len(decoder_input_data))
 print("out: ",len(decoder_target_data))
-
 
 # Define an input sequence and process it.
 enc_main_input = Input(shape=(max_encoder_seq_length,), dtype='int32', name='enc_main_input')
@@ -159,6 +198,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 #m = load_model('elapsed_seq2seq.h5')
 #m.save_weights('weights.h5')
 #model.load_weights('weights.h5')
+
 model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
           batch_size=batch_size,
           epochs=epochs,
@@ -190,12 +230,12 @@ decoder_model = Model(
     [dec_main_input] + decoder_states_inputs,
     [decoder_outputs] + decoder_states)
 decoder_model.save('decoder.h5')
+from keras.utils import plot_model
+plot_model(decoder_model, to_file='decoder_model.png')
+
 
 # Reverse-lookup token index to decode sequences back to
 # something readable.
-
-reverse_target_char_index = dict(
-    (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
 
 def decode_sequence(input_seq):
     # Encode the input as state vectors.

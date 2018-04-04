@@ -40,7 +40,8 @@ epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/Users/guru/MyResearch/sg/data/kyoto_read/kyotou_read_0219.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+# data_path =  '/Users/guru/MyResearch/sg/data/kyoto_read/kyotou_read_0219.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path =  '../snli_t_full_token.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
 # Vectorize the data.
 input_texts = []

@@ -18,3 +18,8 @@ if [ ! -f "./py3/updated" -o ./requirements.txt -nt ./py3/updated ]; then
     echo "Required dependencies installed."
 fi
 
+mkdir -p src/seq2seq/c2l
+mkdir -p src/graph2seq/c2l
+
+cd src/graph2seq
+git clone https://github.com/pasmargo/graph-emb.git

@@ -10,3 +10,8 @@ conda install -c anaconda tensorflow-gpu keras-gpu scikit-learn nomkl nltk=3.2.5
 # conda create -n py3 --file requirements.txt
 
 mkdir -p src/seq2seq/c2l
+mkdir -p src/graph2seq/c2l
+
+cd src/graph2seq
+git clone https://github.com/pasmargo/graph-emb.git
+

@@ -40,10 +40,10 @@ np.random.seed(seed=seed)
 
 logging.basicConfig(level=logging.DEBUG)
 
-batch_size = 128 # Batch size for training.
-epochs = 2  # Number of epochs to train for.
+batch_size = 10 # Batch size for training.
+epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
-num_samples = 2000  # Number of samples to train on.
+num_samples = 1000000  # Number of samples to train on.
 # Path to the data txt file on disk.
 data_path =  '../seq2seq/snli_0122.txt'
 
@@ -129,7 +129,7 @@ print("test: ",len(encoder_input_data))
 print("inp: ",len(decoder_input_data))
 print("out: ",len(decoder_target_data))
 
-formulas = [lexpr(f) for f in input_texts]
+formulas = [lexpr(f) for f in input_formulas]
 formulas_train = formulas[1500:]
 graph_data_train = GraphData.from_formulas(formulas_train)
 graph_data_train.make_matrices()
@@ -303,8 +303,8 @@ graph_data_test.make_matrices()
 #bleu evaluation
 len_inp = len(test_input_data)
 sum_score = 0
-# for seq_index in range(len_inp-1):
-for seq_index in range(10):
+# for seq_index in range(10):
+for seq_index in range(len_inp-1):
     input_data = [
         graph_data_train.node_inds[seq_index: seq_index + 1],
         graph_data_train.children[seq_index: seq_index + 1],

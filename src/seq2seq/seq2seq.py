@@ -40,7 +40,7 @@ epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/Users/guru/MyResearch/sg/data/kyoto_read/kyotou_read_0219.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path =  '/Users/guru/Google Drive/seq2seq/en/small.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
 # Vectorize the data.
 input_texts = []
@@ -114,9 +114,9 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
-encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
-decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
-decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
+#encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
+#decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
+#decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
 
 print("test: ",len(encoder_input_data))
 print("inp: ",len(decoder_input_data))
@@ -192,7 +192,6 @@ decoder_model = Model(
 decoder_model.save('decoder.h5')
 from keras.utils import plot_model
 plot_model(decoder_model, to_file='decoder_model.png')
-raise
 
 # Reverse-lookup token index to decode sequences back to
 # something readable.

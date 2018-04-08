@@ -190,8 +190,8 @@ def coq_string_binary_expr(expression):
     #return Tokens.OPEN + first + ' ' + expression.getOp() \
     #        + ' ' + second + Tokens.CLOSE
 
-data_path = '/Users/guru/MyResearch/sg/data/jp/jp_full.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
-f = open('jp/eltp_jp_full0319.txt', 'w')
+data_path = 'snli_0408_10000.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
+f = open('snli_0408_2.txt', 'w')
 data = []
 
 lines = open(data_path)
@@ -199,9 +199,10 @@ for line in lines :
     line = line.split('#')
     l1 = line[0]
     l2 = line[1].rstrip()
+    l3 = line[2].rstrip()
     try:
         l1 = normalize_interpretation(l1)
-        data.append(l1 + '#' + l2)
+        data.append(l1 + '#' + l2 + '#' + l3)
     except:
         continue
 

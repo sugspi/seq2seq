@@ -346,8 +346,8 @@ def rename_nodes(graph, head_node=None, quant_active=None, quant_scope=None):
             nx.set_node_attributes(graph, {node : new_label}, 'label')
     return graph
 
-data_path = '/Users/guru/MyResearch/sg/data/jp/jp_full.txt'
-f = open('/Users/guru/MyResearch/sg/data/jp/jp_full_graph.txt', 'w')
+data_path = 'snli_0408_2.txt'
+f = open('snli_0408_graph.txt', 'w')
 data = []
 
 lines = open(data_path)
@@ -355,6 +355,7 @@ for line in lines :
     line = line.split('#')
     l1 = line[0]
     l2 = line[1].rstrip()
+    l3 = line[2].rstrip()
     try:
         G = formula_to_graph(l1,normalize=True)
         gdict = dict(G.nodes)
@@ -363,7 +364,7 @@ for line in lines :
         for i in glist:
             gemb.append((gdict[i])['label'])
         strs = ','.join(gemb)
-        tmp = str(strs) + '#' + l2
+        tmp = str(strs) + '#' + l2 + '#' + l3
         f.write(tmp+'\n')
     except:
         continue

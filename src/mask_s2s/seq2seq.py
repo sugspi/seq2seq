@@ -36,22 +36,18 @@ import logging
 from nltk.sem.logic import LogicParser
 from nltk.sem.logic import LogicalExpressionException
 
-from nltk import stem
-
 
 batch_size = 256  # Batch size for training.
 epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/Users/guru/Google drive/seq2seq/en/small.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path =  'snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
-
-stemmer = stem.PorterStemmer()
 
 #新１，機能語のリストを得る．
 func_list = [] #機能語のリスト
-f = open('/Users/guru/MyResearch/sg/src/mask_s2s/func_word.txt')
+f = open('func_word.txt')
 line = f.readline()
 while line:
     line = f.readline()
@@ -61,46 +57,80 @@ f.close()
 #新２，マスク行列の行を返す関数．
 #入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
 def get_masking_list(inp):
-    mask = decoder_mask_matrix = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
+    mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
+
         if(t[:1]=='_'):
-            s1 = stemmer.stem(t[1:])
+            s1 = t[1:]
+            try:
+                for word in lem_dict[s1]:
+                    index = target_token_index[word]
+            except:
+                print("ERROR word : ",s1)
+                continue
             for i in range(max_decoder_seq_length):
-                mask[0,i,target_stem_token_index[s1]] = 1.
+                    mask[0,i,index] = 1.
     for f in func_index:
         for i in range(max_decoder_seq_length):
             mask[0,i,f] = 1.
     return mask
 
+
 # Vectorize the data.
 input_texts = []
 target_texts = []
 output_texts =[]
+base_texts =[]
+surf_texts =[]
 input_characters = set()
 target_characters = set()
+lem_dict = dict()
 lines = open(data_path)
-
 
 for line in lines:
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    input_text = input_text.split(',')
+    target_text = target_text.lstrip()
+    base_text = line[2].rstrip()
+    base_text = base_text.lstrip()
+    #input_text = input_text.split(',')
+    #input_text.append('EOS')
+
+    input_text = re.sub('\(', ' ( ',input_text)
+    input_text = re.sub('\)', ' ) ',input_text)
+    input_text = re.split('\s|\.', input_text)
+    input_text = [i for i in input_text if (i != 'TrueP') ]
     input_text.append('EOS')
-    output_texts.append(target_text.lstrip())
-    target_text = 'BOS' + target_text + 'EOS'
-    target_text = re.split('\s|\.', target_text)
     input_texts.append(input_text)
+
+
+
+    output_texts.append(target_text)
+    surf_text = re.split('\s|\.', target_text)
+    surf_texts.append(surf_text)
+
+    target_text = 'BOS ' + target_text + ' EOS'
+    target_text = re.split('\s|\.', target_text)
     target_texts.append(target_text)
+
+    base_text = re.split('\s|\.', base_text)
+    base_texts.append(base_text)
+
+
     for char in input_text:
         if char not in input_characters:
             input_characters.add(char)
     for char in target_text:
         if char not in target_characters:
             target_characters.add(char)
-print(len(output_texts))
-print(len(target_texts))
 
+
+    for s,b in (zip(surf_text, base_text)):
+        if not(b in lem_dict.keys()):
+            lem_dict[b] = set()
+        if not(s in lem_dict[b]):
+            lem_dict[b].add(s)
 
 input_characters = sorted(list(input_characters))
 target_characters = sorted(list(target_characters))
@@ -119,10 +149,6 @@ input_token_index = dict(
     [(char, i+1) for i, char in enumerate(input_characters)])
 target_token_index = dict(
     [(char, i+1) for i, char in enumerate(target_characters)])
-
-target_stem_token_index = dict(
-    [(stemmer.stem(char), i+1) for i, char in enumerate(target_characters)])
-
 reverse_target_char_index = dict(
     (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
 
@@ -151,7 +177,7 @@ decoder_mask_matrix = np.zeros(
 
 for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
     #新５，マスキング行列
-    decoder_mask_matrix[i] = get_masking_list(input_texts[1])
+    decoder_mask_matrix[i] = get_masking_list(input_texts[i])
     for t, char in enumerate(input_text):
         encoder_input_data[i, t] = input_token_index[char]
     for t, char in enumerate(target_text):
@@ -160,6 +186,7 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
             # decoder_target_data will be ahead by one timestep
             # and will not include the start character.
             decoder_target_data[i, t - 1, target_token_index[char]] = 1.
+#print(target_stem_token_index)
 
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
@@ -191,9 +218,7 @@ decoder_outputs = decoder_dense(decoder_outputs)
 ### maskを新しくInputを追加
 mask_input = Input(shape=(max_decoder_seq_length,num_decoder_tokens), dtype='float32', name='mask_input')
 
-### 掛け算に"*"つかえるでしょか？？
 decoder_outputs = multiply([mask_input, decoder_outputs])
-
 
 #callback function and parameter search
 #if you want to use below function, you add callbacks=[name-val]
@@ -206,48 +231,51 @@ checkpoint = keras.callbacks.ModelCheckpoint(
 
 # Define the model that will turn
 # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
-model = Model([enc_main_input, dec_main_input,mask_input], decoder_outputs)
+#model = Model([enc_main_input, dec_main_input,mask_input], decoder_outputs)
 #plot_model(model, to_file='model.png')
 # Run training
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+#model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+
 #model = load_model('elapsed_seq2seq.h5')
 #m = load_model('elapsed_seq2seq.h5')
 #m.save_weights('weights.h5')
 #model.load_weights('weights.h5')
 
-model.fit([encoder_input_data, decoder_input_data,decoder_mask_matrix], decoder_target_data,
-          batch_size=batch_size,
-          epochs=epochs,
-          validation_split=0.2,
-          callbacks=[checkpoint,tensorboard]
-          )
+#model.fit([encoder_input_data, decoder_input_data,decoder_mask_matrix], decoder_target_data,
+#          batch_size=batch_size,
+#          epochs=epochs,
+#          validation_split=0.2,
+#          callbacks=[checkpoint,tensorboard]
+#          )
 
 # Save model
-model.save('s2s.h5')
+#model.save('s2s.h5')
 model = load_model('elapsed_seq2seq.h5')
 m = load_model('elapsed_seq2seq.h5')
 m.save_weights('weights.h5')
 model.load_weights('weights.h5')
 
-#encoder_model = load_model('encoder.h5')
-#decoder_model = load_model('decoder.h5')
+encoder_model = load_model('encoder.h5')
+decoder_model = load_model('decoder.h5')
 
-encoder_model = Model(enc_main_input, encoder_states)
-encoder_model.save('encoder.h5')
+#encoder_model = Model(enc_main_input, encoder_states)
+#encoder_model.save('encoder.h5')
 
-decoder_state_input_h = Input(shape=(latent_dim,))
-decoder_state_input_c = Input(shape=(latent_dim,))
-decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
-decoder_outputs, state_h, state_c = decoder_lstm(
-    decoder_inputs, initial_state=decoder_states_inputs)
-decoder_states = [state_h, state_c]
-decoder_outputs = decoder_dense(decoder_outputs)
-decoder_model = Model(
-    [dec_main_input,mask_input] + decoder_states_inputs,
-    [decoder_outputs] + decoder_states)
-decoder_model.save('decoder.h5')
-from keras.utils import plot_model
-plot_model(decoder_model, to_file='decoder_model.png')
+#decoder_state_input_h = Input(shape=(latent_dim,))
+#decoder_state_input_c = Input(shape=(latent_dim,))
+#decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
+#decoder_outputs, state_h, state_c = decoder_lstm(
+#    decoder_inputs, initial_state=decoder_states_inputs)
+#decoder_states = [state_h, state_c]
+#decoder_outputs = decoder_dense(decoder_outputs)
+#decoder_outputs = multiply([mask_input, decoder_outputs])
+
+#decoder_model = Model(
+#    [dec_main_input,mask_input] + decoder_states_inputs,
+#    [decoder_outputs] + decoder_states)
+#decoder_model.save('decoder.h5')
+#from keras.utils import plot_model
+#plot_model(decoder_model, to_file='decoder_model.png')
 
 
 # Reverse-lookup token index to decode sequences back to
@@ -260,6 +288,11 @@ def decode_sequence(input_seq):
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
     mask_seq = get_masking_list(input_seq)
+    np.set_printoptions(threshold=np.inf)
+    print(mask_seq)
+    print(input_token_index)
+    print(input_seq)
+    raise
     # Populate the first character of target sequence with the start character.
     target_seq[0, 0] = target_token_index['BOS']
     # Sampling loop for a batch of sequences
@@ -305,7 +338,7 @@ for seq_index in range(len_inp-1):
     sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
     fname = 'c2l/result'+str(seq_index)+'.txt'
     f = open(fname, 'w')
-    f.write(output_texts[seq_index])
+    f.write(output_texts[seq_index]+'\n')
     f.write(decoded_sentence.strip()+'\n')
     f.close()
     #print('Input sentence:', input_texts[seq_index])

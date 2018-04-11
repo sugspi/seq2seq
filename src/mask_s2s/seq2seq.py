@@ -38,11 +38,11 @@ from nltk.sem.logic import LogicalExpressionException
 
 
 batch_size = 256  # Batch size for training.
-epochs = 100  # Number of epochs to train for.
+epochs = 200  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  'snli_0408.txt' # 'snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path = 'snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
 
 #新１，機能語のリストを得る．
@@ -60,11 +60,11 @@ f.close()
 #新２，マスク行列の行を返す関数．
 #入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
 def get_masking_list(inp):
-    # print(" ".join(inp))
     mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
+
         if(t[:1]=='_'):
-			############### in_front_of の件、直しておきます…
+            ############### in_front_of の件、直しておきます…
             for s1 in t.split('_')[1:]:
                 try:
                     for word in lem_dict[s1]:
@@ -91,7 +91,8 @@ target_characters = set()
 lem_dict = dict()
 lines = open(data_path)
 
-for line in lines:
+for i, line in enumerate(lines):
+    if i >= 50000: break
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
@@ -106,7 +107,7 @@ for line in lines:
     input_text = re.sub('\(', ' ( ',input_text)
     input_text = re.sub('\)', ' ) ',input_text)
     input_text = re.split('\s|\.', input_text)
-    input_text = [i for i in input_text if (i != 'TrueP') ]
+    input_text = [i for i in input_text if i not in ['TrueP', ''] ]
     input_text.append('EOS')
     input_texts.append(input_text)
 
@@ -117,7 +118,7 @@ for line in lines:
     surf_texts.append(surf_text)
 
     target_text = 'BOS ' + target_text + ' EOS'
-    target_text = re.split('\s|\.', target_text)
+    target_text = [i for i in re.split('\s|\.', target_text) if i not in [''] ]
     target_texts.append(target_text)
 
     base_text = re.split('\s|\.', base_text)
@@ -159,7 +160,7 @@ reverse_target_char_index = dict(
     (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
 
 #新３，機能語のインデックス格納
-func_index = []
+func_index = [target_token_index['EOS']]
 for w in func_list:
     if w in target_token_index:
         func_index.append(target_token_index[w])
@@ -197,11 +198,10 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
 test_decoder_masks = decoder_mask_matrix[:1500]
-
-encoder_input_data = np.delete(encoder_input_data,[i for i in range(1500)],0)
-decoder_input_data = np.delete(decoder_input_data,[i for i in range(1500)],0)
-decoder_target_data = np.delete(decoder_target_data,[i for i in range(1500)],0)
-decoder_mask_matrix　= np.delete(decoder_mask_matrix,[i for i in range(1500)],0)
+encoder_input_data = encoder_input_data[1500:]
+decoder_input_data = decoder_input_data[1500:]
+decoder_target_data = decoder_target_data[1500:]
+decoder_mask_matrix = decoder_mask_matrix[1500:]
 
 print("test: ",len(encoder_input_data))
 print("inp: ",len(decoder_input_data))
@@ -235,7 +235,7 @@ earlystop =keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose
             #keras.callbacks.EarlyStopping(monitor='loss', min_delta=0.0001, patience=10, verbose=0, mode='auto')
 # tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
 checkpoint = keras.callbacks.ModelCheckpoint(
-             filepath = 'elapsed_seq2seq.h5',#'seq2seq_model{epoch:02d}-loss{loss:.2f}-vloss{val_loss:.2f}.h5',
+             filepath = 'models/seq2seq_model{epoch:02d}-loss{loss:.2f}-vloss{val_loss:.2f}.h5',
              monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
 # Define the model that will turn
@@ -260,7 +260,7 @@ model.fit([encoder_input_data, decoder_input_data,decoder_mask_matrix], decoder_
 # Save model
 model.save('s2s.h5')
 # model = load_model('elapsed_seq2seq.h5')
-m = load_model('elapsed_seq2seq.h5')
+m = load_model('s2s.h5')
 m.save_weights('weights.h5')
 model.load_weights('weights.h5')
 
@@ -350,11 +350,12 @@ for seq_index in range(len_inp-1):
     sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
     fname = 'c2l/result'+str(seq_index)+'.txt'
     f = open(fname, 'w')
-    f.write(output_texts[seq_index])
+    f.write(output_texts[seq_index]+'\n')
     f.write(decoded_sentence.strip()+'\n')
     f.close()
     #print('Input sentence:', input_texts[seq_index])
     #if (seq_index%100) == 0 :
-    #    print('Decoded sentence:', decoded_sentence)
-    #    print('Answer sentence:', output_texts[seq_index])
+    # print('Decoded sentence:', decoded_sentence)
+    # print('Answer sentence:', output_texts[seq_index])
+    # print('')
 print('bleu score',(sum_score/len_inp))

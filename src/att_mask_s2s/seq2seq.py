@@ -13,10 +13,11 @@ set_session(tf.Session(config=config))
 
 from keras.models import Model
 from keras.models import load_model
-from keras.layers import Input, LSTM,Embedding, Dense, multiply
+from keras.layers import Input, LSTM,Embedding, Dense, multiply, Flatten,Softmax,Reshape
+from keras.layers import Lambda,multiply,dot,concatenate,add
 import keras
 from keras import backend as K
-#from keras.utils import plot_model
+from keras.utils import plot_model
 
 #from sklearn.model_selection import train_test_split
 
@@ -42,7 +43,7 @@ epochs = 200  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path = 'snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path = '/Users/guru/MyResearch/sg/data/snli/fordebug/snli_0408.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
 
 #新１，機能語のリストを得る．
@@ -198,10 +199,10 @@ for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
 test_input_data =  encoder_input_data[:1500]
 output_texts = output_texts[:1500]
 test_decoder_masks = decoder_mask_matrix[:1500]
-encoder_input_data = encoder_input_data[1500:]
-decoder_input_data = decoder_input_data[1500:]
-decoder_target_data = decoder_target_data[1500:]
-decoder_mask_matrix = decoder_mask_matrix[1500:]
+#encoder_input_data = encoder_input_data[1500:]
+#decoder_input_data = decoder_input_data[1500:]
+#decoder_target_data = decoder_target_data[1500:]
+#decoder_mask_matrix = decoder_mask_matrix[1500:]
 
 print("test: ",len(encoder_input_data))
 print("inp: ",len(decoder_input_data))
@@ -209,25 +210,45 @@ print("out: ",len(decoder_target_data))
 
 # Define an input sequence and process it.
 enc_main_input = Input(shape=(max_encoder_seq_length,), dtype='int32', name='enc_main_input')
-encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, input_length=max_encoder_seq_length,mask_zero=True)(enc_main_input)
-encoder = LSTM(latent_dim, return_state=True)
+encoder_inputs  = Embedding(output_dim=256, input_dim=num_encoder_tokens, mask_zero=True, input_length=max_encoder_seq_length,name='enc_embedding')(enc_main_input)
+encoder = LSTM(latent_dim, return_state=True,return_sequences=True,name='enc_lstm')
 encoder_outputs, state_h, state_c  = encoder(encoder_inputs)
 encoder_states = [state_h, state_c]
+print("encoder_outputs: ",K.int_shape(encoder_outputs))
+print("encoder_state_h: ",K.int_shape(state_h))
+print("encoder_state_c: ",K.int_shape(state_c))
 
 # Set up the decoder, using `encoder_states` as initial state.
 dec_main_input = Input(shape=(max_decoder_seq_length,), dtype='int32', name='dec_main_input')
-decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, input_length=max_decoder_seq_length,mask_zero=True)(dec_main_input)
-decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
+decoder_inputs  = Embedding(output_dim=256, input_dim=num_decoder_tokens, mask_zero=True, input_length=max_decoder_seq_length,name='dec_embedding')(dec_main_input)
+decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True,name='dec_lstm')
 decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
                                      initial_state=encoder_states)
-decoder_dense = Dense(num_decoder_tokens, activation='softmax')
-decoder_outputs = decoder_dense(decoder_outputs)
+print("dec_hidden: ",K.int_shape(decoder_outputs))
 
+inner_prod = dot([encoder_outputs,decoder_outputs], axes=2)
+print("mul (enc,hid): ",K.int_shape(inner_prod))
+
+a_vector = Softmax(axis=1)(inner_prod)
+print("a_vecotr(softmax): ",K.int_shape(a_vector))
+
+context_vector = dot([a_vector,encoder_outputs], axes=1)
+print("context_vector: ",K.int_shape(context_vector))
+
+concat_vector = concatenate([context_vector,decoder_outputs], axis=2)
+print("concat_vector: ",K.int_shape(concat_vector))
+
+decoder_tanh = Dense(latent_dim, activation='tanh',name='tanh')
+new_decoder_outputs = decoder_tanh(concat_vector)
+print("new_dec_hidden: ",K.int_shape(new_decoder_outputs))
+
+decoder_dense = Dense(num_decoder_tokens, activation='softmax',name='softmax2')
+new_decoder_outputs = decoder_dense(new_decoder_outputs)
 
 ### maskを新しくInputを追加
 mask_input = Input(shape=(max_decoder_seq_length,num_decoder_tokens), dtype='float32', name='mask_input')
 
-decoder_outputs = multiply([mask_input, decoder_outputs])
+new_decoder_outputs = multiply([mask_input, new_decoder_outputs])
 
 #callback function and parameter search
 #if you want to use below function, you add callbacks=[name-val]
@@ -240,8 +261,8 @@ checkpoint = keras.callbacks.ModelCheckpoint(
 
 # Define the model that will turn
 # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
-model = Model([enc_main_input, dec_main_input,mask_input], decoder_outputs)
-#plot_model(model, to_file='model.png')
+model = Model([enc_main_input, dec_main_input,mask_input], new_decoder_outputs)
+plot_model(model, to_file='model.png')
 # Run training
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 
@@ -253,7 +274,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 model.fit([encoder_input_data, decoder_input_data,decoder_mask_matrix], decoder_target_data,
          batch_size=batch_size,
          epochs=epochs,
-         validation_split=0.2,
+         validation_split=0.01,
          callbacks=[checkpoint]
          )
 
@@ -267,23 +288,32 @@ model.load_weights('weights.h5')
 # encoder_model = load_model('encoder.h5')
 # decoder_model = load_model('decoder.h5')
 
-encoder_model = Model(enc_main_input, encoder_states)
-#encoder_model.save('encoder.h5')
+#encoder_outputs,_,_ = encoder(encoder_inputs)
+encoder_model = Model(enc_main_input, [encoder_outputs]+encoder_states)
+encoder_model.save('encoder.h5')
 
 decoder_state_input_h = Input(shape=(latent_dim,))
 decoder_state_input_c = Input(shape=(latent_dim,))
-decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
-decoder_outputs, state_h, state_c = decoder_lstm(
-   decoder_inputs, initial_state=decoder_states_inputs)
+encoder_state_input_e = Input(shape=(max_encoder_seq_length, latent_dim,))
+decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c,]
+_, state_h, state_c = decoder_lstm(
+    decoder_inputs, initial_state=decoder_states_inputs)
 decoder_states = [state_h, state_c]
-decoder_outputs = decoder_dense(decoder_outputs)
+
+re_state_h = Reshape((1,256))(state_h)
+inner_prod = dot([encoder_state_input_e,re_state_h], axes=2)
+a_vector = Softmax(axis=1)(inner_prod)
+context_vector = dot([a_vector,encoder_state_input_e], axes=1)
+concat_vector = concatenate([context_vector,re_state_h], axis=2)
+new_decoder_outputs = decoder_tanh(concat_vector)
+
+decoder_outputs = decoder_dense(new_decoder_outputs)
 decoder_outputs = multiply([mask_input, decoder_outputs])
 
 decoder_model = Model(
-   [dec_main_input,mask_input] + decoder_states_inputs,
+   [dec_main_input,encoder_state_input_e,mask_input] + decoder_states_inputs,
    [decoder_outputs] + decoder_states)
 #decoder_model.save('decoder.h5')
-#from keras.utils import plot_model
 #plot_model(decoder_model, to_file='decoder_model.png')
 
 
@@ -292,7 +322,8 @@ decoder_model = Model(
 
 def decode_sequence(input_seq, input_mask): ############# 新しく引数にinput_maskを追加
     # Encode the input as state vectors.
-    states_value = encoder_model.predict(input_seq)
+    e_state,h_state,c_state = encoder_model.predict(input_seq)
+    states_value = [h_state,c_state]
 
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
@@ -312,7 +343,7 @@ def decode_sequence(input_seq, input_mask): ############# 新しく引数にinpu
     decoded_sentence = ''
     while not stop_condition:
         output_tokens, h, c = decoder_model.predict(
-            [target_seq,input_mask] + states_value)
+            [target_seq,e_state,input_mask] + states_value)
 
         # Sample a token
         sampled_token_index = np.argmax(output_tokens[0, -1, :])

@@ -31,17 +31,17 @@ from keras import backend as K
 
 import nltk
 from nltk.tree import Tree
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu,corpus_bleu
 
 from nltk.sem.logic import LogicParser
 from nltk.sem.logic import LogicalExpressionException
 
 batch_size = 256  # Batch size for training.
-epochs = 200  # Number of epochs to train for.
+epochs = 20  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '/Users/guru/MyResearch/sg/data/snli/text_graph/small.txt' #'/Users/guru/MyResearch/sg/data/kyoto_read/kyotou_read_0219.txt
+data_path =  '/Users/guru/MyResearch/sg/data/snli/fordebug/snli_0408.txt' #'/Users/guru/MyResearch/sg/data/kyoto_read/kyotou_read_0219.txt
 
 # Vectorize the data.
 input_texts = []
@@ -290,19 +290,32 @@ def decode_sequence(input_seq):
     return decoded_sentence
 
 #bleu evaluation
+def remove_punct(text):
+    if text.endswith('.'):
+        return text[:-1]
+    else:
+        return text
+
 len_inp = len(test_input_data)
 sum_score = 0
-for seq_index in range(len_inp-1):
+import random
+results = []
+for seq_index in range(len_inp):
+    # seq_index = random.randint(0, len_inp)
     input_seq = test_input_data[seq_index: seq_index + 1]
     decoded_sentence = decode_sequence(input_seq).lstrip()
-    sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
-    fname = 'c2l/result'+str(seq_index)+'.txt'
-    f = open(fname, 'w')
-    f.write(output_texts[seq_index])
-    f.write(decoded_sentence.strip()+'\n')
-    f.close()
+    results.append(remove_punct(decoded_sentence).split(' '))
+    # sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
+    # fname = 'c2l/result'+str(seq_index)+'.txt'
+    # f = open(fname, 'w')
+    # f.write(output_texts[seq_index]+'\n')
+    # f.write(decoded_sentence.strip()+'\n')
+    # f.close()
     #print('Input sentence:', input_texts[seq_index])
     #if (seq_index%100) == 0 :
-    #    print('Decoded sentence:', decoded_sentence)
-    #    print('Answer sentence:', output_texts[seq_index])
-print('bleu score',(sum_score/len_inp))
+    print('Decoded sentence:', decoded_sentence)
+    print('Answer sentence:', output_texts[seq_index])
+    print('')
+
+bleu = corpus_bleu([[remove_punct(t).split(' ')] for t in output_texts], results)
+print('bleu score',bleu)

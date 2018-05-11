@@ -1,6 +1,3 @@
-# coding: utf-8
-#ifrom __future__ import print_function
-
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto(
@@ -11,38 +8,44 @@ config = tf.ConfigProto(
 )
 set_session(tf.Session(config=config))
 
+# coding: utf-8
+#ifrom __future__ import print_function
+
 from keras.models import Model
 from keras.models import load_model
 from keras.layers import Input, LSTM,Embedding, Dense, multiply, Flatten,Softmax,Reshape, Dropout
 from keras.layers import Lambda,multiply,dot,concatenate,add
 import keras
 from keras import backend as K
-from keras.utils import Sequence
-
 # from keras.utils import plot_model
+
+#from sklearn.model_selection import train_test_split
 
 import numpy as np
 import json
 import re
 import pydot
-import logging
 
 import nltk
 from nltk.tree import Tree
 from nltk.translate.bleu_score import sentence_bleu
+
+from keras.utils import Sequence
+import logging
+
 from nltk.sem.logic import LogicParser
 from nltk.sem.logic import LogicalExpressionException
 
-
 batch_size = 64  # Batch size for training.
-epochs = 200  # Number of epochs to train for.
+epochs = 80  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path = 'snli_0413_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path = '/home/8/17IA0973/snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+m_path = 'models/'
 
 
-#機能語のリストを得る．
+#新１，機能語のリストを得る．
 func_list = [] #機能語のリスト
 f = open('func_word.txt')
 line = f.readline()
@@ -52,6 +55,7 @@ while line:
 f.close()
 
 #新２，マスク行列の行を返す関数．
+#入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
 def get_masking_list(inp, verbose=True):
     mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
@@ -89,10 +93,11 @@ for i, line in enumerate(lines):
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
+    ############# バグではないですが、target_textとかはすべて小文字にしておいたほうが良いです．
+    ############# もし学習データに例えばParkとparkが存在すると語彙数が倍になってしまうので避けたく、前処理でよくやられてます．
     target_text = target_text.lstrip().lower()
     base_text = line[2].rstrip().lower()
     base_text = base_text.lstrip()
-
     #input_text = input_text.split(',')
     #input_text.append('EOS')
 
@@ -102,6 +107,8 @@ for i, line in enumerate(lines):
     input_text = [i for i in input_text if i not in ['TrueP', ''] ]
     input_text.append('EOS')
     input_texts.append(input_text)
+
+
 
     output_texts.append(target_text)
     surf_text = re.split('\s|\.', target_text)
@@ -121,6 +128,7 @@ for i, line in enumerate(lines):
     for char in target_text:
         if char not in target_characters:
             target_characters.add(char)
+
 
     for s,b in (zip(surf_text, base_text)):
         if not(b in lem_dict.keys()):
@@ -199,6 +207,7 @@ for w in func_list:
 
 train_seq = EncDecSequence(input_texts[8000:], target_texts[8000:], batch_size)
 val_seq = EncDecSequence(input_texts[4000:8000], target_texts[4000:8000], batch_size)
+test_seq = EncDecSequence(input_texts[:4000], target_texts[:4000], 1)
 
 
 # Define an input sequence and process it.
@@ -247,36 +256,42 @@ mask_input = Input(shape=(max_decoder_seq_length,num_decoder_tokens), dtype='flo
 new_decoder_outputs = multiply([mask_input, new_decoder_outputs])
 
 #callback function and parameter search
+#if you want to use below function, you add callbacks=[name-val]
 earlystop =keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose=0, mode='auto')
+            #keras.callbacks.EarlyStopping(monitor='loss', min_delta=0.0001, patience=10, verbose=0, mode='auto')
+# tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
 checkpoint = keras.callbacks.ModelCheckpoint(
-             filepath = 'models_mask_att_long_drop/seq2seq_model{epoch:02d}-loss{loss:.2f}-vloss{val_loss:.2f}.h5',
+             filepath = m_path + 'elapsed_seq2seq.h5',
              monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
-model = Model([enc_main_input, dec_main_input,mask_input], new_decoder_outputs)
-# plot_model(model, to_file='model.png')
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+## Define the model that will turn
+## `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
+#model = Model([enc_main_input, dec_main_input,mask_input], new_decoder_outputs)
+## plot_model(model, to_file='model.png')
+## Run training
+#model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 
-model.fit_generator(train_seq,
-         epochs=epochs,
-         validation_data=val_seq,
-         use_multiprocessing=True,
-         workers=3,
-         callbacks=[checkpoint]
-         )
+
+#model.fit_generator(train_seq,
+#         epochs=epochs,
+#         validation_data=val_seq,
+#         use_multiprocessing=True,
+#         workers=3,
+#         callbacks=[checkpoint]
+#         )
 
 # Save model
-model.save('s2s.h5')
-# model = load_model('elapsed_seq2seq.h5')
-m = load_model('s2s.h5')
-m.save_weights('weights.h5')
-model.load_weights('weights.h5')
+model = load_model(m_path + 'elapsed_seq2seq.h5')
+m = load_model(m_path + 'elapsed_seq2seq.h5')
+m.save_weights(m_path + 'weights.h5')
+model.load_weights(m_path + 'weights.h5')
 
 # encoder_model = load_model('encoder.h5')
 # decoder_model = load_model('decoder.h5')
 
 #encoder_outputs,_,_ = encoder(encoder_inputs)
 encoder_model = Model(enc_main_input, [encoder_outputs]+encoder_states)
-encoder_model.save('encoder.h5')
+encoder_model.save(m_path + 'encoder.h5')
 
 decoder_state_input_h = Input(shape=(latent_dim,))
 decoder_state_input_c = Input(shape=(latent_dim,))
@@ -299,23 +314,31 @@ decoder_outputs = multiply([mask_input, decoder_outputs])
 decoder_model = Model(
    [dec_main_input,encoder_state_input_e,mask_input] + decoder_states_inputs,
    [decoder_outputs] + decoder_states)
-#decoder_model.save('decoder.h5')
+decoder_model.save(m_path + 'decoder.h5')
+#plot_model(decoder_model, to_file='decoder_model.png')
 
-def decode_sequence(input_seq, input_mask):
+# Reverse-lookup token index to decode sequences back to
+# something readable.
 
+def decode_sequence(input_seq, input_mask): ############# 新しく引数にinput_maskを追加
+    # Encode the input as state vectors.
     e_state,h_state,c_state = encoder_model.predict(input_seq)
     states_value = [h_state,c_state]
 
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
+    # print(input_seq)
     target_seq[0, 0] = target_token_index['BOS']
-
+    # Sampling loop for a batch of sequences
+    # (to simplify, here we assume a batch of size 1).
     stop_condition = False
     decoded_sentence = ''
     while not stop_condition:
         output_tokens, h, c = decoder_model.predict(
             [target_seq,e_state,input_mask] + states_value)
 
+        # Sample a token
+        sampled_char = ''
         sampled_token_index = np.argmax(output_tokens[0, -1, :])
         if sampled_token_index == 0:
             decoded_sentence += '!'
@@ -324,13 +347,15 @@ def decode_sequence(input_seq, input_mask):
             if sampled_char != 'EOS':
                 decoded_sentence += sampled_char + ' '
 
+        # Exit condition: either hit max length
+        # or find stop character.
         if (sampled_char == 'EOS' or
            len(decoded_sentence) > max_decoder_seq_length + 15):
             stop_condition = True
             decoded_sentence = decoded_sentence.rstrip()
             decoded_sentence += '.'
 
-
+        # Update the target sequence (of length 1).
         target_seq = np.zeros((1, max_decoder_seq_length))
         target_seq[0, 0] = sampled_token_index
 
@@ -339,13 +364,22 @@ def decode_sequence(input_seq, input_mask):
 
     return decoded_sentence
 
+
+def remove_punct(text):
+    if text.endswith('.'):
+        return text[:-1]
+    else:
+        return text
+
 #bleu evaluation
-len_inp = len(test_input_data)
+len_inp = len(test_seq)
 sum_score = 0
-for seq_index in range(len_inp-1):
-    input_seq = test_input_data[seq_index: seq_index + 1]
-    input_mask = test_decoder_masks[seq_index: seq_index + 1]
+for seq_index in range(len_inp):
+    test_data, tmp = test_seq[seq_index]
+    input_seq = test_data[0]
+    input_mask = test_data[2]
     decoded_sentence = decode_sequence(input_seq, input_mask).lstrip()
+    results.append(remove_punct(decoded_sentence).split(' '))
     sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
     fname = 'c2l/result'+str(seq_index)+'.txt'
     f = open(fname, 'w')
@@ -353,8 +387,10 @@ for seq_index in range(len_inp-1):
     f.write(decoded_sentence.strip()+'\n')
     f.close()
     #print('Input sentence:', input_texts[seq_index])
-    #if (seq_index%100) == 0 :
-    # print('Decoded sentence:', decoded_sentence)
-    # print('Answer sentence:', output_texts[seq_index])
-    # print('')
-print('bleu score',(sum_score/len_inp))
+    #print('Decoded sentence:', decoded_sentence)
+    #print('Answer sentence:', output_texts[seq_index])
+    #print('')
+
+bleu = corpus_bleu([[remove_punct(t).split(' ')] for t in output_texts], results)
+print('bleu score',bleu)
+

@@ -190,8 +190,8 @@ def coq_string_binary_expr(expression):
     #return Tokens.OPEN + first + ' ' + expression.getOp() \
     #        + ' ' + second + Tokens.CLOSE
 
-data_path = 'snli_0408_10000.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
-f = open('snli_0408_2.txt', 'w')
+data_path = 'snli_0428.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
+f = open('snli_0428_2.txt', 'w')
 data = []
 
 lines = open(data_path)

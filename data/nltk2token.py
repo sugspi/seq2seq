@@ -16,8 +16,8 @@
 import logging
 import re
 
-data_path = '/Users/guru/MyResearch/sg/data/jp/jp_full.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
-f = open('jp/jp_full_token.txt', 'w')
+data_path = 'snli_0410_formula.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
+f = open('snli_0410_token.txt', 'w')
 data = []
 
 lines = open(data_path)
@@ -25,12 +25,13 @@ for line in lines :
     line = line.split('#')
     l1 = line[0]
     l2 = line[1].rstrip()
+    l3 = line[2].rstrip()
     try:
         l1 = re.sub('\(', '( ',l1)
         l1 = re.sub('\)', ' )',l1)
         l1 = re.split('\s|\.', l1)
         strs = ','.join(l1)
-        data.append(strs + '#' + l2)
+        data.append(strs + '#' + l2 + '#' + l3)
     except:
         print(l1)
         continue

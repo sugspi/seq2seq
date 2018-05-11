@@ -346,8 +346,8 @@ def rename_nodes(graph, head_node=None, quant_active=None, quant_scope=None):
             nx.set_node_attributes(graph, {node : new_label}, 'label')
     return graph
 
-data_path = 'snli_0408_2.txt'
-f = open('snli_0408_graph.txt', 'w')
+data_path = 'snli_0428_formula.txt'
+f = open('snli_0428_graph.txt', 'w')
 data = []
 
 lines = open(data_path)

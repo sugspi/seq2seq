@@ -19,8 +19,8 @@ import re
 from  nltk2pn import lexpr
 from  nltk2pn import normalize_interpretation
 
-data_path = '/Users/guru/MyResearch/sg/data/jp/jp_full.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
-f = open('jp/jp_full_tree.txt', 'w')
+data_path = '/Users/guru/MyResearch/sg/data/eng/snli_t_full.txt'#'/home/8/17IA0973/snli_input_data_1214.json'
+f = open('eng/snli_full_tree.txt', 'w')
 data = []
 
 lines = open(data_path)

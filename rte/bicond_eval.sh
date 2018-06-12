@@ -1,22 +1,25 @@
 #!/bin/bash
 
 # USAGE: ./bicond.sh <prefix>
-# prefix := tamf | tmf | taf | hamf | hmf | haf
+#
+# <prefix> = graph | token | hts (hypothesis, treebank semantics)
+# <option> = mask
 
 prefix=$1
+option=${2:-""}
 
-dec2ans_dir="en_results_${prefix}_dec2ans"
-ans2dec_dir="en_results_${prefix}_ans2dec"
+pred2ans_dir="en_results_${prefix}_pred2ans"
+ans2pred_dir="en_results_${prefix}_ans2pred"
 
 total=0
 correct=0
 
-for f in ${dec2ans_dir}/${prefix}_dec2ans*.candc.answer; do
+for f in ${pred2ans_dir}/${prefix}_pred2ans*.candc.answer; do
   let total++
   base_filename=${f##*/}
   index=`echo $base_filename | awk -F'_' '{print $3}' | awk -F'.' '{print $1}'`
   d2a_answer=`head -1 $f`
-  a2d_filename="${ans2dec_dir}/${base_filename/dec2ans/ans2dec}"
+  a2d_filename="${ans2pred_dir}/${base_filename/pred2ans/ans2pred}"
   a2d_answer=`head -1 ${a2d_filename}`
   if [ "${a2d_answer}" == "yes" ] && [ "${d2a_answer}" == "yes" ]; then
     let correct++
@@ -29,11 +32,11 @@ done > ans.tmp
 
 sort -n ans.tmp > ans.index.tmp
 
-cat ${prefix}.clean.txt | awk -F'#' '{print $2"\t"$3}' > sentences.tmp
+cat en_plain_${prefix}_${option}/${prefix}_pred2ans.clean.txt | awk -F'#' '{print $2"\t"$3}' > sentences.tmp
 
 paste ans.index.tmp sentences.tmp > table.tmp
 
-echo -e "id\tdec=>ans\tans=>dec\tdec<=>ans\tdecoder sentence\tanswer sentence" \
+echo -e "id\tpred=>ans\tans=>pred\tpred<=>ans\tprediction sentence\tanswer sentence" \
   > ${prefix}.table
 
 cat table.tmp >> ${prefix}.table

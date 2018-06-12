@@ -8,7 +8,6 @@
 #
 # ./en/eval_gen.sh amf_dec2ans 10 
 #
-# <prefix> ::= <amf_dec2ans> <amf_ans2dec>
 
 prefix=$1
 cores=$2

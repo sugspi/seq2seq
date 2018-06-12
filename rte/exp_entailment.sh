@@ -1,17 +1,24 @@
 #!/bin/bash
 
-# USAGE: ./exp_entailment.sh <prefix> <number of cores>
+# USAGE: ./exp_entailment.sh <prefix> <number of cores> <option>
 #
-# <prefix> = tamf | tmf | taf | hamf | hmf | haf
-#
+# <prefix> = graph | token | hts (hypothesis, treebank semantics)
+# <option> = mask
+
+# ./exp_entailment.sh hts 35
+# ./exp_entailment.sh graph 35
+# ./exp_entailment.sh graph 35 mask
+# ./exp_entailment.sh token 35
+# ./exp_entailment.sh token 35 mask
 
 prefix=$1
 ncore=$2
+option=${3:-""}
 
-# Extract problems
-if [ ! -d "en_plain_${prefix}" ]; then
-  ./extract_snli.sh ${prefix}.txt
-fi
+# # Extract problems
+# if [ ! -d "en_plain_${prefix}" ]; then
+#   ./extract_snli.sh ${prefix}.txt
+# fi
 
 if [ -d "en_plain" ]; then
   echo "en_plain directory already exists"
@@ -28,31 +35,31 @@ if [ -d "en_results" ]; then
   exit 1
 fi
 
-# decoder => answer
+# prediction => answer
 mkdir en_plain
-cp en_plain_${prefix}/${prefix}_dec2ans/* en_plain/
+cp en_plain_${prefix}_${option}/${prefix}_pred2ans/* en_plain/
 
-./en/eval_gen.sh ${prefix}_dec2ans $ncore
+./en/eval_gen.sh ${prefix}_pred2ans $ncore
 
 wait
 
-mv en_parsed en_parsed_${prefix}_dec2ans
-mv en_results en_results_${prefix}_dec2ans
+mv en_parsed en_parsed_${prefix}_pred2ans
+mv en_results en_results_${prefix}_pred2ans
 rm -rf en_plain
 
-# answer => decoder
+# answer => prediction
 mkdir en_plain
-cp en_plain_${prefix}/${prefix}_ans2dec/* en_plain/
+cp en_plain_${prefix}_${option}/${prefix}_ans2pred/* en_plain/
 
-./en/eval_gen.sh ${prefix}_ans2dec $ncore
+./en/eval_gen.sh ${prefix}_ans2pred $ncore
 
 wait
 
-mv en_parsed en_parsed_${prefix}_ans2dec
-mv en_results en_results_${prefix}_ans2dec
+mv en_parsed en_parsed_${prefix}_ans2pred
+mv en_results en_results_${prefix}_ans2pred
 rm -rf en_plain
 
-./bicond_eval.sh $prefix
+./bicond_eval.sh $prefix $option
 
-mkdir gen_$prefix
-mv ${prefix}* en_plain_${prefix} en_parsed_${prefix}* en_results_${prefix}* gen_$prefix
+mkdir gen_${prefix}_${option}
+mv ${prefix}* en_plain_${prefix}_${option} en_parsed_${prefix}* en_results_${prefix}* gen_${prefix}_${option}

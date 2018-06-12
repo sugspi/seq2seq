@@ -29,6 +29,7 @@ import pydot
 import nltk
 from nltk.tree import Tree
 from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import corpus_bleu
 
 from keras.utils import Sequence
 import logging
@@ -37,11 +38,11 @@ from nltk.sem.logic import LogicParser
 from nltk.sem.logic import LogicalExpressionException
 
 batch_size = 64  # Batch size for training.
-epochs = 80  # Number of epochs to train for.
+epochs = 10  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path = '/home/8/17IA0973/snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
+data_path = '/Users/guru/MyResearch/sg/data/snli/fordebug/snli_0408.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 m_path = 'models/'
 
 
@@ -59,7 +60,6 @@ f.close()
 def get_masking_list(inp, verbose=True):
     mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
-
         if(t[:1]=='_'):
             ############### in_front_of の件、直しておきます…
             for s1 in t.split('_')[1:]:
@@ -187,7 +187,7 @@ class EncDecSequence(Sequence):
             dtype='float32')
 
         for i, (input_text, target_text) in enumerate(zip(batch_x, batch_y)):
-            decoder_mask_matrix[i] = get_masking_list(input_text, verbose=False)
+            decoder_mask_matrix[i] = get_masking_list(input_text)#, verbose=False)
             for t, char in enumerate(input_text):
                 encoder_input_data[i, t] = input_token_index[char]
             for t, char in enumerate(target_text):
@@ -374,23 +374,28 @@ def remove_punct(text):
 #bleu evaluation
 len_inp = len(test_seq)
 sum_score = 0
+results = []
+
 for seq_index in range(len_inp):
     test_data, tmp = test_seq[seq_index]
     input_seq = test_data[0]
     input_mask = test_data[2]
     decoded_sentence = decode_sequence(input_seq, input_mask).lstrip()
     results.append(remove_punct(decoded_sentence).split(' '))
-    sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
-    fname = 'c2l/result'+str(seq_index)+'.txt'
-    f = open(fname, 'w')
-    f.write(output_texts[seq_index]+'\n')
-    f.write(decoded_sentence.strip()+'\n')
-    f.close()
+    #sum_score += sentence_bleu([output_texts[seq_index]],decoded_sentence)
+    #fname = 'c2l/result'+str(seq_index)+'.txt'
+    #f = open(fname, 'w')
+    #f.write(output_texts[seq_index]+'\n')
+    #f.write(decoded_sentence.strip()+'\n')
+    #f.close()
     #print('Input sentence:', input_texts[seq_index])
     #print('Decoded sentence:', decoded_sentence)
     #print('Answer sentence:', output_texts[seq_index])
     #print('')
 
+#print([[remove_punct(t).split(' ')] for t in output_texts])
+#print(":")
+#print(results)
+
 bleu = corpus_bleu([[remove_punct(t).split(' ')] for t in output_texts], results)
 print('bleu score',bleu)
-

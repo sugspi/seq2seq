@@ -41,11 +41,11 @@ np.random.seed(seed=seed)
 logging.basicConfig(level=logging.DEBUG)
 
 batch_size = 10 # Batch size for training.
-epochs = 100  # Number of epochs to train for.
+epochs = 1  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 1000000  # Number of samples to train on.
 # Path to the data txt file on disk.
-data_path =  '../seq2seq/snli_0122.txt'
+data_path =  '/Users/guru/MyResearch/sg/data/snli/trash/text_formula/snli_0122.txt'#'../seq2seq/snli_0122.txt'
 
 # Vectorize the data.
 input_formulas = []

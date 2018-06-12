@@ -13,8 +13,12 @@ any
 anybody
 anyone
 anything
+am
+are
 at
 be
+been
+being
 both
 by
 did
@@ -31,9 +35,13 @@ for
 former
 front
 group
+had
+has
 have
+having
 if
 in
+is
 least
 most
 n't
@@ -60,7 +68,10 @@ to
 together
 unless
 use
+was
+were
 when
 whose
 will
 without
+would

@@ -46,8 +46,7 @@ data_path = '/gs/hs0/tgh-17IAH/manome/snli_0413_formula.txt'
 m_path = 'models13/'
 
 
-#新１，機能語のリストを得る．
-func_list = [] #機能語のリスト
+func_list = []
 f = open('func_word.txt')
 line = f.readline()
 while line:
@@ -55,14 +54,12 @@ while line:
     line = f.readline()
 f.close()
 
-#新２，マスク行列の行を返す関数．
-#入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
 def get_masking_list(inp, verbose=True):
     mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
 
         if(t[:1]=='_'):
-            ############### in_front_of の件、直しておきます…
+
             for s1 in t.split('_')[1:]:
                 try:
                     for word in lem_dict[s1]:
@@ -94,8 +91,6 @@ for i, line in enumerate(lines):
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    ############# バグではないですが、target_textとかはすべて小文字にしておいたほうが良いです．
-    ############# もし学習データに例えばParkとparkが存在すると語彙数が倍になってしまうので避けたく、前処理でよくやられてます．
     target_text = target_text.lstrip().lower()
     base_text = line[2].rstrip().lower()
     base_text = base_text.lstrip()
@@ -199,7 +194,6 @@ class EncDecSequence(Sequence):
         return ([encoder_input_data, decoder_input_data], decoder_target_data)
 
 
-#新３，機能語のインデックス格納
 func_index = [target_token_index['EOS']]
 for w in func_list:
     if w in target_token_index:
@@ -248,7 +242,6 @@ print("new_dec_hidden: ",K.int_shape(new_decoder_outputs))
 decoder_dense = Dense(num_decoder_tokens, activation='softmax',name='softmax2')
 new_decoder_outputs = decoder_dense(new_decoder_outputs)
 
-### maskを新しくInputを追加
 #mask_input = Input(shape=(max_decoder_seq_length,num_decoder_tokens), dtype='float32', name='mask_input')
 
 #new_decoder_outputs = multiply([mask_input, new_decoder_outputs])
@@ -317,7 +310,7 @@ decoder_model = load_model(m_path+'decoder.h5')
 # Reverse-lookup token index to decode sequences back to
 # something readable.
 
-def decode_sequence(input_seq): ############# 新しく引数にinput_maskを追加
+def decode_sequence(input_seq):
     # Encode the input as state vectors.
     e_state,h_state,c_state = encoder_model.predict(input_seq)
     states_value = [h_state,c_state]
@@ -388,6 +381,6 @@ for seq_index in range(len_inp):
     #print('Answer sentence:', output_texts[seq_index])
     #print('')
 
-output_texts = output_texts[:4000] 
+output_texts = output_texts[:4000]
 bleu = corpus_bleu([[remove_punct(t).split(' ')] for t in output_texts], results)
 print('bleu score',bleu)

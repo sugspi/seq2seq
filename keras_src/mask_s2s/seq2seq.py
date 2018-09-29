@@ -45,26 +45,22 @@ num_samples = 10000  # Number of samples to train on.
 data_path = 'snli_0410_formula.txt'#'/home/8/17IA0973/snli_0122_graph.txt'
 
 
-#新１，機能語のリストを得る．
-func_list = [] #機能語のリスト
+
+func_list = []
 f = open('func_word.txt')
 line = f.readline()
 while line:
-    ############# 下の２行の順番注意です．
-    ############# もともとは逆になってましたが、それだとfunc_word.txtの最初の単語
-    ############# を捨ててしまいます(しかも重要な冠詞のa)
+
     func_list.append(line.rstrip())
     line = f.readline()
 f.close()
 
-#新２，マスク行列の行を返す関数．
-#入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
+
 def get_masking_list(inp):
     mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
 
         if(t[:1]=='_'):
-            ############### in_front_of の件、直しておきます…
             for s1 in t.split('_')[1:]:
                 try:
                     for word in lem_dict[s1]:
@@ -96,8 +92,6 @@ for i, line in enumerate(lines):
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    ############# バグではないですが、target_textとかはすべて小文字にしておいたほうが良いです．
-    ############# もし学習データに例えばParkとparkが存在すると語彙数が倍になってしまうので避けたく、前処理でよくやられてます．
     target_text = target_text.lstrip().lower()
     base_text = line[2].rstrip().lower()
     base_text = base_text.lstrip()
@@ -159,7 +153,6 @@ target_token_index = dict(
 reverse_target_char_index = dict(
     (i, char) for char, i in target_token_index.items())# 0:tab,1:\n
 
-#新３，機能語のインデックス格納
 func_index = [target_token_index['EOS']]
 for w in func_list:
     if w in target_token_index:
@@ -177,13 +170,12 @@ decoder_target_data = np.zeros(
     (len(input_texts), max_decoder_seq_length, num_decoder_tokens),
     dtype='float32')
 
-#新４，マスキング行列
 decoder_mask_matrix = np.zeros(
     (len(input_texts), max_decoder_seq_length,num_decoder_tokens),
     dtype='float32')
 
 for i, (input_text, target_text) in enumerate(zip(input_texts, target_texts)):
-    #新５，マスキング行列
+
     decoder_mask_matrix[i] = get_masking_list(input_texts[i])
     for t, char in enumerate(input_text):
         encoder_input_data[i, t] = input_token_index[char]
@@ -224,7 +216,6 @@ decoder_dense = Dense(num_decoder_tokens, activation='softmax')
 decoder_outputs = decoder_dense(decoder_outputs)
 
 
-### maskを新しくInputを追加
 mask_input = Input(shape=(max_decoder_seq_length,num_decoder_tokens), dtype='float32', name='mask_input')
 
 decoder_outputs = multiply([mask_input, decoder_outputs])
@@ -297,7 +288,6 @@ def decode_sequence(input_seq, input_mask): ############# 新しく引数にinpu
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
     # print(input_seq)
-    ################## get_masking_listの引数は単語のリストなのにinput_seqはnumpy行列でした…
     # mask_seq = get_masking_list(input_seq)
     # np.set_printoptions(threshold=np.inf)
     # print(mask_seq)

@@ -46,26 +46,20 @@ num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
 data_path = '/gs/hs0/tgh-17IAH/manome/snli_0413_formula.txt'
 
-#新１，機能語のリストを得る．
-func_list = [] #機能語のリスト
+
+func_list = []
 f = open('func_word.txt')
 line = f.readline()
 while line:
-    ############# 下の２行の順番注意です．
-    ############# もともとは逆になってましたが、それだとfunc_word.txtの最初の単語
-    ############# を捨ててしまいます(しかも重要な冠詞のa)
     func_list.append(line.rstrip())
     line = f.readline()
 f.close()
 
-#新２，マスク行列の行を返す関数．
-#入力の論理式の_から始まる述語をstemmginしたものとあらかじめstemmingしてある辞書を参考に1を立てる
 def get_masking_list(inp, verbose=True):
     mask = np.zeros((1, max_decoder_seq_length,num_decoder_tokens),dtype='float32')
     for num,t in enumerate(inp) :
 
         if(t[:1]=='_'):
-            ############### in_front_of の件、直しておきます…
             for s1 in t.split('_')[1:]:
                 try:
                     for word in lem_dict[s1]:
@@ -98,8 +92,7 @@ for i, line in enumerate(lines):
     line = line.split('#')
     input_text = line[0]
     target_text = line[1]
-    ############# バグではないですが、target_textとかはすべて小文字にしておいたほうが良いです．
-    ############# もし学習データに例えばParkとparkが存在すると語彙数が倍になってしまうので避けたく、前処理でよくやられてます．
+
     target_text = target_text.lstrip().lower()
     base_text = line[2].rstrip().lower()
     base_text = base_text.lstrip()
@@ -324,7 +317,7 @@ decoder_model.save(m_path + 'decoder.h5')
 # something readable.
 
 raise
-def decode_sequence(input_seq, input_mask): ############# 新しく引数にinput_maskを追加
+def decode_sequence(input_seq, input_mask):
     # Encode the input as state vectors.
     e_state,h_state,c_state = encoder_model.predict(input_seq)
     states_value = [h_state,c_state]
@@ -332,7 +325,7 @@ def decode_sequence(input_seq, input_mask): ############# 新しく引数にinpu
     # Generate empty target sequence of length 1.
     target_seq = np.zeros((1,max_decoder_seq_length))
     # print(input_seq)
-    ################## get_masking_listの引数は単語のリストなのにinput_seqはnumpy行列でした…
+
     # mask_seq = get_masking_list(input_seq)
     # np.set_printoptions(threshold=np.inf)
     # print(mask_seq)

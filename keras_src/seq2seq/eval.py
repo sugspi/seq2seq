@@ -3,11 +3,13 @@ import numpy as np
 import tensorflow as tf
 import keras
 from keras.models import load_model
+from keras.utils import Sequence
 
 import txt_tool
 import corpus
-from decoder import decode_sequence
+from decoder import decode_sequence, decode_sequence_with_mask
 from masking import get_masking_vector
+import train
 
 import nltk
 from nltk.translate.bleu_score import sentence_bleu
@@ -24,6 +26,7 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
     results = []
 
     for seq_index in range(INP_LEN):
+        #seq_index=100
         test_data, tmp = test_seq[seq_index]
         input_seq = test_data[0]
 
@@ -53,8 +56,26 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
         print('Decoded sentence:', decoded_sentence)
         print('')
 
-        anwer_sentences  = corpus.all_output_expections[:4000]
-        #bleu = corpus_bleu([[txt_tool.remove_punct(t).split(' ')] for t in anwer_sentences], results)
-        #print('bleu score',bleu)
+    anwer_sentences  = corpus.all_output_expections[:4000]
+    #bleu = corpus_bleu([[txt_tool.remove_punct(t).split(' ')] for t in anwer_sentences], results)
+    #print('bleu score',bleu)
 
-        return sum_score
+    return sum_score
+
+if __name__ == "__main__" :
+    train_seq = train.EncDecSequence(corpus.all_input_formulas[8000:], corpus.all_target_texts[8000:], train.batch_size)
+    val_seq = train.EncDecSequence(corpus.all_input_formulas[4000:8000], corpus.all_target_texts[4000:8000], train.batch_size)
+    test_seq = train.EncDecSequence(corpus.all_input_formulas[:4000], corpus.all_target_texts[:4000], 1)
+
+    ###############################################################
+    #   evalのテスト．テスト終わり次第，一番下に持っていく
+    ###############################################################
+    m_path = '/Users/guru/MyResearch/sg/keras_src/attention/models/'
+    model = load_model(m_path + 'elapsed_seq2seq.h5')
+    #m = load_model(m_path + 'elapsed_seq2seq.h5') #kesu
+    #m.save_weights(m_path + 'weights.h5')#kesu
+    model.load_weights(m_path + 'weights.h5')
+    encoder_model = load_model(m_path+'encoder.h5')
+    decoder_model = load_model(m_path+'decoder.h5')
+    eval_blue(test_seq,model,encoder_model,decoder_model)
+    ###############################################################

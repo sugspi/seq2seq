@@ -16,7 +16,6 @@ from keras.models import load_model, Model
 from keras.layers import Input, LSTM, Embedding, Dense, Flatten, Softmax, Reshape, Dropout, Lambda, dot, concatenate, add, multiply
 from keras.utils import Sequence
 
-
 import txt_tool
 import corpus
 from decoder import decode_sequence, decode_sequence_with_mask
@@ -24,6 +23,21 @@ from masking import get_masking_vector
 import eval
 
 m_path = corpus.m_path
+
+###############################################################
+#   Setting Parameter
+###############################################################
+batch_size = 64  # Batch size for training.
+epochs = 1  # Number of epochs to train for.
+latent_dim = 256  # Latent dimensionality of the encoding space.
+
+###############################################################
+#   callback function and parameter search
+###############################################################
+earlystop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose=0, mode='auto')
+checkpoint = keras.callbacks.ModelCheckpoint(
+             filepath = m_path + 'elapsed_seq2seq.h5',
+             monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
 class EncDecSequence(Sequence):
     def __init__(self, x, y, batch_size):
@@ -57,7 +71,7 @@ class EncDecSequence(Sequence):
         for i, (input_text, target_text) in enumerate(zip(batch_x, batch_y)):
             decoder_mask_matrix[i] = get_masking_vector(input_text, verbose=False)
             for t, token in enumerate(input_text):
-                encoder1_input_data[i, t] = corpus.formula_token_index[token]
+                encoder_input_data[i, t] = corpus.formula_token_index[token]
             for t, token in enumerate(target_text):
                 decoder_input_data[i, t] = corpus.target_token_index[token]
                 if t > 0:
@@ -102,41 +116,10 @@ def create_attention_model():
 
     return model
 
-if __name__ == "__main__" :
-
-    ###############################################################
-    #   Setting Parameter
-    ###############################################################
-    batch_size = 64  # Batch size for training.
-    epochs = 1  # Number of epochs to train for.
-    latent_dim = 256  # Latent dimensionality of the encoding space.
-    #num_samples = 10000  # Number of samples to train on.いらない？
-
+def attention_train():
     train_seq = EncDecSequence(corpus.all_input_formulas[8000:], corpus.all_target_texts[8000:], batch_size)
     val_seq = EncDecSequence(corpus.all_input_formulas[4000:8000], corpus.all_target_texts[4000:8000], batch_size)
     test_seq = EncDecSequence(corpus.all_input_formulas[:4000], corpus.all_target_texts[:4000], 1)
-
-    ###############################################################
-    #   evalのテスト．テスト終わり次第，一番下に持っていく
-    ###############################################################
-    #m_path = '/Users/guru/MyResearch/sg/keras_src/attention/models/'
-    #model = load_model(m_path + 'elapsed_seq2seq.h5')
-    #m = load_model(m_path + 'elapsed_seq2seq.h5') #kesu
-    #m.save_weights(m_path + 'weights.h5')#kesu
-    #model.load_weights(m_path + 'weights.h5')
-    #encoder_model = load_model(m_path+'encoder.h5')
-    #decoder_model = load_model(m_path+'decoder.h5')
-    #eval.eval_blue(test_seq,model,encoder_model,decoder_model)
-    ###############################################################
-
-    ###############################################################
-    #   callback function and parameter search
-    ###############################################################
-    earlystop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose=0, mode='auto')
-    checkpoint = keras.callbacks.ModelCheckpoint(
-                 filepath = m_path + 'elapsed_seq2seq.h5',
-                 monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
-
     #tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
     # plot_model(model, to_file='model.png') #you need import pydot
 
@@ -155,4 +138,5 @@ if __name__ == "__main__" :
              workers=3,
              callbacks=[checkpoint]
              )
-    raise
+
+    return model

@@ -77,8 +77,8 @@ class EncDecSequence(Sequence):
                 if t > 0:
                     decoder_target_data[i, t - 1, corpus.target_token_index[token]] = 1.
 
-        #return ([encoder_input_data, decoder_input_data, decoder_mask_matrix], decoder_target_data)
-        return ([encoder_input_data, decoder_input_data], decoder_target_data)
+        return ([encoder_input_data, decoder_input_data, decoder_mask_matrix], decoder_target_data)
+        #return ([encoder_input_data, decoder_input_data], decoder_target_data)
 
 def create_attention_model():
     # Define an input sequence and process it.

@@ -8,7 +8,6 @@ from keras.utils import Sequence
 import txt_tool
 import corpus
 from decoder import decode_sequence, decode_sequence_with_mask
-from masking import get_masking_vector
 import train
 
 import nltk
@@ -16,8 +15,6 @@ from nltk.translate.bleu_score import sentence_bleu
 from nltk.translate.bleu_score import corpus_bleu
 
 m_path = corpus.m_path
-
-#if __name__ == "__main__":
 
 def eval_blue(test_seq, model, encoder_model, decoder_model):
 
@@ -35,7 +32,7 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
 
         elif(corpus.model_name == 'masking'):
             mask_vector = test_data[2]
-            decoded_sentence = decode_sequence_with_mask(encoder_input_data, mask_vector, model, encoder_model, decoder_model).lstrip()
+            decoded_sentence = decode_sequence_with_mask(input_seq, mask_vector, model, encoder_model, decoder_model).lstrip()
 
         results.append(txt_tool.remove_punct(decoded_sentence).split(' '))
 
@@ -56,7 +53,7 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
         print('Decoded sentence:', decoded_sentence)
         print('')
 
-    anwer_sentences  = corpus.all_output_expections[:4000]
+    #anwer_sentences  = corpus.all_output_expections[:4000]
     #bleu = corpus_bleu([[txt_tool.remove_punct(t).split(' ')] for t in anwer_sentences], results)
     #print('bleu score',bleu)
 
@@ -67,10 +64,6 @@ if __name__ == "__main__" :
     val_seq = train.EncDecSequence(corpus.all_input_formulas[4000:8000], corpus.all_target_texts[4000:8000], train.batch_size)
     test_seq = train.EncDecSequence(corpus.all_input_formulas[:4000], corpus.all_target_texts[:4000], 1)
 
-    ###############################################################
-    #   evalのテスト．テスト終わり次第，一番下に持っていく
-    ###############################################################
-    m_path = '/Users/guru/MyResearch/sg/keras_src/attention/models/'
     model = load_model(m_path + 'elapsed_seq2seq.h5')
     #m = load_model(m_path + 'elapsed_seq2seq.h5') #kesu
     #m.save_weights(m_path + 'weights.h5')#kesu
@@ -78,4 +71,3 @@ if __name__ == "__main__" :
     encoder_model = load_model(m_path+'encoder.h5')
     decoder_model = load_model(m_path+'decoder.h5')
     eval_blue(test_seq,model,encoder_model,decoder_model)
-    ###############################################################

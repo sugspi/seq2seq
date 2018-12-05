@@ -1,13 +1,10 @@
 import re
 import txt_tool
 
-m_path = '/Users/guru/MyResearch/sg/keras_src/attention/models/' #'models/'
-data_path = '/Users/guru/MyResearch/sg/data/snli_0413_formula.txt' #'path_to_corpus'
+model_name = 'masking'
+m_path = 'mask_model_txt/'
+data_path = 'mask_model_txt/snli_0413_formula.txt'
 function_words_list = 'func_word.txt'
-###############################################################
-#   which model are you using?
-###############################################################
-model_name = 'attention'
 
 ###############################################################
 #   original corpus data
@@ -44,7 +41,7 @@ for i, line in enumerate(inp_corpus):
     line = line.split('#') # formula/orign sentence / 動詞とか処理したもの
     inp_formula = line[0]
     target_text = line[1]
-
+    target_text = target_text.lstrip().lower()
 
     lst_formula = txt_tool.formula_to_list(inp_formula)
     all_input_formulas.append(lst_formula)

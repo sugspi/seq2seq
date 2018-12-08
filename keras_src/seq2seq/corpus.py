@@ -2,8 +2,8 @@ import re
 import txt_tool
 
 model_name = 'masking'
-m_path = 'mask_model_txt/'
-data_path = 'mask_model_txt/snli_0413_formula.txt'
+m_path = 'mask_train_model/'
+data_path = 'snli_0413_formula_1000.txt'
 function_words_list = 'func_word.txt'
 
 ###############################################################

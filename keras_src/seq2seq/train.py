@@ -1,4 +1,5 @@
 # coding: utf-8
+import json
 import numpy as np
 import tensorflow as tf
 from keras import backend as K
@@ -39,11 +40,13 @@ checkpoint = keras.callbacks.ModelCheckpoint(
              filepath = m_path + 'elapsed_seq2seq.h5',
              monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
 
+#? batch_sizeについてあまり理解していない12/8なのでgenerationのときに，encoder_input_dataのbachを1にしてしまっている
 class EncDecSequence(Sequence):
-    def __init__(self, x, y, batch_size):
+    def __init__(self, x, y, batch_size, model='attention' ):
         self.x = x
         self.y = y
         self.batch_size = batch_size
+        self.model = model
 
     def __len__(self):
         return int(np.ceil(len(self.x) / float(self.batch_size)))
@@ -77,8 +80,12 @@ class EncDecSequence(Sequence):
                 if t > 0:
                     decoder_target_data[i, t - 1, corpus.target_token_index[token]] = 1.
 
-        return ([encoder_input_data, decoder_input_data, decoder_mask_matrix], decoder_target_data)
-        #return ([encoder_input_data, decoder_input_data], decoder_target_data)
+        if(self.model == 'attention'):
+            return ([encoder_input_data, decoder_input_data], decoder_target_data)
+        elif(self.model == 'masking'):
+            return ([encoder_input_data, decoder_input_data, decoder_mask_matrix], decoder_target_data)
+
+        return 'cant create EncDecSequence'
 
 def create_attention_model():
     # Define an input sequence and process it.
@@ -114,12 +121,41 @@ def create_attention_model():
 
     model = Model([enc_main_input, dec_main_input], new_decoder_outputs)
 
+    ###############################################################
+    #   Define encoder
+    ###############################################################
+    encoder_model = Model(enc_main_input, [encoder_outputs]+encoder_states)
+    encoder_model.save(m_path + 'encoder.h5')
+
+    ###############################################################
+    #   Define decoder
+    ###############################################################
+    decoder_state_input_h = Input(shape=(latent_dim,))
+    decoder_state_input_c = Input(shape=(latent_dim,))
+    encoder_state_input_e = Input(shape=(corpus.MAX_ENCODER_SEQ_LENGTH, latent_dim,))
+    decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
+    _, state_h, state_c = decoder_lstm(
+        decoder_inputs, initial_state=decoder_states_inputs)
+    decoder_states = [state_h, state_c]
+    re_state_h = Reshape((1,256))(state_h)
+    inner_prod = dot([encoder_state_input_e,re_state_h], axes=2)
+    a_vector = Softmax(axis=1)(inner_prod)
+    context_vector = dot([a_vector,encoder_state_input_e], axes=1)
+    concat_vector = concatenate([context_vector,re_state_h], axis=2)
+    new_decoder_outputs = decoder_tanh(concat_vector)
+    decoder_outputs = decoder_dense(new_decoder_outputs)
+
+    decoder_model = Model(
+       [dec_main_input,encoder_state_input_e] + decoder_states_inputs,
+       [decoder_outputs] + decoder_states)
+    decoder_model.save(m_path + 'decoder.h5')
+
     return model
 
-def attention_train():
-    train_seq = EncDecSequence(corpus.all_input_formulas[8000:], corpus.all_target_texts[8000:], batch_size)
-    val_seq = EncDecSequence(corpus.all_input_formulas[4000:8000], corpus.all_target_texts[4000:8000], batch_size)
-    test_seq = EncDecSequence(corpus.all_input_formulas[:4000], corpus.all_target_texts[:4000], 1)
+#def create_masking_model():
+
+
+def train_model(train_seq, val_seq):
     #tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
     # plot_model(model, to_file='model.png') #you need import pydot
 
@@ -140,3 +176,10 @@ def attention_train():
              )
 
     return model
+
+if __name__ == "__main__":
+    train_seq = EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], batch_size)
+    val_seq = EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], batch_size)
+    test_seq = EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1)
+
+    train_model(train_seq, val_seq)

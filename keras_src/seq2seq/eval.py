@@ -1,4 +1,5 @@
 # coding: utf-8
+import sys
 import numpy as np
 import tensorflow as tf
 import keras
@@ -39,7 +40,7 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
         ###############################################################
         #   print files
         ###############################################################
-        #fname = 'name.txt'
+        #fname = corpus.model_name + corpus.m_path + 'results.txt'
         #f = open(fname, 'w')
         #f.write(corpus.all_output_expections[seq_index]+'\n')
         #f.write(decoded_sentence.strip()+'\n')
@@ -49,13 +50,26 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
         #   print screen
         ###############################################################
         #print('Input sentence:', input_texts[seq_index])
-        print('Answer sentence:', corpus.all_output_expections [seq_index])
-        print('Decoded sentence:', decoded_sentence)
-        print('')
+        #print('Answer sentence:', corpus.all_output_expections [seq_index])
+        #print('Decoded sentence:', decoded_sentence)
+        #print('')
+
 
     anwer_sentences  = corpus.all_output_expections[:100]
     bleu = corpus_bleu([[txt_tool.remove_punct(t).split(' ')] for t in anwer_sentences], results)
-    print('bleu score',bleu)
+
+    ###############################################################
+    #   print files
+    ###############################################################
+    #fname = corpus.model_name + corpus.m_path + 'settings.txt'
+    #f = open(fname, 'w')
+    #f.write('bleu score'+ bleu+'\n')
+    #f.close()
+
+    ###############################################################
+    #   print screen
+    ###############################################################
+    print('bleu score: ',bleu)
 
     return sum_score
 
@@ -65,8 +79,9 @@ if __name__ == "__main__" :
     test_seq = train.EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1)
     #train batch sizeはモデル環境の保存から取れるようにする
 
-    model = load_model(m_path + 'elapsed_seq2seq.h5')
-    m = load_model(m_path + 'elapsed_seq2seq.h5')
+    args = sys.argv
+    model = load_model(m_path + args[1])
+    m = load_model(m_path + args[1])
     m.save_weights(m_path + 'weights.h5')
     model.load_weights(m_path + 'weights.h5')
     encoder_model = load_model(m_path+'encoder.h5')

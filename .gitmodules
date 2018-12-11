@@ -1,0 +1,3 @@
+[submodule "keras_src/graph2seq/graph-emb"]
+	path = keras_src/graph2seq/graph-emb
+	url = https://github.com/pasmargo/graph-emb.git

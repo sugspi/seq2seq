@@ -32,8 +32,8 @@ def surface_realization(formula, model, encoder_model, decoder_model):
 
 if __name__ == "__main__":
     args = sys.argv
-    model = load_model(m_path + args[1])
-    m = load_model(m_path + args[1])
+    model = load_model(args[1])
+    m = load_model(args[1])
     #m.save_weights(m_path + 'weights.h5')#kesu
     model.load_weights(m_path + 'weights.h5')
     encoder_model = load_model(m_path+'encoder.h5')

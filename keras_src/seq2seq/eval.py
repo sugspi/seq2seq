@@ -74,14 +74,20 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
     return sum_score
 
 if __name__ == "__main__" :
-    train_seq = train.EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], train.batch_size)
-    val_seq = train.EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], train.batch_size)
-    test_seq = train.EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1)
-    #train batch sizeはモデル環境の保存から取れるようにする
+    if(corpus.model_name == 'attention'):
+        train_seq = train.EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], train.batch_size)
+        val_seq = train.EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], train.batch_size)
+        test_seq = train.EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1)
+
+    elif(corpus.model_name == 'masking'):
+        train_seq = train.EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], train.batch_size, 'masking')
+        val_seq = train.EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], train.batch_size, 'masking')
+        test_seq = train.EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1, 'masking')
+
 
     args = sys.argv
-    model = load_model(m_path + args[1])
-    m = load_model(m_path + args[1])
+    model = load_model(args[1])
+    m = load_model(args[1])
     m.save_weights(m_path + 'weights.h5')
     model.load_weights(m_path + 'weights.h5')
     encoder_model = load_model(m_path+'encoder.h5')

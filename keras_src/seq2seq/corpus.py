@@ -1,11 +1,21 @@
 import re
+import json
 import txt_tool
 
-model_name = 'masking'
-m_path = 'mask_train_model/'
-data_path = 'snli_0413_formula_1000.txt'
-function_words_list = 'func_word.txt'
+path_json = open("dir_path.json", 'r') #本来，m_pathに入ってる
+paths = json.load(path_json)
+path_json.close()
 
+model_name = paths['model_name']
+m_path = paths['m_path']
+data_path = paths['data_path']
+function_words_list = paths['function_words_list']
+
+print(model_name)
+print(m_path)
+print(data_path)
+print(function_words_list)
+raise
 ###############################################################
 #   original corpus data
 ###############################################################
@@ -111,3 +121,12 @@ if(model_name=='masking'):
     for w in func_list:
         if w in target_token_index:
             func_index.append(target_token_index[w])
+
+###############################################################
+#   checking dictionary
+###############################################################
+def check_dimensions():
+    print("NUM_ENCODER_TOKENS:", NUM_ENCODER_TOKENS)
+    print("NUM_DECODER_TOKENS:" ,NUM_DECODER_TOKENS)
+    print("MAX_ENCODER_SEQ_LENGTH: ",NUM_DECODER_TOKENS)
+    print("MAX_DECODER_SEQ_LENGTH: ",NUM_DECODER_TOKENS)

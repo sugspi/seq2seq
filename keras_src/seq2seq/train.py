@@ -30,10 +30,14 @@ m_path = corpus.m_path #later, I'll change getting arg in main func
 ###############################################################
 #   Setting Parameter
 ###############################################################
-batch_size = 64  # Batch size for training.
-epochs = 1  # Number of epochs to train for.
-latent_dim = 256  # Latent dimensionality of the encoding space.
-drop_out = 0.5
+param_json = open("param.json", 'r')#本来m_pathにb入ってる
+params = json.load(param_json)
+param_json.close()
+
+batch_size = params['batch_size']  # Batch size for training.
+epochs = params['epochs']  # Number of epochs to train for.
+latent_dim = params['latent_dim']  # Latent dimensionality of the encoding space.
+drop_out = params['drop_out']
 
 ###############################################################
 #   callback function and parameter search
@@ -268,20 +272,9 @@ if __name__ == "__main__":
     ###############################################################
     fname = corpus.m_path + 'setting.txt'
     f = open(fname, 'w')
-    f.write('model_name: ' + corpus.model_name +'\n')
-    f.write('m_path: ' + corpus.m_path +'\n')
-    f.write('data_path: ' + corpus.data_path +'\n')
-    f.write('function_words_list' + corpus.function_words_list +'\n')
-
     f.write("NUM_ENCODER_TOKENS: " + str(corpus.NUM_ENCODER_TOKENS) + '\n')
     f.write("NUM_DECODER_TOKENS: " + str(corpus.NUM_DECODER_TOKENS) + '\n')
     f.write("MAX_ENCODER_SEQ_LENGTH: " + str(corpus.NUM_DECODER_TOKENS) + '\n')
     f.write("MAX_DECODER_SEQ_LENGTH: " + str(corpus.NUM_DECODER_TOKENS) + '\n')
-
-    f.write('batch_size: '+ str(batch_size) +'\n')
-    f.write('epochs: '+ str(epochs) +'\n')
-    f.write('latent_dim' + str(latent_dim) +'\n')
-    f.write('drop_out' + str(drop_out) +'\n')
-    f.write('epochs: '+ str(epochs) +'\n')
     f.close()
     train_model(train_seq, val_seq)

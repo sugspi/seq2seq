@@ -7,6 +7,14 @@ m_path = MODEL + experiment (see below)
 data_path = path_to_corpus_data
 function_words_list = path_to_corpus_data
 
+example:
+{
+  "model_name" : "masking",
+  "m_path" : "masking/mask_train_model/",
+  "data_path" : "masking/mask_train_model/snli_0413_formula_1000.txt",
+  "function_words_list" : "func_word.txt"  
+}
+
 our expected structure of directories
 MODEL(attention|masking|graph)
   |-- experiment (including file.h5, info.json, eval.txt, generated_sentences)

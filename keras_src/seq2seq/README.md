@@ -1,5 +1,5 @@
+##setting files
 First, you need set your path of directories.
-
 you write in dir_path.json:
 
 model_name = 'attention' | 'masking' | 'graph'
@@ -15,11 +15,15 @@ example:
   "function_words_list" : "func_word.txt"  
 }
 
-our expected structure of directories
+When you train the model, you can modify param.json.
+
+##structure of directories
 MODEL(attention|masking|graph)
   |-- experiment (including file.h5, info.json, eval.txt, generated_sentences)
 
-when you train your model you need set parameters in param.path_json
+##train.py
 
-or when you eval or generation, you give argument for system,like
-"python eval.py model.h5"
+##eval.py
+you need give the model.h5 as argument.
+##generation.py
+you need give the model.h5 as argument.

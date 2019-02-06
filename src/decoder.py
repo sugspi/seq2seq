@@ -57,7 +57,7 @@ def decode_sequence_with_mask(encoder_input_data, mask_vector, model, encoder_mo
         output_tokens, h, c = decoder_model.predict(
             [target_seq, e_state, mask_vector] + states_value)
 
-        sampled_token = ''
+        #sampled_token = ''
         sampled_token_index = np.argmax(output_tokens[0, -1, :])
         if sampled_token_index == 0:
             decoded_sentence += '!'

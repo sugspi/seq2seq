@@ -5,13 +5,13 @@ import numpy as np
 import tensorflow as tf
 from keras import backend as K
 from keras.backend.tensorflow_backend import set_session
-config = tf.ConfigProto(
-    gpu_options=tf.GPUOptions(
-        visible_device_list="1", # specify GPU number
-        allow_growth=True
-    )
-)
-set_session(tf.Session(config=config))
+#config = tf.ConfigProto(
+#    gpu_options=tf.GPUOptions(
+#        visible_device_list="1", # specify GPU number
+#        allow_growth=True
+#    )
+#)
+#set_session(tf.Session(config=config))
 
 import keras
 from keras.models import load_model, Model
@@ -74,9 +74,9 @@ class EncDecSequence(Sequence):
             (self.batch_size, corpus.MAX_DECODER_SEQ_LENGTH, corpus.NUM_DECODER_TOKENS),
             dtype='float32')
 
-        decoder_mask_matrix = np.zeros(
+        decoder_mask_matrix = np.full(
             (self.batch_size, corpus.MAX_DECODER_SEQ_LENGTH,corpus.NUM_DECODER_TOKENS),
-            dtype='float32')
+            1e-6)
 
         for i, (input_text, target_text) in enumerate(zip(batch_x, batch_y)):
             decoder_mask_matrix[i] = get_masking_vector(input_text, verbose=False)
@@ -209,7 +209,7 @@ def create_masking_model():
         decoder_inputs, initial_state=decoder_states_inputs)
     decoder_states = [state_h, state_c]
 
-    re_state_h = Reshape((1,256))(state_h)
+    re_state_h = Reshape((1,latent_dim))(state_h)
     inner_prod = dot([encoder_state_input_e,re_state_h], axes=2)
     a_vector = Softmax(axis=1)(inner_prod)
     context_vector = dot([a_vector,encoder_state_input_e], axes=1)
@@ -258,14 +258,15 @@ def train_model(train_seq, val_seq):
 if __name__ == "__main__":
 
     if(corpus.model_name == 'attention'):
-        train_seq = EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], batch_size)
-        val_seq = EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], batch_size)
-        test_seq = EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1)
+        train_seq = EncDecSequence(corpus.all_input_formulas[275:], corpus.all_target_texts[275:], batch_size)
+        val_seq = EncDecSequence(corpus.all_input_formulas[137:275], corpus.all_target_texts[137:275], batch_size)
+        test_seq = EncDecSequence(corpus.all_input_formulas[:137], corpus.all_target_texts[:137], 1)
 
     elif(corpus.model_name == 'masking'):
         train_seq = EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], batch_size, 'masking')
         val_seq = EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], batch_size, 'masking')
         test_seq = EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1, 'masking')
+
 
     ###############################################################
     #   print files
@@ -274,7 +275,7 @@ if __name__ == "__main__":
     f = open(fname, 'w')
     f.write("NUM_ENCODER_TOKENS: " + str(corpus.NUM_ENCODER_TOKENS) + '\n')
     f.write("NUM_DECODER_TOKENS: " + str(corpus.NUM_DECODER_TOKENS) + '\n')
-    f.write("MAX_ENCODER_SEQ_LENGTH: " + str(corpus.NUM_DECODER_TOKENS) + '\n')
-    f.write("MAX_DECODER_SEQ_LENGTH: " + str(corpus.NUM_DECODER_TOKENS) + '\n')
+    f.write("MAX_ENCODER_SEQ_LENGTH: " + str(corpus.MAX_ENCODER_SEQ_LENGTH) + '\n')
+    f.write("MAX_DECODER_SEQ_LENGTH: " + str(corpus.MAX_DECODER_SEQ_LENGTH) + '\n')
     f.close()
     train_model(train_seq, val_seq)

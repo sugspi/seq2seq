@@ -55,7 +55,7 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
         #print('')
 
 
-    anwer_sentences  = corpus.all_output_expections[:100]
+    anwer_sentences  = corpus.all_output_expections[100:200]
     bleu = corpus_bleu([[txt_tool.remove_punct(t).split(' ')] for t in anwer_sentences], results)
 
     ###############################################################
@@ -81,9 +81,8 @@ if __name__ == "__main__" :
 
     elif(corpus.model_name == 'masking'):
         train_seq = train.EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], train.batch_size, 'masking')
-        val_seq = train.EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], train.batch_size, 'masking')
+        val_seq = train.EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], 1, 'masking')
         test_seq = train.EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1, 'masking')
-
 
     args = sys.argv
     model = load_model(args[1])

@@ -1,6 +1,6 @@
 {
   "batch_size" : 64,
-  "epochs" : 1,
-  "latent_dim" : 256,
+  "epochs" : 80,
+  "latent_dim" : 128,
   "drop_out":0.5
 }

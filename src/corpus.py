@@ -2,7 +2,7 @@ import re
 import json
 import txt_tool
 
-path_json = open("dir_path.json", 'r') #本来，m_pathに入ってる
+path_json = open("/Users/guru/MyResearch/sg/src/dir_path.json", 'r')
 paths = json.load(path_json)
 path_json.close()
 
@@ -11,11 +11,10 @@ m_path = paths['m_path']
 data_path = paths['data_path']
 function_words_list = paths['function_words_list']
 
-print(model_name)
+print('model is ', model_name)
 print(m_path)
 print(data_path)
 print(function_words_list)
-raise
 ###############################################################
 #   original corpus data
 ###############################################################
@@ -48,10 +47,15 @@ MAX_ENCODER_SEQ_LENGTH = 0
 MAX_DECODER_SEQ_LENGTH = 0
 
 for i, line in enumerate(inp_corpus):
-    line = line.split('#') # formula/orign sentence / 動詞とか処理したもの
-    inp_formula = line[0]
-    target_text = line[1]
-    target_text = target_text.lstrip().lower()
+    line = line.split('_SPLIT_') # formula/orign sentence / 動詞とか処理したもの
+    inp_formula = line[1]
+    inp_formula = inp_formula.rstrip().lstrip()
+    target_text = line[0]
+    target_text = target_text.rstrip().lstrip().lower()
+
+    #if(i%100==0):
+    #    print('inpf: ',inp_formula)
+    #    print('tart: ',target_text)
 
     lst_formula = txt_tool.formula_to_list(inp_formula)
     all_input_formulas.append(lst_formula)
@@ -69,24 +73,40 @@ for i, line in enumerate(inp_corpus):
         if token not in dict_target_tokens:
             dict_target_tokens.add(token)
 
+
     ###############################################################
     #   masking model
     ###############################################################
 
     if(model_name=='masking'):
-        base_text = line[2].rstrip().lower()
-        base_text = base_text.lstrip()
-        base_text = re.split('\s|\.', base_text)
-        all_base_texts.append(base_text)
+        from nltk import stem
+        stemmer = stem.PorterStemmer()
+        lemmatizer = stem.WordNetLemmatizer()
 
-        surf_text = re.split('\s|\.', target_text)
-        all_surf_texts.append(surf_text)
+#        base_text = line[2].rstrip().lower()
+#        base_text = base_text.lstrip()
+#        base_text = re.split('\s|\.', base_text)
+        #base_text = [lemmatizer.lemmatize(word) for word in target_text.split()]
+        #base_text = [stemmer.stem(word) for word in target_text.split()]
+        #all_base_texts.append(base_text)
 
-        for s,b in (zip(surf_text, base_text)):
-            if not(b in dict_lem.keys()):
-                dict_lem[b] = set()
-            if not(s in dict_lem[b]):
-                dict_lem[b].add(s)
+        #surf_text = re.split('\s|\.', target_text)
+        #all_surf_texts.append(surf_text)
+
+        for word in target_text.split():
+            lem = stemmer.stem(word)
+            if not(lem in dict_lem.keys()):
+                dict_lem[lem] = set()
+            if not(word in dict_lem[lem]):
+                dict_lem[lem].add(word)
+
+
+        # for s,b in (zip(surf_text, base_text)):
+        #     if not(b in dict_lem.keys()):
+        #         dict_lem[b] = set()
+        #     if not(s in dict_lem[b]):
+        #         dict_lem[b].add(s)
+
 
     # -------------------- notice: end of inp_corpus --------------------
 
@@ -125,8 +145,16 @@ if(model_name=='masking'):
 ###############################################################
 #   checking dictionary
 ###############################################################
-def check_dimensions():
-    print("NUM_ENCODER_TOKENS:", NUM_ENCODER_TOKENS)
-    print("NUM_DECODER_TOKENS:" ,NUM_DECODER_TOKENS)
-    print("MAX_ENCODER_SEQ_LENGTH: ",NUM_DECODER_TOKENS)
-    print("MAX_DECODER_SEQ_LENGTH: ",NUM_DECODER_TOKENS)
+
+print("NUM_ENCODER_TOKENS:", NUM_ENCODER_TOKENS)
+print("NUM_DECODER_TOKENS:" ,NUM_DECODER_TOKENS)
+print("MAX_ENCODER_SEQ_LENGTH: ",MAX_ENCODER_SEQ_LENGTH)
+print("MAX_DECODER_SEQ_LENGTH: ",MAX_DECODER_SEQ_LENGTH)
+
+#f = open(m_path+'token_formulas','w')
+#f.write(str(dict_formula_tokens))
+#f.close()
+
+#f = open(m_path+'token_sentence','w')
+#f.write(str(dict_target_tokens))
+#f.close()

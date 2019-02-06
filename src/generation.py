@@ -12,7 +12,14 @@ from masking import get_masking_vector
 
 m_path = corpus.m_path
 
-def surface_realization(formula, model, encoder_model, decoder_model):
+model = load_model(m_path + 'elapsed_seq2seq.h5')
+m = load_model(m_path + 'elapsed_seq2seq.h5')
+m.save_weights(m_path + 'weights.h5')#kesu
+model.load_weights(m_path + 'weights.h5')
+encoder_model = load_model(m_path+'encoder.h5')
+decoder_model = load_model(m_path+'decoder.h5')
+
+def surface_realization(formula): # model, encoder_model, decoder_model):
     lst_formula = txt_tool.formula_to_list(formula)
     encoder_input_data = np.zeros((1, corpus.MAX_ENCODER_SEQ_LENGTH),dtype='float32')
 
@@ -31,16 +38,8 @@ def surface_realization(formula, model, encoder_model, decoder_model):
 
 
 if __name__ == "__main__":
-    args = sys.argv
-    model = load_model(args[1])
-    m = load_model(args[1])
-    #m.save_weights(m_path + 'weights.h5')#kesu
-    model.load_weights(m_path + 'weights.h5')
-    encoder_model = load_model(m_path+'encoder.h5')
-    decoder_model = load_model(m_path+'decoder.h5')
-    #formula='exists x.(_dog(x) & exists z00.(_field(z00) & exists e.(_in(e,z00) & (Subj(e) = x))))'
-    formula = 'exists e1 e2 x1 (_run(e1) & _walk(e2) & (Subj(e1) = x1) & (Subj(e2) = x1) & _boy(x1))'
-    test = surface_realization(formula, model, encoder_model, decoder_model)
+    formula = 'exists x08.(_street(x08) & _diagonal(x08) & _11(x08) & exists e09.(_own(e09) & (Acc(e09) = x08) & exists x010.(_limited(x010) & _properties(x010) & _redefine(x010) & (Subj(e09) = x010))) & exists x011.(_floor(x011) & _20(x011) & exists e012.(_have(e012) & (Subj(e012) = x08) & (Acc(e012) = x011))))'
+    test = surface_realization(formula)#, model, encoder_model, decoder_model)
     print("\n\nresult...\n\n")
     print("formula: ", formula)
     print("\n\n")

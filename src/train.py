@@ -263,9 +263,9 @@ if __name__ == "__main__":
         test_seq = EncDecSequence(corpus.all_input_formulas[:137], corpus.all_target_texts[:137], 1)
 
     elif(corpus.model_name == 'masking'):
-        train_seq = EncDecSequence(corpus.all_input_formulas[200:], corpus.all_target_texts[200:], batch_size, 'masking')
-        val_seq = EncDecSequence(corpus.all_input_formulas[100:200], corpus.all_target_texts[100:200], batch_size, 'masking')
-        test_seq = EncDecSequence(corpus.all_input_formulas[:100], corpus.all_target_texts[:100], 1, 'masking')
+        train_seq = EncDecSequence(corpus.all_input_formulas[5077:], corpus.all_target_texts[5077:], batch_size, 'masking')
+        val_seq = EncDecSequence(corpus.all_input_formulas[2640:5077], corpus.all_target_texts[2640:7077], batch_size, 'masking')
+        test_seq = EncDecSequence(corpus.all_input_formulas[:2640], corpus.all_target_texts[:2640], 1, 'masking')
 
 
     ###############################################################

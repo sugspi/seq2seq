@@ -14,9 +14,9 @@ def get_masking_vector(inp, verbose=True):
             for p in pred.split('_')[1:]:
                 try:
                     p = stemmer.stem(p)
-                    print('p: ',p)
+                    #print('p: ',p)
                     for word in corpus.dict_lem[p]:
-                        print('word: ',word)
+                        #print('word: ',word)
                         index = corpus.target_token_index[word]
                         #print(word)
                         for i in range(corpus.MAX_DECODER_SEQ_LENGTH):

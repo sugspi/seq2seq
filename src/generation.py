@@ -38,7 +38,7 @@ def surface_realization(formula): # model, encoder_model, decoder_model):
 
 
 if __name__ == "__main__":
-    formula = 'exists x08.(_street(x08) & _diagonal(x08) & _11(x08) & exists e09.(_own(e09) & (Acc(e09) = x08) & exists x010.(_limited(x010) & _properties(x010) & _redefine(x010) & (Subj(e09) = x010))) & exists x011.(_floor(x011) & _20(x011) & exists e012.(_have(e012) & (Subj(e012) = x08) & (Acc(e012) = x011))))'
+    formula = "exists x01.(_'(x01) & _romance(x01) & _glastonbury(x01) & _a(x01) & _'(x01) & exists x02.(_number(x02) & _76798317(x02) & _oclc(x02) & exists e03.(_have(e03) & (Subj(e03) = x01) & (Acc(e03) = x02))) & _available(x01))"
     test = surface_realization(formula)#, model, encoder_model, decoder_model)
     print("\n\nresult...\n\n")
     print("formula: ", formula)

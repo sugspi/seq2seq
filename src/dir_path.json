@@ -1,0 +1,6 @@
+{
+  "model_name" : "masking",
+  "m_path" : "/Users/guru/MyResearch/sg/src/masking/sprp_only_simp2/",
+  "data_path" : "/Users/guru/MyResearch/sg/src/masking/sprp_only_simp2/simples",
+  "function_words_list" : "/Users/guru/MyResearch/sg/src/masking/sprp_only_simp2/func_word.txt"
+}

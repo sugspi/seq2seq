@@ -2,7 +2,7 @@ import re
 import json
 import txt_tool
 
-path_json = open("/Users/guru/MyResearch/sg/src/dir_path.json", 'r')
+path_json = open("dir_path.json", 'r')
 paths = json.load(path_json)
 path_json.close()
 
@@ -10,6 +10,7 @@ model_name = paths['model_name']
 m_path = paths['m_path']
 data_path = paths['data_path']
 function_words_list = paths['function_words_list']
+formula_format = paths['formula_format']
 
 print('model is ', model_name)
 print(m_path)
@@ -53,11 +54,9 @@ for i, line in enumerate(inp_corpus):
     target_text = line[0]
     target_text = target_text.rstrip().lstrip().lower()
 
-    #if(i%100==0):
-    #    print('inpf: ',inp_formula)
-    #    print('tart: ',target_text)
-
     lst_formula = txt_tool.formula_to_list(inp_formula)
+    if(formula_format == 'only_pred'):
+        lst_formula = txt_tool.get_predicate_in_formula_list(lst_formula)
     all_input_formulas.append(lst_formula)
 
     all_output_expections.append(target_text)
@@ -69,10 +68,10 @@ for i, line in enumerate(inp_corpus):
         if token not in dict_formula_tokens:
             dict_formula_tokens.add(token)
 
+
     for token in lst_text:
         if token not in dict_target_tokens:
             dict_target_tokens.add(token)
-
 
     ###############################################################
     #   masking model
@@ -83,16 +82,6 @@ for i, line in enumerate(inp_corpus):
         stemmer = stem.PorterStemmer()
         lemmatizer = stem.WordNetLemmatizer()
 
-#        base_text = line[2].rstrip().lower()
-#        base_text = base_text.lstrip()
-#        base_text = re.split('\s|\.', base_text)
-        #base_text = [lemmatizer.lemmatize(word) for word in target_text.split()]
-        #base_text = [stemmer.stem(word) for word in target_text.split()]
-        #all_base_texts.append(base_text)
-
-        #surf_text = re.split('\s|\.', target_text)
-        #all_surf_texts.append(surf_text)
-
         for word in target_text.split():
             lem = stemmer.stem(word)
             if not(lem in dict_lem.keys()):
@@ -100,18 +89,10 @@ for i, line in enumerate(inp_corpus):
             if not(word in dict_lem[lem]):
                 dict_lem[lem].add(word)
 
-
-        # for s,b in (zip(surf_text, base_text)):
-        #     if not(b in dict_lem.keys()):
-        #         dict_lem[b] = set()
-        #     if not(s in dict_lem[b]):
-        #         dict_lem[b].add(s)
-
-
     # -------------------- notice: end of inp_corpus --------------------
-
 dict_formula_tokens = sorted(list(dict_formula_tokens))
 dict_target_tokens = sorted(list(dict_target_tokens))
+
 
 NUM_ENCODER_TOKENS = len(dict_formula_tokens) + 1
 NUM_DECODER_TOKENS = len(dict_target_tokens) + 1
@@ -145,7 +126,7 @@ if(model_name=='masking'):
 ###############################################################
 #   checking dictionary
 ###############################################################
-
+print('Number of samples:', len(all_input_formulas))
 print("NUM_ENCODER_TOKENS:", NUM_ENCODER_TOKENS)
 print("NUM_DECODER_TOKENS:" ,NUM_DECODER_TOKENS)
 print("MAX_ENCODER_SEQ_LENGTH: ",MAX_ENCODER_SEQ_LENGTH)

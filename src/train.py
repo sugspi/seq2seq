@@ -18,12 +18,21 @@ from keras.models import load_model, Model
 from keras.layers import Input, LSTM, Embedding, Dense, Flatten, Softmax, Reshape, Dropout, Lambda, dot, concatenate, add, multiply
 from keras.utils import Sequence, plot_model
 
-
 import txt_tool
 import corpus
 from decoder import decode_sequence, decode_sequence_with_mask
 from masking import get_masking_vector
 import eval
+
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto(
+    gpu_options=tf.GPUOptions(
+        visible_device_list="1", # specify GPU number
+        allow_growth=True
+    )
+)
+set_session(tf.Session(config=config))
 
 m_path = corpus.m_path #later, I'll change getting arg in main func
 
@@ -95,7 +104,7 @@ class EncDecSequence(Sequence):
         return 'cant create EncDecSequence'
 
 #if you want to see the shape of layer, use K.int_shape() function.
-def create_attention_model():
+def create_attention_model(train_seq, val_seq):
     # Define an input sequence and process it embeddingのここもテストするべきではないか.
     enc_main_input = Input(shape=(corpus.MAX_ENCODER_SEQ_LENGTH,), dtype='int32', name='enc_main_input')
     encoder_inputs  = Embedding(output_dim=256, input_dim=corpus.NUM_ENCODER_TOKENS, mask_zero=True, input_length=corpus.MAX_ENCODER_SEQ_LENGTH, name='enc_embedding')(enc_main_input)
@@ -123,6 +132,15 @@ def create_attention_model():
     new_decoder_outputs = decoder_dense(new_decoder_outputs)
 
     model = Model([enc_main_input, dec_main_input], new_decoder_outputs)
+
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+    model.fit_generator(train_seq,
+             epochs=epochs,
+             validation_data=val_seq,
+             use_multiprocessing=True,
+             workers=3,
+             callbacks=[checkpoint]
+             )
 
     ###############################################################
     #   Define encoder
@@ -159,7 +177,7 @@ def create_attention_model():
 
     return model
 
-def create_masking_model():
+def create_masking_model(train_seq, val_seq):
     # Define an input sequence and process it.
     enc_main_input = Input(shape=(corpus.MAX_ENCODER_SEQ_LENGTH,), dtype='int32', name='enc_main_input')
     encoder_inputs  = Embedding(output_dim=256, input_dim=corpus.NUM_ENCODER_TOKENS, mask_zero=True, input_length=corpus.MAX_ENCODER_SEQ_LENGTH,name='enc_embedding')(enc_main_input)
@@ -191,6 +209,15 @@ def create_masking_model():
     mask_input = Input(shape=(corpus.MAX_DECODER_SEQ_LENGTH,corpus.NUM_DECODER_TOKENS), dtype='float32', name='mask_input')
     new_decoder_outputs = multiply([mask_input, new_decoder_outputs])
     model = Model([enc_main_input, dec_main_input, mask_input], new_decoder_outputs)
+
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+    model.fit_generator(train_seq,
+             epochs=epochs,
+             validation_data=val_seq,
+             use_multiprocessing=True,
+             workers=3,
+             callbacks=[checkpoint]
+             )
 
     ###############################################################
     #   Define encoder
@@ -233,39 +260,37 @@ def create_masking_model():
 
 def train_model(train_seq, val_seq):
     #tensorboard = keras.callbacks.TensorBoard(log_dir='logs',write_images=True,write_graph=True,write_grads=True)
-    # plot_model(model, to_file='model.png') #you need import pydot
-
     ###############################################################
     #   Setting Parameter
     ###############################################################
     if(corpus.model_name == 'attention'):
-        model = create_attention_model()
+        model = create_attention_model(train_seq, val_seq)
     elif(corpus.model_name == 'masking'):
-        model = create_masking_model()
-
-    ## Run training
-    model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
-    model.fit_generator(train_seq,
-             epochs=epochs,
-             validation_data=val_seq,
-             use_multiprocessing=True,
-             workers=3,
-             callbacks=[checkpoint]
-             )
-
-    return model
+        model = create_masking_model(train_seq, val_seq)
+    return
 
 if __name__ == "__main__":
 
     if(corpus.model_name == 'attention'):
-        train_seq = EncDecSequence(corpus.all_input_formulas[275:], corpus.all_target_texts[275:], batch_size)
-        val_seq = EncDecSequence(corpus.all_input_formulas[137:275], corpus.all_target_texts[137:275], batch_size)
-        test_seq = EncDecSequence(corpus.all_input_formulas[:137], corpus.all_target_texts[:137], 1)
+        #with complex formula
+        train_seq = EncDecSequence(corpus.all_input_formulas[6679:], corpus.all_target_texts[6679:], batch_size)
+        val_seq = EncDecSequence(corpus.all_input_formulas[2642:6679], corpus.all_target_texts[2642:6679], batch_size)
+        test_seq = EncDecSequence(corpus.all_input_formulas[:2642], corpus.all_target_texts[:2642], 1)
+
+        #train_seq = EncDecSequence(corpus.all_input_formulas[5075:], corpus.all_target_texts[5075:], batch_size)
+        #val_seq = EncDecSequence(corpus.all_input_formulas[2642:5075], corpus.all_target_texts[2642:5075], batch_size)
+        #test_seq = EncDecSequence(corpus.all_input_formulas[:2642], corpus.all_target_texts[:2642], 1)
+
 
     elif(corpus.model_name == 'masking'):
-        train_seq = EncDecSequence(corpus.all_input_formulas[5077:], corpus.all_target_texts[5077:], batch_size, 'masking')
-        val_seq = EncDecSequence(corpus.all_input_formulas[2640:5077], corpus.all_target_texts[2640:7077], batch_size, 'masking')
-        test_seq = EncDecSequence(corpus.all_input_formulas[:2640], corpus.all_target_texts[:2640], 1, 'masking')
+        #with complex formula
+        train_seq = EncDecSequence(corpus.all_input_formulas[6679:], corpus.all_target_texts[6679:], batch_size, 'masking')
+        val_seq = EncDecSequence(corpus.all_input_formulas[2642:6679], corpus.all_target_texts[2642:6679], batch_size, 'masking')
+        test_seq = EncDecSequence(corpus.all_input_formulas[:2642], corpus.all_target_texts[:2642], 1, 'masking')
+
+        #train_seq = EncDecSequence(corpus.all_input_formulas[5075:], corpus.all_target_texts[5075:], batch_size, 'masking')
+        #val_seq = EncDecSequence(corpus.all_input_formulas[2642:5075], corpus.all_target_texts[2642:5075], batch_size, 'masking')
+        #test_seq = EncDecSequence(corpus.all_input_formulas[:2642], corpus.all_target_texts[:2642], 1, 'masking')
 
 
     ###############################################################

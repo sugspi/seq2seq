@@ -55,7 +55,7 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
         print('')
 
 
-    anwer_sentences  = corpus.all_output_expections[:2640]
+    anwer_sentences  = corpus.all_output_expections[:2642]
     bleu = corpus_bleu([[txt_tool.remove_punct(t).split(' ')] for t in anwer_sentences], results)
 
     ###############################################################
@@ -75,14 +75,23 @@ def eval_blue(test_seq, model, encoder_model, decoder_model):
 
 if __name__ == "__main__" :
     if(corpus.model_name == 'attention'):
-        train_seq = train.EncDecSequence(corpus.all_input_formulas[6682:], corpus.all_target_texts[6682:], train.batch_size)
-        val_seq = train.EncDecSequence(corpus.all_input_formulas[2640:6682], corpus.all_target_texts[2640:6682], train.batch_size)
-        test_seq = train.EncDecSequence(corpus.all_input_formulas[:2640], corpus.all_target_texts[:2640], 1)
+        # train_seq = train.EncDecSequence(corpus.all_input_formulas[6682:], corpus.all_target_texts[6682:], train.batch_size)
+        # val_seq = train.EncDecSequence(corpus.all_input_formulas[2640:6682], corpus.all_target_texts[2640:6682], train.batch_size)
+        # test_seq = train.EncDecSequence(corpus.all_input_formulas[:2640], corpus.all_target_texts[:2640], 1)
+
+        train_seq = train.EncDecSequence(corpus.all_input_formulas[5075:], corpus.all_target_texts[5075:], train.batch_size)
+        val_seq = train.EncDecSequence(corpus.all_input_formulas[2642:5075], corpus.all_target_texts[2642:5075], train.batch_size)
+        test_seq = train.EncDecSequence(corpus.all_input_formulas[:2642], corpus.all_target_texts[:2642], 1)
+
 
     elif(corpus.model_name == 'masking'):
-        train_seq = train.EncDecSequence(corpus.all_input_formulas[6682:], corpus.all_target_texts[6682:], train.batch_size, 'masking')
-        val_seq = train.EncDecSequence(corpus.all_input_formulas[2640:6682], corpus.all_target_texts[2640:6682], train.batch_size, 'masking')
-        test_seq = train.EncDecSequence(corpus.all_input_formulas[:2640], corpus.all_target_texts[:2640], 1, 'masking')
+        # train_seq = train.EncDecSequence(corpus.all_input_formulas[6682:], corpus.all_target_texts[6682:], train.batch_size, 'masking')
+        # val_seq = train.EncDecSequence(corpus.all_input_formulas[2640:6682], corpus.all_target_texts[2640:6682], train.batch_size, 'masking')
+        # test_seq = train.EncDecSequence(corpus.all_input_formulas[:2640], corpus.all_target_texts[:2640], 1, 'masking')
+
+        train_seq = train.EncDecSequence(corpus.all_input_formulas[5075:], corpus.all_target_texts[5075:], train.batch_size, 'masking')
+        val_seq = train.EncDecSequence(corpus.all_input_formulas[2642:5075], corpus.all_target_texts[2642:5075], train.batch_size, 'masking')
+        test_seq = train.EncDecSequence(corpus.all_input_formulas[:2642], corpus.all_target_texts[:2642], 1, 'masking')
 
     args = sys.argv
     model = load_model(args[1])

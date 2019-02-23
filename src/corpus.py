@@ -2,7 +2,7 @@ import re
 import json
 import txt_tool
 
-path_json = open("dir_path.json", 'r')
+path_json = open("/Users/guru/MyResearch/sg/src/dir_path.json", 'r')
 paths = json.load(path_json)
 path_json.close()
 
@@ -90,6 +90,19 @@ for i, line in enumerate(inp_corpus):
                 dict_lem[lem].add(word)
 
     # -------------------- notice: end of inp_corpus --------------------
+###############################################################
+# special case : including vocabraries in test data
+###############################################################
+test_texts = open('test.complex.unique.candc.formulas','r')
+for line in test_texts:
+    test_text, _ = line.split('_SPLIT_')
+    test_text_list = txt_tool.text_to_list(test_text)
+    for token in test_text_list:
+        if token not in dict_target_tokens:
+            dict_target_tokens.add(token)
+test_text.close()
+###############################################################
+
 dict_formula_tokens = sorted(list(dict_formula_tokens))
 dict_target_tokens = sorted(list(dict_target_tokens))
 
